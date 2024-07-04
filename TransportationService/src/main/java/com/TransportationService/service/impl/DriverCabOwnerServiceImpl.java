@@ -3,6 +3,7 @@ package com.TransportationService.service.impl;
 import com.TransportationService.entity.DriverCabOwner;
 import com.TransportationService.repository.DriverCabOwnerRepository;
 import com.TransportationService.service.DriverCabOwnerService;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +23,7 @@ public class DriverCabOwnerServiceImpl implements DriverCabOwnerService {
         return driverCabOwnerRepository.findById(id).get();
     }
 
+    @Transactional
     public DriverCabOwner addDriverCabOwners(DriverCabOwner driverCabOwner){
         return driverCabOwnerRepository.save(driverCabOwner);
     }

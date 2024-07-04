@@ -20,7 +20,7 @@ public class CabServiceImpl implements CabSerive {
     }
 
     @Override
-//    @Transactional
+    @Transactional
     public Cab addCab(Cab cab) {
         return cabRepository.save(cab);
     }

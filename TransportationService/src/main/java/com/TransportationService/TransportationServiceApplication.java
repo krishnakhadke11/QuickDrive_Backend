@@ -44,37 +44,39 @@ public class TransportationServiceApplication {
 		driver.setStartTime("12pm");
 		driver.setEndTime("6pm");
 
+		Driver d = driverService.addDriver(driver);
+
 		Cab cab1 = new Cab();
 		Cab cab2 = new Cab();
 
 		cab1.setColor("Red");
 		cab1.setModel("Maruti");
 		cab1.setStatus(true);
-		cab1.setRegisterNo("8789");
+		cab1.setRegisterNo("87891");
 		cab1.setSeatingCapacity(4);
 
 		cab2.setColor("Blue");
 		cab2.setModel("Bmw");
 		cab2.setStatus(true);
-		cab2.setRegisterNo("1245");
+		cab2.setRegisterNo("12451");
 		cab2.setSeatingCapacity(5);
 
-		Cab savedCab1 = cabSerive.addCab(cab1);
-		Cab savedCab2 = cabSerive.addCab(cab2);
+
+		Cab c1 = cabSerive.addCab(cab1);
+		Cab c2 = cabSerive.addCab(cab2);
+
 
 		DriverCabOwner driverCabOwner1 = new DriverCabOwner();
-		driverCabOwner1.setDriver(driver);
-		driverCabOwner1.setCab(savedCab1);
+		driverCabOwner1.setDriver(d);
+		driverCabOwner1.setCab(c1);
 
 		DriverCabOwner driverCabOwner2 = new DriverCabOwner();
-		driverCabOwner2.setDriver(driver);
-		driverCabOwner2.setCab(savedCab2);
-
+		driverCabOwner2.setDriver(d);
+		driverCabOwner2.setCab(c2);
 
 		driver.addDriverCabOwner(driverCabOwner1);
 		driver.addDriverCabOwner(driverCabOwner2);
 
-		Driver d = driverService.addDriver(driver);
 
 		Driver savedDriver = driverService.findDriverById(d.getId());
 
