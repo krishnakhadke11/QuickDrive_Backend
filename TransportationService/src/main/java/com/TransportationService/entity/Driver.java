@@ -29,14 +29,4 @@ public class Driver {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
     private User user;
-
-    @OneToMany(mappedBy = "driver",cascade = CascadeType.ALL,fetch = FetchType.EAGER)
-    private List<DriverCabOwner> ownedCabs;
-
-    public void addDriverCabOwner(DriverCabOwner driverCabOwner) {
-        if (ownedCabs == null) {
-            ownedCabs = new ArrayList<>();
-        }
-        ownedCabs.add(driverCabOwner);
-    }
 }

@@ -1,5 +1,6 @@
 package com.TransportationService.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -29,9 +30,8 @@ public class Cab {
     @Column(name = "status", nullable = false)
     private boolean status; // True: Available, False: Not Available
 
-    @OneToOne(mappedBy = "cab",cascade = CascadeType.ALL)
-    private DriverCabOwner driverOwner;
-
-    @OneToOne(mappedBy = "cab",cascade = CascadeType.ALL)
-    private AdminCabOwner adminOwner;
+    @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE,
+                            CascadeType.REFRESH,CascadeType.PERSIST})
+    @JoinColumn(name = "user_id")
+    private User user;
 }

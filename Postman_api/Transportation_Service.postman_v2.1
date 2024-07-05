@@ -1,0 +1,287 @@
+{
+	"info": {
+		"_postman_id": "cb82db90-d22f-436e-a007-9415120f2420",
+		"name": "Transportation_Service",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "36464218"
+	},
+	"item": [
+		{
+			"name": "Drivers",
+			"item": [
+				{
+					"name": "Add Driver",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "// {\r\n//   \"driversLicense\": \"DL123456\",\r\n//   \"startTime\": \"08:00 AM\",\r\n//   \"endTime\": \"04:00 PM\",\r\n//   \"user\": {\r\n//     \"firstName\": \"John\",\r\n//     \"lastName\": \"Doe\",\r\n//     \"email\": \"john.doe@example.com\",\r\n//     \"password\": \"password123\",\r\n//     \"phoneNumber\": \"1234567890\",\r\n//     \"address\": \"123 Main St\",\r\n//     \"role\": \"DRIVER\"\r\n//   }\r\n// }\r\n\r\n{\r\n  \"driversLicense\": \"DL14789\",\r\n  \"startTime\": \"09:00 AM\",\r\n  \"endTime\": \"04:00 PM\",\r\n  \"user\": {\r\n    \"firstName\": \"Krishna\",\r\n    \"lastName\": \"Khadke\",\r\n    \"email\": \"Krishna.Khadke@example.com\",\r\n    \"password\": \"1234567\",\r\n    \"phoneNumber\": \"1234589762\",\r\n    \"address\": \"123 Main St\",\r\n    \"role\": \"DRIVER\"\r\n  }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/driver",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"driver"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Drivers",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/driver",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"driver"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Driver By ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/driver/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"driver",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Driver",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": 2,\r\n    \"driversLicense\": \"123456\",\r\n    \"startTime\": \"9am\",\r\n    \"endTime\": \"7pm\",\r\n    \"user\": {\r\n        \"id\": 2,\r\n        \"firstName\": \"Krishna Khadke\",\r\n        \"lastName\": \"Khadke\",\r\n        \"email\": \"abcd@gmail.com\",\r\n        \"password\": \"abc\",\r\n        \"phoneNumber\": \"1234567891\",\r\n        \"address\": \"One world centre\",\r\n        \"role\": \"DRIVER\",\r\n        \"ownedCabs\": []\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/driver",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"driver"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Drivers Owned Cabs",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/driver/1/cabs",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"driver",
+								"1",
+								"cabs"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Cab",
+			"item": [
+				{
+					"name": "Add Cab",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"registerNo\": \"CAB123456\",\r\n  \"seatingCapacity\": 4,\r\n  \"color\": \"Black\",\r\n  \"model\": \"Toyota Prius\",\r\n  \"status\": true,\r\n  \"user\": {\r\n    \"id\": 1\r\n  }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/cab",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"cab"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Cabs",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/cab",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"cab"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Cab By Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/cab/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"cab",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Cab",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\":1,\r\n  \"registerNo\": \"CAB123456\",\r\n  \"seatingCapacity\": 4,\r\n  \"color\": \"Red\",\r\n  \"model\": \"Toyota Prius\",\r\n  \"status\": true,\r\n  \"user\": {\r\n    \"id\": 1\r\n  }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/cab",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"cab"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Cab",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/cab/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"cab",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Cabs Owner",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/cab/2/owner",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"cab",
+								"2",
+								"owner"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

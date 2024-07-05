@@ -3,6 +3,9 @@ package com.TransportationService.entity;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Data
 @Entity
 @Table(name = "user")
@@ -34,4 +37,16 @@ public class User {
     @Column(name = "role")
     private Role role;
 
+//    @OneToMany(mappedBy = "user",
+//            cascade = {CascadeType.DETACH,CascadeType.MERGE,
+//                    CascadeType.PERSIST,CascadeType.REFRESH},
+//            fetch = FetchType.EAGER)
+//    List<Cab> ownedCabs;
+//
+//    public void addCab(Cab cab) {
+//        if(ownedCabs == null){
+//            ownedCabs = new ArrayList<>();
+//        }
+//        ownedCabs.add(cab);
+//    }
 }
