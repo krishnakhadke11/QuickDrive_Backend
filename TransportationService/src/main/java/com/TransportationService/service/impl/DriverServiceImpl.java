@@ -36,43 +36,37 @@ public class DriverServiceImpl implements DriverService {
 
     @Override
     public Driver getDriverById(int id) {
-        Optional<Driver> driverOptional = driverRepository.findById(id);
-        Driver driver = null;
-        if (driverOptional.isPresent()) {
-            driver = driverOptional.get();
-        }else{
-            throw new EntityNotFoundException("Driver Not Found");
-        }
-        return driver;
+        return driverRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Driver Not Found"));
     }
 
     @Override
     @Transactional
     public Driver updateDriver(Driver driver) {
-        boolean isPresent = driverRepository.existsById(driver.getId());
-        Driver updatedDriver = null;
-        if(isPresent){
-            updatedDriver = driverRepository.save(driver);
+        if(driverRepository.existsById(driver.getId())){
+            throw new EntityNotFoundException("Driver Not Found While Updating");
         }
-        return updatedDriver;
+        return driverRepository.save(driver);
     }
 
     @Override
     @Transactional
     public void deleteDriver(int id) {
-        boolean isPresent = driverRepository.existsById(id);
-        if(isPresent){
-            driverRepository.deleteById(id);
-        }else{
-            throw new EntityNotFoundException("Driver Not Found For Delete");
+
+        if(!driverRepository.existsById(id)){
+            throw  new EntityNotFoundException("Driver Not Found For Delete");
         }
+        driverRepository.deleteById(id);
     }
 
     @Override
     public List<Cab> driverOwnedCabs(int driverId) {
-        User user = driverRepository.findById(driverId).get().getUser();
-        List<Cab> cabs = cabRepository.findCabByUserId(user.getId());
-        return cabs;
+        //This will either send the driver or Throw the exception
+        //Option<Driver> is returned by findById
+        Driver driver = driverRepository.findById(driverId)
+                .orElseThrow(() -> new EntityNotFoundException("Driver Not Found"));
+        User user = driver.getUser();
+        return cabRepository.findCabByUserId(user.getId());
     }
 
     @Override

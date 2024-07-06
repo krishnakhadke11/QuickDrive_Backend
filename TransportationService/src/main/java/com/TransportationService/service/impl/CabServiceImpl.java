@@ -23,45 +23,39 @@ public class CabServiceImpl implements CabService {
 
     @Override
     public Cab findCabById(int id) {
-        Optional<Cab> optionalCab = cabRepository.findById(id);
-        Cab cab = null;
-        if (optionalCab.isPresent()) {
-            cab = optionalCab.get();
-        }else{
-            throw new EntityNotFoundException("Cab Not Found");
-        }
+        Cab cab = cabRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Cab Not Found"));
+
         return cab;
     }
 
     @Override
     @Transactional
     public Cab updateCab(Cab cab) {
-        boolean isPresent = cabRepository.existsById(cab.getId());
-        User user = userRepository.findById(cab.getUser().getId()).get();
-        cab.setUser(user);
-        Cab updatedCab = null;
-        if (isPresent) {
-            updatedCab = cabRepository.save(cab);
-        }else{
+        if(!cabRepository.existsById(cab.getId())){
             throw new EntityNotFoundException("Cab Not Found while Updating");
         }
+        User user = userRepository.findById(cab.getUser().getId())
+                .orElseThrow(() -> new EntityNotFoundException("User Entity Not Found"));
+        cab.setUser(user);
+        Cab updatedCab = cabRepository.save(cab);
         return updatedCab;
     }
 
     @Override
     @Transactional
     public void deleteCab(int id) {
-        boolean isPresent = cabRepository.existsById(id);
-        if (isPresent) {
-            cabRepository.deleteById(id);
+        if (!cabRepository.existsById(id)) {
         }else{
             throw new EntityNotFoundException("Cab Not Found While Deleting");
         }
+        cabRepository.deleteById(id);
     }
 
     @Override
     public User findCabsOwner(int cabId) {
-        Cab cab = cabRepository.findById(cabId).get();
+        Cab cab = cabRepository.findById(cabId)
+                .orElseThrow(() -> new EntityNotFoundException("Cab Not Found"));
         User user = cab.getUser();
         return user;
     }
@@ -75,7 +69,8 @@ public class CabServiceImpl implements CabService {
     @Transactional
     public Cab addCab(Cab cab) {
         int userId = cab.getUser().getId();
-        User user = userRepository.findById(userId).get();
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new EntityNotFoundException("User or Owner Not found"));
         cab.setUser(user);
         return cabRepository.save(cab);
     }

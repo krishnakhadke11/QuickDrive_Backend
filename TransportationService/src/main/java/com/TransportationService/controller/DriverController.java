@@ -15,25 +15,17 @@ import java.util.List;
 public class DriverController {
 
     private DriverService driverService;
-    private UserService userService;
 
     @Autowired
-    public DriverController(DriverService driverService, UserService userService) {
+    public DriverController(DriverService driverService) {
         this.driverService = driverService;
-        this.userService = userService;
     }
 
     @PostMapping("/driver")
     public ResponseEntity<Driver> createDriver(@RequestBody Driver driver) {
-        try {
-            Driver savedDriver = driverService.addDriver(driver);
-            System.out.println("Controller driver" + savedDriver.toString());
-
-            return ResponseEntity.ok().body(savedDriver);
-        }catch (Exception e) {
-            e.printStackTrace();
-            return ResponseEntity.badRequest().build();
-        }
+        Driver savedDriver = driverService.addDriver(driver);
+        System.out.println("Controller driver" + savedDriver.toString());
+        return ResponseEntity.ok().body(savedDriver);
     }
 
     @GetMapping("/driver")
