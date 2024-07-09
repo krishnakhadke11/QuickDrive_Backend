@@ -12,6 +12,8 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class DriverOperationServiceImpl implements DriverOperationService {
     DriverOperationRepository driverOperationRepository;
@@ -41,17 +43,31 @@ public class DriverOperationServiceImpl implements DriverOperationService {
     }
 
     @Override
-    public DriverOperation getDriverOperationById(int driverId) {
+    public List<DriverOperation> getAllDriverOperation() {
+        return driverOperationRepository.findAll();
+    }
+
+    @Override
+    public DriverOperation getDriverOperationByDriverId(int driverId) {
         DriverOperation driverOperation = driverOperationRepository.findDriverOperationByDriverId(driverId);
         return driverOperation;
     }
 
     @Override
     @Transactional
-    public void deleteDriverOperation(int id) {
+    public void deleteDriverOperation(int driverId) {
+        if(!driverOperationRepository.existsDriverOperationByDriverId(driverId)){
+            throw new EntityNotFoundException("Record not found");
+        }
+        driverOperationRepository.deleteDriverOperationByDriverId(driverId);
+    }
+
+    @Override
+    public DriverOperation updateDriverOperation(DriverOperation driverOperation) {
+        int id = driverOperation.getId();
         if(!driverOperationRepository.existsById(id)){
             throw new EntityNotFoundException("Record not found");
         }
-        driverOperationRepository.deleteById(id);
+        return driverOperationRepository.save(driverOperation);
     }
 }

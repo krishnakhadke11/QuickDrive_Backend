@@ -17,9 +17,4 @@ public class Customer {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
     private User user;
-
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "ride_id")
-    private List<Ride> ride;
-
 }

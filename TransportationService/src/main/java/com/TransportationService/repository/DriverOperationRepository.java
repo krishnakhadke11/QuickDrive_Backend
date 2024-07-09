@@ -7,4 +7,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface DriverOperationRepository extends JpaRepository<DriverOperation, Integer> {
     DriverOperation findDriverOperationByDriverId(int driverId);
+    boolean existsDriverOperationByDriverId(int driverId);
+    void deleteDriverOperationByDriverId(int driverId);
 }

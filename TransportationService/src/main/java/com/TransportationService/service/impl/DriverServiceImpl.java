@@ -43,7 +43,7 @@ public class DriverServiceImpl implements DriverService {
     @Override
     @Transactional
     public Driver updateDriver(Driver driver) {
-        if(driverRepository.existsById(driver.getId())){
+        if(!driverRepository.existsById(driver.getId())){
             throw new EntityNotFoundException("Driver Not Found While Updating");
         }
         return driverRepository.save(driver);

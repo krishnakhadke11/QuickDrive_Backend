@@ -18,11 +18,21 @@ public class Payment {
     @Column(name = "payment_status",nullable = false)
     private String paymentStatus;
 
-    @OneToOne
+    @OneToOne(cascade = {
+            CascadeType.PERSIST,
+            CascadeType.MERGE,
+            CascadeType.DETACH,
+            CascadeType.REFRESH
+    })
     @JoinColumn(name = "customer_id",referencedColumnName = "id")
     private Customer customer;
 
-    @OneToOne
+    @OneToOne(cascade = {
+            CascadeType.PERSIST,
+            CascadeType.MERGE,
+            CascadeType.DETACH,
+            CascadeType.REFRESH
+    })
     @JoinColumn(name = "ride_id",referencedColumnName = "id")
     private Ride ride;
 }

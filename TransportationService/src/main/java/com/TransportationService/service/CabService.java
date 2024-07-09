@@ -9,7 +9,6 @@ public interface CabService {
 
      Cab addCab(Cab cab);
 
-
      List<Cab> findAllCabs();
 
      Cab findCabById(int id);

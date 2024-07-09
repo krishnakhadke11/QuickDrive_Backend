@@ -16,26 +16,26 @@ public class DriverOperation {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm:ss.SSSZ")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm:ss.SSS")
     private LocalTime startTime;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm:ss.SSSZ")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm:ss.SSS")
     private LocalTime endTime;
 
     @OneToOne(cascade = {
-            CascadeType.PERSIST,
-            CascadeType.MERGE,
             CascadeType.DETACH,
-            CascadeType.REFRESH
+            CascadeType.REFRESH,
+            CascadeType.MERGE,
+            CascadeType.PERSIST
     })
     @JoinColumn(name = "driver_id",nullable = false)
     private Driver driver;
 
     @OneToOne(cascade = {
-            CascadeType.PERSIST,
-            CascadeType.MERGE,
             CascadeType.DETACH,
-            CascadeType.REFRESH
+            CascadeType.REFRESH,
+            CascadeType.MERGE,
+            CascadeType.PERSIST
     })
     @JoinColumn(name = "cab_id",nullable = false)
     private Cab cab;

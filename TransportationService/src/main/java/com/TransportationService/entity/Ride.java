@@ -1,5 +1,6 @@
 package com.TransportationService.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -19,16 +20,19 @@ public class Ride {
     private String dropLocation;
 
     @Column(name = "rating")
-    private int rating;
+    private int rating=0;
 
     @Column(name = "fare")
-    private int fare;
+    private int fare=0;
 
     @Column(name = "distance")
     private double distance;
 
+    @Column(name = "duration")
+    private String duration;
+
     @Column(name = "booking_status")
-    private boolean booking_status; //true: Ride is booked, false: Ride is not booked
+    private boolean booking_status=false; //true: Ride is booked, false: Ride is not booked
 
     @OneToOne(cascade = {
             CascadeType.PERSIST,
@@ -36,9 +40,28 @@ public class Ride {
             CascadeType.DETACH,
             CascadeType.REFRESH
     })
-    @JoinColumn(name = "cab_id",referencedColumnName = "id",nullable = true)
+    @JoinColumn(name = "customer_id")
+    private Customer customer;
+
+    @OneToOne(cascade = {
+            CascadeType.PERSIST,
+            CascadeType.MERGE,
+            CascadeType.DETACH,
+            CascadeType.REFRESH
+    })
+    @JoinColumn(name = "cab_id",nullable = true)
     private Cab cab;
 
+    @OneToOne(cascade = {
+            CascadeType.PERSIST,
+            CascadeType.MERGE,
+            CascadeType.DETACH,
+            CascadeType.REFRESH
+    })
+    @JoinColumn(name = "driver_id")
+    private Driver driver;
+
     @OneToOne(mappedBy = "ride", cascade = CascadeType.ALL)
+    @JsonIgnore
     private Payment payment;
 }

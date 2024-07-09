@@ -46,9 +46,9 @@ public class CabServiceImpl implements CabService {
     @Transactional
     public void deleteCab(int id) {
         if (!cabRepository.existsById(id)) {
-        }else{
             throw new EntityNotFoundException("Cab Not Found While Deleting");
         }
+
         cabRepository.deleteById(id);
     }
 
