@@ -1,8 +1,10 @@
 package com.TransportationService.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.time.LocalTime;
 import java.util.Date;
 
 @Data
@@ -14,9 +16,11 @@ public class DriverOperation {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
-    private Date startTime;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm:ss.SSSZ")
+    private LocalTime startTime;
 
-    private Date endTime;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm:ss.SSSZ")
+    private LocalTime endTime;
 
     @OneToOne(cascade = {
             CascadeType.PERSIST,
@@ -24,7 +28,7 @@ public class DriverOperation {
             CascadeType.DETACH,
             CascadeType.REFRESH
     })
-    @JoinColumn(name = "driver_id",referencedColumnName = "id")
+    @JoinColumn(name = "driver_id",nullable = false)
     private Driver driver;
 
     @OneToOne(cascade = {
@@ -33,6 +37,6 @@ public class DriverOperation {
             CascadeType.DETACH,
             CascadeType.REFRESH
     })
-    @JoinColumn(name = "cab_id",referencedColumnName = "id")
+    @JoinColumn(name = "cab_id",nullable = false)
     private Cab cab;
 }

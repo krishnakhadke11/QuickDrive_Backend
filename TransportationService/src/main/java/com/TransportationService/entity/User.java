@@ -1,5 +1,6 @@
 package com.TransportationService.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -25,6 +26,7 @@ public class User {
     @Column(name = "email",unique = true, length = 100, nullable = false)
     private String email;
 
+//    @JsonIgnore
     @Column(name = "password",nullable = false)
     private String password;
 

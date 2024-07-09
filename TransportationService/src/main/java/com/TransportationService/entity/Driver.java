@@ -1,8 +1,10 @@
 package com.TransportationService.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -21,10 +23,12 @@ public class Driver {
     private String driversLicense;
 
     @Column(name = "start_time", nullable = false)
-    private String startTime;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm:ss.SSS")
+    private LocalTime startTime;
 
     @Column(name = "end_time")
-    private String endTime;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm:ss.SSS")
+    private LocalTime endTime;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
