@@ -28,7 +28,7 @@ public class DriverOperation {
             CascadeType.MERGE,
             CascadeType.PERSIST
     })
-    @JoinColumn(name = "driver_id",nullable = false)
+    @JoinColumn(name = "driver_id",nullable = false,unique = true)
     private Driver driver;
 
     @OneToOne(cascade = {
@@ -37,6 +37,6 @@ public class DriverOperation {
             CascadeType.MERGE,
             CascadeType.PERSIST
     })
-    @JoinColumn(name = "cab_id",nullable = false)
+    @JoinColumn(name = "cab_id",nullable = false,unique = true)
     private Cab cab;
 }

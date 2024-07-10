@@ -66,20 +66,15 @@ public class DriverServiceImpl implements DriverService {
         Driver driver = driverRepository.findById(driverId)
                 .orElseThrow(() -> new EntityNotFoundException("Driver Not Found"));
         User user = driver.getUser();
-        return cabRepository.findCabByUserId(user.getId());
+        return cabRepository.findCabsByUserId(user.getId());
     }
 
     @Override
     @Transactional
     public Driver addDriver(Driver driver) {
-        try {
-            System.out.println("Driver in Service : " + driver);
-            return driverRepository.save(driver);
-        }catch (Exception e){
-            System.out.println("In driver Servicce");
-            e.printStackTrace();
-            return null;
-        }
+        System.out.println("Driver in Service : " + driver);
+        return driverRepository.save(driver);
+
     }
 
 

@@ -1,10 +1,12 @@
 package com.TransportationService.entity;
 
 import jakarta.persistence.*;
+import lombok.Data;
 
 import java.util.List;
 
 @Entity
+@Data
 @Table(name = "Admin")
 public class Admin {
     @Id

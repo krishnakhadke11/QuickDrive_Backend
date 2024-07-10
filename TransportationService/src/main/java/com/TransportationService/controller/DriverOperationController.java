@@ -31,7 +31,7 @@ public class DriverOperationController {
 
     @GetMapping("/driveroperation/{id}")
     public ResponseEntity<DriverOperation> getDriverOperationById(@PathVariable int id){
-        DriverOperation driverOperation = driverOperationService.getDriverOperationByDriverId(id);
+        DriverOperation driverOperation =  driverOperationService.getDriverOperationById(id);
         return ResponseEntity.ok().body(driverOperation);
     }
 

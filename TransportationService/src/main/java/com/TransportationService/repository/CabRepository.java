@@ -8,5 +8,5 @@ import java.util.List;
 
 @Repository
 public interface CabRepository extends JpaRepository<Cab, Integer> {
-    List<Cab> findCabByUserId(int userId);
+    List<Cab> findCabsByUserId(int userId);
 }

@@ -1,7 +1,10 @@
 package com.TransportationService.controller;
 
 import com.TransportationService.entity.Customer;
+import com.TransportationService.entity.Ride;
 import com.TransportationService.service.CustomerService;
+import com.TransportationService.service.RideService;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,6 +14,7 @@ import java.util.List;
 @RestController
 public class CustomerController {
     private CustomerService customerService;
+    private RideService rideService;
 
     @Autowired
     public CustomerController(CustomerService customerService) {
@@ -33,6 +37,13 @@ public class CustomerController {
     public ResponseEntity<Customer> getCustomer(@PathVariable int id) {
         Customer customer = customerService.getCustomerById(id);
         return ResponseEntity.ok(customer);
+    }
+
+    @GetMapping("/customer/rides")
+    public ResponseEntity<List<Ride>> getRideByCustomerId(HttpServletRequest req) {
+        Integer customerId = (Integer)req.getAttribute("id");
+        List<Ride> rides = rideService.getAllRideByCustomerId(customerId);
+        return ResponseEntity.ok(rides);
     }
 
     @PutMapping("/customer")

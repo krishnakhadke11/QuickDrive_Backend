@@ -3,8 +3,11 @@ package com.TransportationService.controller;
 
 import com.TransportationService.entity.Cab;
 import com.TransportationService.entity.Driver;
+import com.TransportationService.entity.DriverOperation;
+import com.TransportationService.service.DriverOperationService;
 import com.TransportationService.service.DriverService;
 import com.TransportationService.service.UserService;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,10 +18,12 @@ import java.util.List;
 public class DriverController {
 
     private DriverService driverService;
+    private DriverOperationService driverOperationService;
 
     @Autowired
-    public DriverController(DriverService driverService) {
+    public DriverController(DriverService driverService, DriverOperationService driverOperationService) {
         this.driverService = driverService;
+        this.driverOperationService = driverOperationService;
     }
 
     @PostMapping("/driver")
@@ -40,6 +45,13 @@ public class DriverController {
         return ResponseEntity.ok().body(driver);
     }
 
+    @GetMapping("/driver/driveroperations")
+    public ResponseEntity<DriverOperation> getDriverOperationById(HttpServletRequest req){
+        Integer driverId = (Integer)req.getAttribute("id");
+        DriverOperation driverOperation = driverOperationService.getDriverOperationByDriverId(driverId);
+        return ResponseEntity.ok().body(driverOperation);
+    }
+
     @PutMapping("/driver")
     public ResponseEntity<Driver> updateDriver(@RequestBody Driver driver) {
         Driver updateDriver = driverService.updateDriver(driver);
@@ -52,8 +64,9 @@ public class DriverController {
         return ResponseEntity.ok().body("Driver has been deleted");
     }
 
-    @GetMapping("driver/{driverId}/cabs")
-    public ResponseEntity<List<Cab>> getCabs(@PathVariable int driverId) {
+    @GetMapping("driver/cabs")
+    public ResponseEntity<List<Cab>> getCabs(HttpServletRequest req) {
+        Integer driverId = (Integer) req.getAttribute("id");
         List<Cab> cabs = driverService.driverOwnedCabs(driverId);
         return ResponseEntity.ok().body(cabs);
     }

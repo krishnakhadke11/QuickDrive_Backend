@@ -26,7 +26,7 @@ public class Ride {
     private int fare=0;
 
     @Column(name = "distance")
-    private double distance;
+    private String distance;
 
     @Column(name = "duration")
     private String duration;
@@ -61,7 +61,7 @@ public class Ride {
     @JoinColumn(name = "driver_id")
     private Driver driver;
 
-    @OneToOne(mappedBy = "ride", cascade = CascadeType.ALL)
-    @JsonIgnore
-    private Payment payment;
+//    @OneToOne(mappedBy = "ride", cascade = CascadeType.ALL)
+//    @JsonIgnore
+//    private Payment payment;
 }

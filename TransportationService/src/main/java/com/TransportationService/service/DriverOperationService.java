@@ -12,6 +12,8 @@ public interface DriverOperationService {
 
     DriverOperation getDriverOperationByDriverId(int driverId);
 
+    DriverOperation getDriverOperationById(int id);
+
     void deleteDriverOperation(int id);
 
     DriverOperation updateDriverOperation(DriverOperation driverOperation);

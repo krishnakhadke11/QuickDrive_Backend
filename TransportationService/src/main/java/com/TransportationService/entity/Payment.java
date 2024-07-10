@@ -13,19 +13,10 @@ public class Payment {
     private int id;
 
     @Column(name = "payment_type",nullable = false)
-    private String paymentType;
+    private PaymentType paymentType;
 
     @Column(name = "payment_status",nullable = false)
-    private String paymentStatus;
-
-    @OneToOne(cascade = {
-            CascadeType.PERSIST,
-            CascadeType.MERGE,
-            CascadeType.DETACH,
-            CascadeType.REFRESH
-    })
-    @JoinColumn(name = "customer_id",referencedColumnName = "id")
-    private Customer customer;
+    private PaymentStatus paymentStatus;
 
     @OneToOne(cascade = {
             CascadeType.PERSIST,

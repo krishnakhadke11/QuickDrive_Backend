@@ -9,4 +9,5 @@ import java.util.List;
 
 @Repository
 public interface DriverRepository extends JpaRepository<Driver, Integer> {
+    Driver findDriverByUserId(int userId);
 }
