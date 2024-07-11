@@ -2,6 +2,7 @@ package com.TransportationService.controller;
 
 import com.TransportationService.dto.request.SignInRequest;
 import com.TransportationService.dto.response.JwtAuthenticationResponse;
+import com.TransportationService.entity.Admin;
 import com.TransportationService.entity.Customer;
 import com.TransportationService.entity.Driver;
 import com.TransportationService.service.AuthenticationService;
@@ -32,6 +33,12 @@ public class AuthenticationController {
     public ResponseEntity<Customer>signup(@RequestBody Customer customer) {
         Customer savedCustomer = authenticationService.signup(customer);
         return ResponseEntity.ok(savedCustomer);
+    }
+
+    @PostMapping("/auth/admin/signup")
+    public ResponseEntity<Admin>signup(@RequestBody Admin admin) {
+        Admin savedAdmin = authenticationService.signup(admin);
+        return ResponseEntity.ok(savedAdmin);
     }
 
     @PostMapping("/auth/signin")

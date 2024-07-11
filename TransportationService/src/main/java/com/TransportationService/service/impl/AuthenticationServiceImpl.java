@@ -3,10 +3,8 @@ package com.TransportationService.service.impl;
 import com.TransportationService.dto.request.RefreshTokenRequest;
 import com.TransportationService.dto.request.SignInRequest;
 import com.TransportationService.dto.response.JwtAuthenticationResponse;
-import com.TransportationService.entity.Customer;
-import com.TransportationService.entity.Driver;
-import com.TransportationService.entity.Role;
-import com.TransportationService.entity.User;
+import com.TransportationService.entity.*;
+import com.TransportationService.repository.AdminRepository;
 import com.TransportationService.repository.CustomerRepository;
 import com.TransportationService.repository.DriverRepository;
 import com.TransportationService.repository.UserRepository;
@@ -28,15 +26,17 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private final AuthenticationManager authenticationManager;
     private final DriverRepository driverRepository;
     private final CustomerRepository customerRepository;
+    private final AdminRepository adminRepository;
 
     @Autowired
-    public AuthenticationServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder, AuthenticationManager authenticationManager, JwtService jwtService, DriverRepository driverRepository, CustomerRepository customerRepository) {
+    public AuthenticationServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder, AuthenticationManager authenticationManager, JwtService jwtService, DriverRepository driverRepository, CustomerRepository customerRepository, AdminRepository adminRepository) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.authenticationManager = authenticationManager;
         this.jwtService = jwtService;
         this.driverRepository = driverRepository;
         this.customerRepository = customerRepository;
+        this.adminRepository = adminRepository;
     }
 
     public Driver signup(Driver driver) {
@@ -51,6 +51,13 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         customer.getUser().setPassword(passwordEncoder.encode(password));
         customer.getUser().setRole(Role.CUSTOMER);
         return customerRepository.save(customer);
+    }
+
+    public Admin signup(Admin admin) {
+        String password = admin.getUser().getPassword();
+        admin.getUser().setPassword(passwordEncoder.encode(password));
+        admin.getUser().setRole(Role.ADMIN);
+        return adminRepository.save(admin);
     }
 
     public JwtAuthenticationResponse signin(SignInRequest signInRequest) {
@@ -95,6 +102,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
             id = driverRepository.findDriverByUserId(user.getId()).getId();
         }else if(user.getRole() == Role.CUSTOMER){
             id = customerRepository.findCustomerByUserId(user.getId()).getId();
+        }else if(user.getRole() == Role.ADMIN){
+            id = adminRepository.findAdminByUserId(user.getId()).getId();
         }
         return id;
     }

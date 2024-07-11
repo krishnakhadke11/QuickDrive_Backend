@@ -51,18 +51,23 @@ public class RideServiceImpl implements RideService {
     }
 
     @Override
-    public Ride getRideById(int rideId) {
+    public Ride findRideById(int rideId) {
         Ride ride = rideRepository.findById(rideId).orElseThrow(() -> new RuntimeException("Ride not found"));
         return ride;
     }
 
     @Override
-    public List<Ride> getAllRideByCustomerId(int customerId) {
+    public List<Ride> findAllRideByCustomerId(int customerId) {
         if(!customerRepository.existsById(customerId)){
             throw new EntityNotFoundException("Customer not found");
         }
         List<Ride> rides = rideRepository.findRideByCustomerId(customerId);
         return rides;
+    }
+
+    @Override
+    public List<Ride> findAllRides() {
+        return rideRepository.findAll();
     }
 
     @Override

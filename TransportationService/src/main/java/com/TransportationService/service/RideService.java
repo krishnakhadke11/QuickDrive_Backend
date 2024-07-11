@@ -7,9 +7,11 @@ import java.util.List;
 public interface RideService {
     Ride addRide(Ride ride);
 
-    Ride getRideById(int rideId);
+    Ride findRideById(int rideId);
 
-    List<Ride> getAllRideByCustomerId(int customerId);
+    List<Ride> findAllRideByCustomerId(int customerId);
+
+    List<Ride> findAllRides();
 
     Ride updateRide(Ride ride);
 

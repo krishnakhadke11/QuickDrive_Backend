@@ -3,6 +3,7 @@ package com.TransportationService.controller;
 import com.TransportationService.dto.response.FarePriceResponseDto;
 import com.TransportationService.service.FarePriceService;
 import com.google.maps.errors.ApiException;
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,6 +22,7 @@ public class FarePriceController {
         this.farePriceService = farePriceService;
     }
 
+    @Operation(summary = "Checks the Fare the route", description = "Returns the FarePriceResponseDto")
     @GetMapping("/fare")
     public ResponseEntity<FarePriceResponseDto> getFare(
             @RequestParam(value = "pickupLocation") String pickupLocation,
