@@ -1,31 +1,36 @@
 package com.TransportationService.service.impl;
 
+import com.TransportationService.dto.request.DriverDto;
+import com.TransportationService.dto.request.DriverUpdateDto;
 import com.TransportationService.entity.Cab;
 import com.TransportationService.entity.Driver;
 import com.TransportationService.entity.Role;
 import com.TransportationService.entity.User;
 import com.TransportationService.repository.CabRepository;
 import com.TransportationService.repository.DriverRepository;
-import com.TransportationService.repository.UserRepository;
 import com.TransportationService.service.DriverService;
+import com.TransportationService.validation.DriverValidation;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class DriverServiceImpl implements DriverService {
 
     private DriverRepository driverRepository;
     private CabRepository cabRepository;
-
+    private  PasswordEncoder passwordEncoder;
+    private DriverValidation driverValidation;
     @Autowired
-    public DriverServiceImpl(DriverRepository driverRepository, CabRepository cabRepository) {
+    public DriverServiceImpl(DriverRepository driverRepository, CabRepository cabRepository, PasswordEncoder passwordEncoder, DriverValidation driverValidation) {
         this.driverRepository = driverRepository;
         this.cabRepository = cabRepository;
+        this.passwordEncoder = passwordEncoder;
+        this.driverValidation = driverValidation;
     }
 
 
@@ -42,11 +47,36 @@ public class DriverServiceImpl implements DriverService {
 
     @Override
     @Transactional
-    public Driver updateDriver(Driver driver) {
-        if(!driverRepository.existsById(driver.getId())){
+    public Driver updateDriver(DriverUpdateDto driverUpdateDto) {
+        if(!driverRepository.existsById(driverUpdateDto.getId())){
             throw new EntityNotFoundException("Driver Not Found While Updating");
         }
-        return driverRepository.save(driver);
+
+        driverValidation.validateDriver(driverUpdateDto);
+
+        Driver driver = driverRepository.findById(driverUpdateDto.getId())
+                .orElseThrow(() -> new EntityNotFoundException("Driver not found"));
+
+        Driver updateDriver = new Driver();
+        updateDriver.setId(driverUpdateDto.getId());
+        updateDriver.setDriversLicense(driverUpdateDto.getDriversLicense());
+        updateDriver.setStartTime(driverUpdateDto.getStartTime());
+        updateDriver.setEndTime(driverUpdateDto.getEndTime());
+
+        User user = new User();
+        user.setId(driverUpdateDto.getUser().getId());
+        user.setFirstName(driverUpdateDto.getUser().getFirstName());
+        user.setLastName(driverUpdateDto.getUser().getLastName());
+        user.setEmail(driverUpdateDto.getUser().getEmail());
+        user.setPhoneNumber(driverUpdateDto.getUser().getPhoneNumber());
+        user.setAddress(driverUpdateDto.getUser().getAddress());
+        user.setRole(Role.DRIVER);
+        if(!passwordEncoder.matches(driverUpdateDto.getUser().getPassword(),driver.getUser().getPassword())){
+            user.setPassword(passwordEncoder.encode(driverUpdateDto.getUser().getPassword()));
+        }
+
+        updateDriver.setUser(user);
+        return driverRepository.save(updateDriver);
     }
 
     @Override
@@ -71,10 +101,26 @@ public class DriverServiceImpl implements DriverService {
 
     @Override
     @Transactional
-    public Driver addDriver(Driver driver) {
-        System.out.println("Driver in Service : " + driver);
-        return driverRepository.save(driver);
+    public Driver addDriver(DriverDto driverDto) {
+        driverValidation.validateDriver(driverDto);
 
+        String password = driverDto.getUser().getPassword();
+        Driver driver = new Driver();
+        driver.setDriversLicense(driverDto.getDriversLicense());
+        driver.setStartTime(driverDto.getStartTime());
+        driver.setEndTime(driverDto.getEndTime());
+
+        User user = new User();
+        user.setFirstName(driverDto.getUser().getFirstName());
+        user.setLastName(driverDto.getUser().getLastName());
+        user.setEmail(driverDto.getUser().getEmail());
+        user.setPhoneNumber(driverDto.getUser().getPhoneNumber());
+        user.setAddress(driverDto.getUser().getAddress());
+        user.setPassword(passwordEncoder.encode(password));
+        user.setRole(Role.DRIVER);
+
+        driver.setUser(user);
+        return driverRepository.save(driver);
     }
 
 

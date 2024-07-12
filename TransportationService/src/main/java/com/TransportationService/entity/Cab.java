@@ -2,7 +2,9 @@ package com.TransportationService.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Pattern;
 import lombok.Data;
+import lombok.Value;
 
 import java.util.List;
 
@@ -28,7 +30,7 @@ public class Cab {
     private String model;
 
     @Column(name = "status", nullable = false)
-    private boolean status; // True: Available, False: Not Available
+    private boolean status=true; // True: Available, False: Not Available
 
     @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE,
                             CascadeType.REFRESH,CascadeType.PERSIST})

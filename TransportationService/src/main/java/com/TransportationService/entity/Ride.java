@@ -61,8 +61,4 @@ public class Ride {
     })
     @JoinColumn(name = "driver_id")
     private Driver driver;
-
-//    @OneToOne(mappedBy = "ride", cascade = CascadeType.ALL)
-//    @JsonIgnore
-//    private Payment payment;
 }

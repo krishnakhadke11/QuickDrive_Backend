@@ -1,5 +1,7 @@
 package com.TransportationService.service.impl;
 
+import com.TransportationService.dto.request.RideDto;
+import com.TransportationService.dto.request.RideUpdateDto;
 import com.TransportationService.entity.*;
 import com.TransportationService.repository.*;
 import com.TransportationService.service.RideService;
@@ -31,18 +33,23 @@ public class RideServiceImpl implements RideService {
         this.driverRepository = driverRepository;
     }
 
-
     @Override
     @Transactional
-    public Ride addRide(Ride ride) {
+    public Ride addRide(RideDto rideDto) {
 
-        Customer customer = customerRepository.findById(ride.getCustomer().getId())
+        Customer customer = customerRepository.findById(rideDto.getCustomer().getId())
                 .orElseThrow(() -> new RuntimeException("Customer not found"));
 
-        Cab cab = cabRepository.findById(ride.getCab().getId()).orElseThrow(() -> new RuntimeException("Cab not found"));
+        Cab cab = cabRepository.findById(rideDto.getCab().getId()).orElseThrow(() -> new RuntimeException("Cab not found"));
 
-        Driver driver = driverRepository.findById(ride.getDriver().getId()).orElseThrow(() -> new RuntimeException("Driver not found"));
+        Driver driver = driverRepository.findById(rideDto.getDriver().getId()).orElseThrow(() -> new RuntimeException("Driver not found"));
 
+        Ride ride = new Ride();
+        ride.setPickupLocation(rideDto.getPickupLocation());
+        ride.setDropLocation(rideDto.getDropLocation());
+        ride.setFare(rideDto.getFare());
+        ride.setDistance(rideDto.getDistance());
+        ride.setDuration(rideDto.getDuration());
         ride.setCustomer(customer);
         ride.setCab(cab);
         ride.setDriver(driver);
@@ -71,11 +78,30 @@ public class RideServiceImpl implements RideService {
     }
 
     @Override
-    public Ride updateRide(Ride ride) {
-        if(!rideRepository.existsById(ride.getId())){
+    public Ride updateRide(RideUpdateDto rideUpdateDto) {
+
+        if(!rideRepository.existsById(rideUpdateDto.getId())){
             throw new EntityNotFoundException("Ride not found");
         }
-        return rideRepository.save(ride);
+
+        Customer customer = customerRepository.findById(rideUpdateDto.getCustomer().getId())
+                .orElseThrow(() -> new RuntimeException("Customer not found"));
+
+        Cab cab = cabRepository.findById(rideUpdateDto.getCab().getId()).orElseThrow(() -> new RuntimeException("Cab not found"));
+
+        Driver driver = driverRepository.findById(rideUpdateDto.getDriver().getId()).orElseThrow(() -> new RuntimeException("Driver not found"));
+
+        Ride updatedRide = new Ride();
+        updatedRide.setId(rideUpdateDto.getId());
+        updatedRide.setPickupLocation(rideUpdateDto.getPickupLocation());
+        updatedRide.setDropLocation(rideUpdateDto.getDropLocation());
+        updatedRide.setFare(rideUpdateDto.getFare());
+        updatedRide.setDistance(rideUpdateDto.getDistance());
+        updatedRide.setDuration(rideUpdateDto.getDuration());
+        updatedRide.setCustomer(customer);
+        updatedRide.setCab(cab);
+        updatedRide.setDriver(driver);
+        return rideRepository.save(updatedRide);
     }
 
     @Override

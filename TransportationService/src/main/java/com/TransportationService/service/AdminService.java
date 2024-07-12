@@ -1,11 +1,12 @@
 package com.TransportationService.service;
 
+import com.TransportationService.dto.request.AdminDto;
 import com.TransportationService.entity.*;
 
 import java.util.List;
 
 public interface AdminService {
-    Admin addAdmin(Admin admin);
+    Admin addAdmin(AdminDto adminDto);
 
     List<Cab> adminOwnedCabs(int adminId);
 

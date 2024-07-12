@@ -1,12 +1,17 @@
 package com.TransportationService.service.impl;
 
+import com.TransportationService.dto.request.CustomerDto;
+import com.TransportationService.dto.request.CustomerUpdateDto;
 import com.TransportationService.entity.Customer;
-import com.TransportationService.entity.Ride;
+import com.TransportationService.entity.Role;
+import com.TransportationService.entity.User;
 import com.TransportationService.repository.CustomerRepository;
 import com.TransportationService.repository.RideRepository;
 import com.TransportationService.service.CustomerService;
+import com.TransportationService.validation.CustomerValidation;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,16 +20,34 @@ import java.util.List;
 public class CustomerServiceImpl implements CustomerService {
 
     private final RideRepository rideRepository;
-    CustomerRepository customerRepository;
+    private final CustomerValidation customerValidation;
+    private CustomerRepository customerRepository;
+    private PasswordEncoder passwordEncoder;
 
     @Autowired
-    public CustomerServiceImpl(CustomerRepository customerRepository, RideRepository rideRepository) {
+    public CustomerServiceImpl(CustomerRepository customerRepository, RideRepository rideRepository, PasswordEncoder passwordEncoder, CustomerValidation customerValidation) {
         this.customerRepository = customerRepository;
         this.rideRepository = rideRepository;
+        this.passwordEncoder = passwordEncoder;
+        this.customerValidation = customerValidation;
     }
 
     @Override
-    public Customer addCustomer(Customer customer) {
+    public Customer addCustomer(CustomerDto customerDto) {
+        customerValidation.validateCustomer(customerDto);
+        String password = customerDto.getUser().getPassword();
+        Customer customer = new Customer();
+
+        User user = new User();
+        user.setFirstName(customerDto.getUser().getFirstName());
+        user.setLastName(customerDto.getUser().getLastName());
+        user.setEmail(customerDto.getUser().getEmail());
+        user.setPhoneNumber(customerDto.getUser().getPhoneNumber());
+        user.setAddress(customerDto.getUser().getAddress());
+        user.setPassword(passwordEncoder.encode(password));
+        user.setRole(Role.CUSTOMER);
+
+        customer.setUser(user);
         return customerRepository.save(customer);
     }
 
@@ -41,11 +64,32 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public Customer updateCustomer(Customer customer) {
-        if(!customerRepository.existsById(customer.getId())) {
+    public Customer updateCustomer(CustomerUpdateDto customerUpdateDto) {
+        customerValidation.validateCustomer(customerUpdateDto);
+
+        if(!customerRepository.existsById(customerUpdateDto.getId())) {
             throw new EntityNotFoundException("Customer not found!");
         }
-        return customerRepository.save(customer);
+        Customer customer = customerRepository.findById(customerUpdateDto.getId())
+                .orElseThrow(() -> new EntityNotFoundException("Driver not found"));
+
+        Customer updateCustomer = new Customer();
+        updateCustomer.setId(customerUpdateDto.getId());
+
+        User user = new User();
+        user.setId(customerUpdateDto.getUser().getId());
+        user.setFirstName(customerUpdateDto.getUser().getFirstName());
+        user.setLastName(customerUpdateDto.getUser().getLastName());
+        user.setEmail(customerUpdateDto.getUser().getEmail());
+        user.setPhoneNumber(customerUpdateDto.getUser().getPhoneNumber());
+        user.setAddress(customerUpdateDto.getUser().getAddress());
+        user.setRole(Role.CUSTOMER);
+        if(!passwordEncoder.matches(customerUpdateDto.getUser().getPassword(), customer.getUser().getPassword())){
+            user.setPassword(passwordEncoder.encode(customerUpdateDto.getUser().getPassword()));
+        }
+
+        updateCustomer.setUser(user);
+        return customerRepository.save(updateCustomer);
     }
 
     @Override

@@ -1,5 +1,7 @@
 package com.TransportationService.service.impl;
 
+import com.TransportationService.dto.request.DriverOperationDto;
+import com.TransportationService.dto.request.DriverOperationUpdateDto;
 import com.TransportationService.entity.Cab;
 import com.TransportationService.entity.Driver;
 import com.TransportationService.entity.DriverOperation;
@@ -30,13 +32,17 @@ public class DriverOperationServiceImpl implements DriverOperationService {
 
     @Override
     @Transactional
-    public DriverOperation addDriverOperation(DriverOperation driverOperation) {
-        System.out.println("In add DriverOperation"+driverOperation);
-        int driverId = driverOperation.getDriver().getId();
-        int cabId = driverOperation.getCab().getId();
-        Driver driver = driverRepository.findById(driverId).orElseThrow(() -> new EntityNotFoundException("Driver not found"));
-        Cab cab = cabRepository.findById(cabId).orElseThrow(() -> new EntityNotFoundException("Cab not found"));
+    public DriverOperation addDriverOperation(DriverOperationDto driverOperationDto) {
+//        System.out.println("In add DriverOperation"+driverOperation);
 
+        Driver driver = driverRepository.findById(driverOperationDto.getDriver().getId())
+                .orElseThrow(() -> new EntityNotFoundException("Driver not found"));
+        Cab cab = cabRepository.findById(driverOperationDto.getCab().getId())
+                .orElseThrow(() -> new EntityNotFoundException("Cab not found"));
+
+        DriverOperation driverOperation = new DriverOperation();
+        driverOperation.setStartTime(driverOperationDto.getStartTime());
+        driverOperation.setEndTime(driverOperationDto.getEndTime());
         driverOperation.setDriver(driver);
         driverOperation.setCab(cab);
         return driverOperationRepository.save(driverOperation);
@@ -73,11 +79,23 @@ public class DriverOperationServiceImpl implements DriverOperationService {
     }
 
     @Override
-    public DriverOperation updateDriverOperation(DriverOperation driverOperation) {
-        int id = driverOperation.getId();
-        if(!driverOperationRepository.existsById(id)){
+    public DriverOperation updateDriverOperation(DriverOperationUpdateDto driverOperationUpdateDto) {
+
+        if(!driverOperationRepository.existsById(driverOperationUpdateDto.getId())){
             throw new EntityNotFoundException("Record not found");
         }
+
+        Driver driver = driverRepository.findById(driverOperationUpdateDto.getDriver().getId())
+                .orElseThrow(() -> new EntityNotFoundException("Driver not found"));
+        Cab cab = cabRepository.findById(driverOperationUpdateDto.getCab().getId())
+                .orElseThrow(() -> new EntityNotFoundException("Cab not found"));
+
+        DriverOperation driverOperation = new DriverOperation();
+        driverOperation.setStartTime(driverOperationUpdateDto.getStartTime());
+        driverOperation.setEndTime(driverOperationUpdateDto.getEndTime());
+        driverOperation.setDriver(driver);
+        driverOperation.setCab(cab);
+
         return driverOperationRepository.save(driverOperation);
     }
 }

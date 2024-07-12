@@ -1,5 +1,7 @@
 package com.TransportationService.controller;
 
+import com.TransportationService.dto.request.CabDto;
+import com.TransportationService.dto.request.CabUpdateDto;
 import com.TransportationService.entity.Cab;
 import com.TransportationService.entity.User;
 import com.TransportationService.service.CabService;
@@ -20,8 +22,8 @@ public class CabController {
 
     @Operation(summary = "Add a cab", description = "Returns newly added cab")
     @PostMapping("/cab")
-    public ResponseEntity<Cab> addCab(@RequestBody Cab cab) {
-        Cab savedCab = cabService.addCab(cab);
+    public ResponseEntity<Cab> addCab(@RequestBody CabDto cabDto) {
+        Cab savedCab = cabService.addCab(cabDto);
         return ResponseEntity.ok().body(savedCab);
     }
 
@@ -41,8 +43,8 @@ public class CabController {
 
     @Operation(summary = "Update a cab", description = "Returns the updated cab ")
     @PutMapping("/cab")
-    public ResponseEntity<Cab> updateCab(@RequestBody Cab cab) {
-        Cab updatedCab = cabService.updateCab(cab);
+    public ResponseEntity<Cab> updateCab(@RequestBody CabUpdateDto cabUpdateDto) {
+        Cab updatedCab = cabService.updateCab(cabUpdateDto);
         return ResponseEntity.ok().body(updatedCab);
     }
 

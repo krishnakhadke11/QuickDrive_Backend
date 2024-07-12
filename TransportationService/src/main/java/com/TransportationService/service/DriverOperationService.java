@@ -1,12 +1,14 @@
 package com.TransportationService.service;
 
+import com.TransportationService.dto.request.DriverOperationDto;
+import com.TransportationService.dto.request.DriverOperationUpdateDto;
 import com.TransportationService.entity.DriverOperation;
 
 import java.util.List;
 
 public interface DriverOperationService {
 
-    DriverOperation addDriverOperation(DriverOperation driverOperation);
+    DriverOperation addDriverOperation(DriverOperationDto driverOperationDto);
 
     List<DriverOperation> getAllDriverOperation();
 
@@ -16,5 +18,5 @@ public interface DriverOperationService {
 
     void deleteDriverOperation(int id);
 
-    DriverOperation updateDriverOperation(DriverOperation driverOperation);
+    DriverOperation updateDriverOperation(DriverOperationUpdateDto driverOperationUpdateDto);
 }

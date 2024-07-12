@@ -1,5 +1,7 @@
 package com.TransportationService.controller;
 
+import com.TransportationService.dto.request.CustomerDto;
+import com.TransportationService.dto.request.CustomerUpdateDto;
 import com.TransportationService.entity.Customer;
 import com.TransportationService.entity.Ride;
 import com.TransportationService.service.CustomerService;
@@ -24,8 +26,8 @@ public class CustomerController {
 
     @Operation(summary = "Create a customer", description = "Returns the newly added customer")
     @PostMapping("/customer")
-    public ResponseEntity<Customer> addCustomer(@RequestBody Customer customer) {
-        Customer savedCustomer = customerService.addCustomer(customer);
+    public ResponseEntity<Customer> addCustomer(@RequestBody CustomerDto customerDto) {
+        Customer savedCustomer = customerService.addCustomer(customerDto);
         return ResponseEntity.ok(savedCustomer);
     }
 
@@ -53,8 +55,8 @@ public class CustomerController {
 
     @Operation(summary = "Update a customer", description = "Returns the updated customer")
     @PutMapping("/customer")
-    public ResponseEntity<Customer> updateCustomer(@RequestBody Customer customer) {
-        Customer updateCustomer = customerService.updateCustomer(customer);
+    public ResponseEntity<Customer> updateCustomer(@RequestBody CustomerUpdateDto customerUpdateDto) {
+        Customer updateCustomer = customerService.updateCustomer(customerUpdateDto);
         return ResponseEntity.ok(updateCustomer);
     }
 

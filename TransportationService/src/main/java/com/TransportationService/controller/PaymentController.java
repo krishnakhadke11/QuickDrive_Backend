@@ -1,5 +1,7 @@
 package com.TransportationService.controller;
 
+import com.TransportationService.dto.request.PaymentDto;
+import com.TransportationService.dto.request.PaymentUpdateDto;
 import com.TransportationService.dto.request.PaymentUpdateStatusDto;
 import com.TransportationService.entity.Payment;
 import com.TransportationService.service.PaymentService;
@@ -23,9 +25,9 @@ public class PaymentController {
 
     @Operation(summary = "Add a Payment", description = "Returns the newly added payment")
     @PostMapping("/payment")
-    public ResponseEntity<Payment> addPayment(@RequestBody Payment payment) {
-        paymentService.addPayment(payment);
-        return ResponseEntity.ok(payment);
+    public ResponseEntity<Payment> addPayment(@RequestBody PaymentDto paymentDto) {
+        Payment savedPayment = paymentService.addPayment(paymentDto);
+        return ResponseEntity.ok(savedPayment);
     }
 
     @Operation(summary = "Get a payment by id", description = "Returns the payment as per the id")
@@ -45,15 +47,8 @@ public class PaymentController {
 
     @Operation(summary = "Update the payment", description = "Returns the updated payment")
     @PutMapping("/payment")
-    public ResponseEntity<Payment> updatePayment(@RequestBody Payment payment) {
-        paymentService.updatePayment(payment);
-        return ResponseEntity.ok(payment);
-    }
-
-    @Operation(summary = "Update the Payment status", description = "Returns the updated payment")
-    @PutMapping("/payment/status")
-    public ResponseEntity<Payment> updatePaymentStatus(@RequestBody PaymentUpdateStatusDto paymentUpdateStatusDto) {
-        Payment payment = paymentService.updatePaymentStatus(paymentUpdateStatusDto);
-        return ResponseEntity.ok(payment);
+    public ResponseEntity<Payment> updatePayment(@RequestBody PaymentUpdateDto paymentUpdateDto) {
+        Payment updatedPayment = paymentService.updatePayment(paymentUpdateDto);
+        return ResponseEntity.ok(updatedPayment);
     }
 }

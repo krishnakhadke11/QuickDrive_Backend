@@ -1,6 +1,8 @@
 package com.TransportationService.controller;
 
 
+import com.TransportationService.dto.request.DriverDto;
+import com.TransportationService.dto.request.DriverUpdateDto;
 import com.TransportationService.entity.Cab;
 import com.TransportationService.entity.Driver;
 import com.TransportationService.entity.DriverOperation;
@@ -29,8 +31,8 @@ public class DriverController {
 
     @Operation(summary = "Create a driver", description = "Returns the newly created driver")
     @PostMapping("/driver")
-    public ResponseEntity<Driver> createDriver(@RequestBody Driver driver) {
-        Driver savedDriver = driverService.addDriver(driver);
+    public ResponseEntity<Driver> createDriver(@RequestBody DriverDto driverDto) {
+        Driver savedDriver = driverService.addDriver(driverDto);
         System.out.println("Controller driver" + savedDriver.toString());
         return ResponseEntity.ok().body(savedDriver);
     }
@@ -60,8 +62,8 @@ public class DriverController {
 
     @Operation(summary = "Update a driver", description = "Returns the updated driver")
     @PutMapping("/driver")
-    public ResponseEntity<Driver> updateDriver(@RequestBody Driver driver) {
-        Driver updateDriver = driverService.updateDriver(driver);
+    public ResponseEntity<Driver> updateDriver(@RequestBody DriverUpdateDto driverUpdateDto) {
+        Driver updateDriver = driverService.updateDriver(driverUpdateDto);
         return ResponseEntity.ok().body(updateDriver);
     }
 

@@ -1,5 +1,6 @@
 package com.TransportationService.controller;
 
+import com.TransportationService.dto.request.AdminDto;
 import com.TransportationService.entity.*;
 import com.TransportationService.service.AdminService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -20,10 +21,10 @@ public class AdminController {
         this.adminService = adminService;
     }
 
-//    @Operation(summary = "Get a product by id", description = "Returns a product as per the id")
+    @Operation(summary = "Add Admin", description = "Returns the Admin Details")
     @PostMapping("/admin")
-    public ResponseEntity<Admin> addAdmin(@RequestBody Admin admin) {
-        Admin savedAdmin = adminService.addAdmin(admin);
+    public ResponseEntity<Admin> addAdmin(@RequestBody AdminDto adminDto) {
+        Admin savedAdmin = adminService.addAdmin(adminDto);
         return ResponseEntity.ok(savedAdmin);
     }
 

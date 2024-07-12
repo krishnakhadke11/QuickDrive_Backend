@@ -1,10 +1,13 @@
 package com.TransportationService.service.impl;
 
+import com.TransportationService.dto.request.CabDto;
+import com.TransportationService.dto.request.CabUpdateDto;
 import com.TransportationService.entity.Cab;
 import com.TransportationService.entity.User;
 import com.TransportationService.repository.CabRepository;
 import com.TransportationService.repository.UserRepository;
 import com.TransportationService.service.CabService;
+import com.TransportationService.validation.CabValidation;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +23,14 @@ public class CabServiceImpl implements CabService {
     private CabRepository cabRepository;
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private CabValidation cabValidation;
 
+    private void validateSeatingCapacity(int seat){
+        if(seat != 5 || seat != 7){
+            throw new IllegalArgumentException("Invalid Seating Capacity");
+        }
+    }
     @Override
     public Cab findCabById(int id) {
         Cab cab = cabRepository.findById(id)
@@ -31,15 +41,22 @@ public class CabServiceImpl implements CabService {
 
     @Override
     @Transactional
-    public Cab updateCab(Cab cab) {
-        if(!cabRepository.existsById(cab.getId())){
+    public Cab updateCab(CabUpdateDto cabUpdateDto) {
+        cabValidation.validateCab(cabUpdateDto);
+
+        if(!cabRepository.existsById(cabUpdateDto.getId())){
             throw new EntityNotFoundException("Cab Not Found while Updating");
         }
-        User user = userRepository.findById(cab.getUser().getId())
+        User user = userRepository.findById(cabUpdateDto.getUser().getId())
                 .orElseThrow(() -> new EntityNotFoundException("User Entity Not Found"));
+
+        Cab cab = new Cab();
+        cab.setRegisterNo(cabUpdateDto.getRegisterNo());
+        cab.setSeatingCapacity(cabUpdateDto.getSeatingCapacity());
+        cab.setColor(cabUpdateDto.getColor());
+        cab.setModel(cabUpdateDto.getModel());
         cab.setUser(user);
-        Cab updatedCab = cabRepository.save(cab);
-        return updatedCab;
+        return cabRepository.save(cab);
     }
 
     @Override
@@ -67,10 +84,18 @@ public class CabServiceImpl implements CabService {
 
     @Override
     @Transactional
-    public Cab addCab(Cab cab) {
-        int userId = cab.getUser().getId();
-        User user = userRepository.findById(userId)
+    public Cab addCab(CabDto cabDto) {
+        //Validation
+        cabValidation.validateCab(cabDto);
+
+        User user = userRepository.findById(cabDto.getUser().getId())
                 .orElseThrow(() -> new EntityNotFoundException("User or Owner Not found"));
+        validateSeatingCapacity(cabDto.getSeatingCapacity());
+        Cab cab = new Cab();
+        cab.setRegisterNo(cabDto.getRegisterNo());
+        cab.setSeatingCapacity(cabDto.getSeatingCapacity());
+        cab.setColor(cabDto.getColor());
+        cab.setModel(cabDto.getModel());
         cab.setUser(user);
         return cabRepository.save(cab);
     }

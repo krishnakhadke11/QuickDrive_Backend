@@ -1,5 +1,7 @@
 package com.TransportationService.service.impl;
 
+import com.TransportationService.dto.request.PaymentDto;
+import com.TransportationService.dto.request.PaymentUpdateDto;
 import com.TransportationService.dto.request.PaymentUpdateStatusDto;
 import com.TransportationService.entity.Customer;
 import com.TransportationService.entity.Payment;
@@ -30,20 +32,19 @@ public class PaymentServiceImpl implements PaymentService {
         this.rideRepository = rideRepository;
     }
 
-
     @Override
     @Transactional
-    public Payment addPayment(Payment payment) {
-        //Customer customer = customerRepository.findById(payment.getCustomer().getId())
-        //        .orElseThrow(() -> new EntityNotFoundException("Customer not found"));
-        Ride ride = rideRepository.findById(payment.getRide().getId())
+    public Payment addPayment(PaymentDto paymentDto) {
+
+        Ride ride = rideRepository.findById(paymentDto.getRide().getId())
                 .orElseThrow(() -> new EntityNotFoundException("Ride not found"));
 
-//        payment.setCustomer(customer);
+        Payment payment = new Payment();
+        payment.setPaymentType(paymentDto.getPaymentType());
+        payment.setPaymentStatus(paymentDto.getPaymentStatus());
         payment.setRide(ride);
-        Payment savedPayment =  paymentRepository.save(payment);
 
-        return savedPayment;
+        return paymentRepository.save(payment);
     }
 
     @Override
@@ -61,22 +62,20 @@ public class PaymentServiceImpl implements PaymentService {
 
     @Override
     @Transactional
-    public Payment updatePayment(Payment payment) {
-        if(!paymentRepository.existsById(payment.getId())){
+    public Payment updatePayment(PaymentUpdateDto paymentUpdateDto) {
+        if(!paymentRepository.existsById(paymentUpdateDto.getId())){
             throw new EntityNotFoundException("Payment Not Found");
         }
+
+        Ride ride = rideRepository.findById(paymentUpdateDto.getRide().getId())
+                .orElseThrow(() -> new EntityNotFoundException("Ride not found"));
+
+        Payment payment = new Payment();
+        payment.setId(paymentUpdateDto.getId());
+        payment.setPaymentType(paymentUpdateDto.getPaymentType());
+        payment.setPaymentStatus(paymentUpdateDto.getPaymentStatus());
+        payment.setRide(ride);
+
         return paymentRepository.save(payment);
-    }
-
-    @Override
-    @Transactional
-    public Payment updatePaymentStatus(PaymentUpdateStatusDto paymentUpdateStatusDto) {
-        System.out.println(paymentUpdateStatusDto);
-        Payment updatePayment = paymentRepository.findById(paymentUpdateStatusDto.getPaymentId()).orElseThrow(() -> new EntityNotFoundException("Payment not found"));
-
-        System.out.println(updatePayment);
-        updatePayment.setPaymentStatus(paymentUpdateStatusDto.getPaymentStatus());
-
-        return paymentRepository.save(updatePayment);
     }
 }

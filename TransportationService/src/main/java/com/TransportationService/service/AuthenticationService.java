@@ -1,19 +1,17 @@
 package com.TransportationService.service;
 
-import com.TransportationService.dto.request.RefreshTokenRequest;
-import com.TransportationService.dto.request.SignInRequest;
+import com.TransportationService.dto.request.*;
 import com.TransportationService.dto.response.JwtAuthenticationResponse;
 import com.TransportationService.entity.Admin;
 import com.TransportationService.entity.Customer;
 import com.TransportationService.entity.Driver;
-import com.TransportationService.entity.User;
 
 public interface AuthenticationService {
-    Driver signup(Driver driver);
+    Driver signup(DriverDto driverDto);
 
-    Customer signup(Customer customer);
+    Customer signup(CustomerDto customerDto);
 
-        Admin signup(Admin admin);
+    Admin signup(AdminDto adminDto);
 
     JwtAuthenticationResponse signin(SignInRequest signInRequest);
 

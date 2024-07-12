@@ -1,11 +1,13 @@
 package com.TransportationService.service;
 
+import com.TransportationService.dto.request.RideDto;
+import com.TransportationService.dto.request.RideUpdateDto;
 import com.TransportationService.entity.Ride;
 
 import java.util.List;
 
 public interface RideService {
-    Ride addRide(Ride ride);
+    Ride addRide(RideDto rideDto);
 
     Ride findRideById(int rideId);
 
@@ -13,7 +15,7 @@ public interface RideService {
 
     List<Ride> findAllRides();
 
-    Ride updateRide(Ride ride);
+    Ride updateRide(RideUpdateDto rideUpdateDto);
 
     void deleteRide(int rideId);
 }

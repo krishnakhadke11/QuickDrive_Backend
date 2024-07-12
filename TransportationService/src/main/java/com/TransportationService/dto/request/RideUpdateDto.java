@@ -1,12 +1,10 @@
 package com.TransportationService.dto.request;
 
-
-import com.TransportationService.entity.Customer;
-import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 @Data
-public class RideDto {
+public class RideUpdateDto {
+    private int id;
 
     private String pickupLocation;
 
@@ -24,4 +22,3 @@ public class RideDto {
 
     private DriverIdDto driver;
 }
-

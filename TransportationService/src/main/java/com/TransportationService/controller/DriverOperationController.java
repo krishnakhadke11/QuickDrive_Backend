@@ -1,5 +1,7 @@
 package com.TransportationService.controller;
 
+import com.TransportationService.dto.request.DriverOperationDto;
+import com.TransportationService.dto.request.DriverOperationUpdateDto;
 import com.TransportationService.entity.DriverOperation;
 import com.TransportationService.service.DriverOperationService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -20,8 +22,8 @@ public class DriverOperationController {
 
     @Operation(summary = "Create the operation", description = "Returns the created driveroperation")
     @PostMapping("/driveroperation")
-    public ResponseEntity<DriverOperation> addDriverOperation(@RequestBody DriverOperation driverOperation){
-        DriverOperation savedDriverOperation =  driverOperationService.addDriverOperation(driverOperation);
+    public ResponseEntity<DriverOperation> addDriverOperation(@RequestBody DriverOperationDto driverOperationDto){
+        DriverOperation savedDriverOperation =  driverOperationService.addDriverOperation(driverOperationDto);
         return ResponseEntity.ok().body(savedDriverOperation);
     }
 
@@ -41,8 +43,8 @@ public class DriverOperationController {
 
     @Operation(summary = "Update the driveroperation", description = "Returns the updated driveroperation")
     @PutMapping("/driveroperation")
-    public ResponseEntity<DriverOperation> updateDriverOperation(@RequestBody DriverOperation driverOperation){
-        DriverOperation savedDriverOperation =  driverOperationService.updateDriverOperation(driverOperation);
+    public ResponseEntity<DriverOperation> updateDriverOperation(@RequestBody DriverOperationUpdateDto driverOperationUpdateDto){
+        DriverOperation savedDriverOperation =  driverOperationService.updateDriverOperation(driverOperationUpdateDto);
         return ResponseEntity.ok().body(savedDriverOperation);
     }
 
