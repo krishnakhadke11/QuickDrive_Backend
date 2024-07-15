@@ -26,11 +26,6 @@ public class CabServiceImpl implements CabService {
     @Autowired
     private CabValidation cabValidation;
 
-    private void validateSeatingCapacity(int seat){
-        if(seat != 5 || seat != 7){
-            throw new IllegalArgumentException("Invalid Seating Capacity");
-        }
-    }
     @Override
     public Cab findCabById(int id) {
         Cab cab = cabRepository.findById(id)
@@ -90,7 +85,8 @@ public class CabServiceImpl implements CabService {
 
         User user = userRepository.findById(cabDto.getUser().getId())
                 .orElseThrow(() -> new EntityNotFoundException("User or Owner Not found"));
-        validateSeatingCapacity(cabDto.getSeatingCapacity());
+        System.out.println("Seating capacity : " + cabDto.getSeatingCapacity());
+
         Cab cab = new Cab();
         cab.setRegisterNo(cabDto.getRegisterNo());
         cab.setSeatingCapacity(cabDto.getSeatingCapacity());

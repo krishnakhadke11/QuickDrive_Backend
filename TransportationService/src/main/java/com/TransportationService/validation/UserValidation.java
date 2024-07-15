@@ -39,10 +39,9 @@ public class UserValidation {
             throw new IllegalArgumentException("lastName should be between 3 and 50 characters");
         }
 
-        if(password == null || password.length() < 8 || password.length() > 20){
-            throw new IllegalArgumentException("password should be greater than 8 Characters");
-        }
-        if(phoneNumber == null || phoneNumber.length() < 10 || phoneNumber.length() > 10){
+        validatePassword(password);
+
+        if(phoneNumber == null || phoneNumber.length() != 10){
             throw new IllegalArgumentException("Phone Number is not valid");
         }
     }
@@ -51,6 +50,15 @@ public class UserValidation {
         Pattern pattern = Pattern.compile("^([a-zA-Z0-9_\\-\\.]+)@([a-zA-Z0-9_\\-\\.]+)\\.([a-zA-Z]{2,5})$");
         if(!pattern.matcher(email).matches()) {
             throw new IllegalArgumentException("Invalid email");
+        }
+    }
+
+    private void validatePassword(String password){
+        // ?= checks the presence of pattern in a string
+        Pattern pattern = Pattern.compile("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&-+=()])(?=\\S+$).{8,20}$");
+        if(!pattern.matcher(password).matches()){
+            throw new IllegalArgumentException("Password must contain atleast one lower and uppercase character, " +
+                    "one digit, one special character and 8 characters");
         }
     }
 }
