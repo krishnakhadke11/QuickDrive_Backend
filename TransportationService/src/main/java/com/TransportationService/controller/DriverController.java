@@ -9,8 +9,10 @@ import com.TransportationService.entity.DriverOperation;
 import com.TransportationService.service.DriverOperationService;
 import com.TransportationService.service.DriverService;
 import com.TransportationService.service.UserService;
+import com.TransportationService.validation.DriverValidation;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,16 +24,21 @@ public class DriverController {
 
     private DriverService driverService;
     private DriverOperationService driverOperationService;
+    private DriverValidation driverValidation;
 
     @Autowired
-    public DriverController(DriverService driverService, DriverOperationService driverOperationService) {
+    public DriverController(DriverService driverService, DriverOperationService driverOperationService, DriverValidation driverValidation) {
         this.driverService = driverService;
         this.driverOperationService = driverOperationService;
+        this.driverValidation = driverValidation;
     }
 
     @Operation(summary = "Create a driver", description = "Returns the newly created driver")
     @PostMapping("/driver")
-    public ResponseEntity<Driver> createDriver(@RequestBody DriverDto driverDto) {
+    public ResponseEntity<Driver> createDriver(@Valid @RequestBody DriverDto driverDto) {
+        //Validations
+        driverValidation.validateDriver(driverDto);
+
         Driver savedDriver = driverService.addDriver(driverDto);
         System.out.println("Controller driver" + savedDriver.toString());
         return ResponseEntity.ok().body(savedDriver);
@@ -62,7 +69,10 @@ public class DriverController {
 
     @Operation(summary = "Update a driver", description = "Returns the updated driver")
     @PutMapping("/driver")
-    public ResponseEntity<Driver> updateDriver(@RequestBody DriverUpdateDto driverUpdateDto) {
+    public ResponseEntity<Driver> updateDriver(@Valid @RequestBody DriverUpdateDto driverUpdateDto) {
+        //Validations
+        driverValidation.validateDriver(driverUpdateDto);
+
         Driver updateDriver = driverService.updateDriver(driverUpdateDto);
         return ResponseEntity.ok().body(updateDriver);
     }

@@ -34,7 +34,6 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public Customer addCustomer(CustomerDto customerDto) {
-        customerValidation.validateCustomer(customerDto);
         String password = customerDto.getUser().getPassword();
         Customer customer = new Customer();
 
@@ -65,7 +64,6 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public Customer updateCustomer(CustomerUpdateDto customerUpdateDto) {
-        customerValidation.validateCustomer(customerUpdateDto);
 
         if(!customerRepository.existsById(customerUpdateDto.getId())) {
             throw new EntityNotFoundException("Customer not found!");

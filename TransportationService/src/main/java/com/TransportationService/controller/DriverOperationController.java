@@ -5,6 +5,7 @@ import com.TransportationService.dto.request.DriverOperationUpdateDto;
 import com.TransportationService.entity.DriverOperation;
 import com.TransportationService.service.DriverOperationService;
 import io.swagger.v3.oas.annotations.Operation;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,7 +23,7 @@ public class DriverOperationController {
 
     @Operation(summary = "Create the operation", description = "Returns the created driveroperation")
     @PostMapping("/driveroperation")
-    public ResponseEntity<DriverOperation> addDriverOperation(@RequestBody DriverOperationDto driverOperationDto){
+    public ResponseEntity<DriverOperation> addDriverOperation(@Valid @RequestBody DriverOperationDto driverOperationDto){
         DriverOperation savedDriverOperation =  driverOperationService.addDriverOperation(driverOperationDto);
         return ResponseEntity.ok().body(savedDriverOperation);
     }
@@ -43,7 +44,7 @@ public class DriverOperationController {
 
     @Operation(summary = "Update the driveroperation", description = "Returns the updated driveroperation")
     @PutMapping("/driveroperation")
-    public ResponseEntity<DriverOperation> updateDriverOperation(@RequestBody DriverOperationUpdateDto driverOperationUpdateDto){
+    public ResponseEntity<DriverOperation> updateDriverOperation(@Valid @RequestBody DriverOperationUpdateDto driverOperationUpdateDto){
         DriverOperation savedDriverOperation =  driverOperationService.updateDriverOperation(driverOperationUpdateDto);
         return ResponseEntity.ok().body(savedDriverOperation);
     }

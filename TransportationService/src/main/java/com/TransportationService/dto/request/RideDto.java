@@ -1,8 +1,6 @@
 package com.TransportationService.dto.request;
 
-
-import com.TransportationService.entity.Customer;
-import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.Pattern;
 import lombok.Data;
 
 @Data
@@ -14,6 +12,7 @@ public class RideDto {
 
     private int fare;
 
+    @Pattern(regexp = "^\\d+(\\.\\d+)?\\s*Km$")
     private String distance;
 
     private String duration;

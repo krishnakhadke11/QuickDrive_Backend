@@ -10,9 +10,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.AccountStatusException;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
+import java.util.stream.Collectors;
 
 @ControllerAdvice
 public class GlobalExceptionHandler{
@@ -60,6 +63,23 @@ public class GlobalExceptionHandler{
             errorDetail = ProblemDetail.forStatusAndDetail(HttpStatusCode.valueOf(400), exception.getMessage());
             errorDetail.setProperty("description", "Illegal Argument Entered");
         }
+//        if(exception instanceof MethodArgumentNotValidException){
+//            errorDetail = ProblemDetail.forStatusAndDetail(HttpStatusCode.valueOf(400), exception.getMessage());
+//            errorDetail.setProperty("description", "Please Enter Valid Input");
+//        }
+
+        return errorDetail;
+    }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ProblemDetail handleValidationExceptions(MethodArgumentNotValidException exception){
+        String errorMessage = exception.getBindingResult().getFieldErrors()
+                .stream()
+                .map(FieldError::getDefaultMessage)
+                .collect(Collectors.joining(", "));
+
+        ProblemDetail errorDetail = ProblemDetail.forStatusAndDetail(HttpStatusCode.valueOf(400), errorMessage);
+        errorDetail.setProperty("description", "Please Enter Valid Input");
 
         return errorDetail;
     }

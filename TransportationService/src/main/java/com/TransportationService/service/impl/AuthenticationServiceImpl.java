@@ -29,7 +29,6 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private final DriverRepository driverRepository;
     private final CustomerRepository customerRepository;
     private final AdminRepository adminRepository;
-    private final DriverValidation driverValidation;
 
     @Autowired
     public AuthenticationServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder, AuthenticationManager authenticationManager, JwtService jwtService, DriverRepository driverRepository, CustomerRepository customerRepository, AdminRepository adminRepository, DriverValidation driverValidation) {
@@ -40,13 +39,12 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         this.driverRepository = driverRepository;
         this.customerRepository = customerRepository;
         this.adminRepository = adminRepository;
-        this.driverValidation = driverValidation;
     }
 
 
     @Override
     public Driver signup(DriverDto driverDto) {
-        driverValidation.validateDriver(driverDto);
+
         String password = driverDto.getUser().getPassword();
 
         Driver driver = new Driver();

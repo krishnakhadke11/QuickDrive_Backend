@@ -6,6 +6,7 @@ import lombok.Data;
 
 @Data
 public class PaymentDto {
+
     private PaymentType paymentType;
 
     private PaymentStatus paymentStatus;

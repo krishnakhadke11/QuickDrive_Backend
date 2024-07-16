@@ -23,16 +23,14 @@ public class DriverServiceImpl implements DriverService {
 
     private DriverRepository driverRepository;
     private CabRepository cabRepository;
-    private  PasswordEncoder passwordEncoder;
-    private DriverValidation driverValidation;
+    private PasswordEncoder passwordEncoder;
+
     @Autowired
     public DriverServiceImpl(DriverRepository driverRepository, CabRepository cabRepository, PasswordEncoder passwordEncoder, DriverValidation driverValidation) {
         this.driverRepository = driverRepository;
         this.cabRepository = cabRepository;
         this.passwordEncoder = passwordEncoder;
-        this.driverValidation = driverValidation;
     }
-
 
     @Override
     public List<Driver> getAllDrivers() {
@@ -51,8 +49,6 @@ public class DriverServiceImpl implements DriverService {
         if(!driverRepository.existsById(driverUpdateDto.getId())){
             throw new EntityNotFoundException("Driver Not Found While Updating");
         }
-
-        driverValidation.validateDriver(driverUpdateDto);
 
         Driver driver = driverRepository.findById(driverUpdateDto.getId())
                 .orElseThrow(() -> new EntityNotFoundException("Driver not found"));
@@ -102,7 +98,6 @@ public class DriverServiceImpl implements DriverService {
     @Override
     @Transactional
     public Driver addDriver(DriverDto driverDto) {
-        driverValidation.validateDriver(driverDto);
 
         String password = driverDto.getUser().getPassword();
         Driver driver = new Driver();
@@ -122,6 +117,4 @@ public class DriverServiceImpl implements DriverService {
         driver.setUser(user);
         return driverRepository.save(driver);
     }
-
-
 }

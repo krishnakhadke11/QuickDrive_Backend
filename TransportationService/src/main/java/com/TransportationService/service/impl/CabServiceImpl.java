@@ -23,8 +23,6 @@ public class CabServiceImpl implements CabService {
     private CabRepository cabRepository;
     @Autowired
     private UserRepository userRepository;
-    @Autowired
-    private CabValidation cabValidation;
 
     @Override
     public Cab findCabById(int id) {
@@ -37,8 +35,6 @@ public class CabServiceImpl implements CabService {
     @Override
     @Transactional
     public Cab updateCab(CabUpdateDto cabUpdateDto) {
-        cabValidation.validateCab(cabUpdateDto);
-
         if(!cabRepository.existsById(cabUpdateDto.getId())){
             throw new EntityNotFoundException("Cab Not Found while Updating");
         }
@@ -80,9 +76,6 @@ public class CabServiceImpl implements CabService {
     @Override
     @Transactional
     public Cab addCab(CabDto cabDto) {
-        //Validation
-        cabValidation.validateCab(cabDto);
-
         User user = userRepository.findById(cabDto.getUser().getId())
                 .orElseThrow(() -> new EntityNotFoundException("User or Owner Not found"));
         System.out.println("Seating capacity : " + cabDto.getSeatingCapacity());

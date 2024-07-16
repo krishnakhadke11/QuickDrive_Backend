@@ -6,8 +6,10 @@ import com.TransportationService.entity.Customer;
 import com.TransportationService.entity.Ride;
 import com.TransportationService.service.CustomerService;
 import com.TransportationService.service.RideService;
+import com.TransportationService.validation.CustomerValidation;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,15 +20,21 @@ import java.util.List;
 public class CustomerController {
     private CustomerService customerService;
     private RideService rideService;
+    private CustomerValidation customerValidation;
 
     @Autowired
-    public CustomerController(CustomerService customerService) {
+    public CustomerController(CustomerService customerService, RideService rideService, CustomerValidation customerValidation) {
         this.customerService = customerService;
+        this.rideService = rideService;
+        this.customerValidation = customerValidation;
     }
 
     @Operation(summary = "Create a customer", description = "Returns the newly added customer")
     @PostMapping("/customer")
-    public ResponseEntity<Customer> addCustomer(@RequestBody CustomerDto customerDto) {
+    public ResponseEntity<Customer> addCustomer(@Valid @RequestBody CustomerDto customerDto) {
+        //Validations
+        customerValidation.validateCustomer(customerDto);
+
         Customer savedCustomer = customerService.addCustomer(customerDto);
         return ResponseEntity.ok(savedCustomer);
     }
@@ -55,7 +63,10 @@ public class CustomerController {
 
     @Operation(summary = "Update a customer", description = "Returns the updated customer")
     @PutMapping("/customer")
-    public ResponseEntity<Customer> updateCustomer(@RequestBody CustomerUpdateDto customerUpdateDto) {
+    public ResponseEntity<Customer> updateCustomer(@Valid @RequestBody CustomerUpdateDto customerUpdateDto) {
+        //Validations
+        customerValidation.validateCustomer(customerUpdateDto);
+
         Customer updateCustomer = customerService.updateCustomer(customerUpdateDto);
         return ResponseEntity.ok(updateCustomer);
     }

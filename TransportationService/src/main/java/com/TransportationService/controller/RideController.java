@@ -5,6 +5,7 @@ import com.TransportationService.dto.request.RideUpdateDto;
 import com.TransportationService.entity.Ride;
 import com.TransportationService.service.RideService;
 import io.swagger.v3.oas.annotations.Operation;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,7 +22,7 @@ public class RideController {
 
     @Operation(summary = "Create a new ride", description = "Returns newly created ride")
     @PostMapping("/ride")
-    public ResponseEntity<Ride> addRide(@RequestBody RideDto rideDto) {
+    public ResponseEntity<Ride> addRide(@Valid @RequestBody RideDto rideDto) {
         Ride savedRide = rideService.addRide(rideDto);
         return ResponseEntity.ok(savedRide);
     }
@@ -42,7 +43,7 @@ public class RideController {
 
     @Operation(summary = "Update Ride", description = "Returns the Ride after updating")
     @PutMapping("/ride")
-    public ResponseEntity<Ride> updateRide(@RequestBody RideUpdateDto rideUpdateDto) {
+    public ResponseEntity<Ride> updateRide(@Valid @RequestBody RideUpdateDto rideUpdateDto) {
         Ride updatedRide =  rideService.updateRide(rideUpdateDto);
         return ResponseEntity.ok(updatedRide);
     }

@@ -9,6 +9,8 @@ import com.TransportationService.entity.Admin;
 import com.TransportationService.entity.Customer;
 import com.TransportationService.entity.Driver;
 import com.TransportationService.service.AuthenticationService;
+import com.TransportationService.validation.CustomerValidation;
+import com.TransportationService.validation.DriverValidation;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -20,15 +22,21 @@ import org.springframework.web.bind.annotation.RestController;
 public class AuthenticationController {
 
     private AuthenticationService authenticationService;
+    private DriverValidation driverValidation;
+    private CustomerValidation customerValidation;
 
     @Autowired
-    public AuthenticationController(AuthenticationService authenticationService) {
+    public AuthenticationController(AuthenticationService authenticationService, DriverValidation driverValidation) {
         this.authenticationService = authenticationService;
+        this.driverValidation = driverValidation;
     }
 
     @Operation(summary = "Driver Signup", description = "Returns the Driver Details")
     @PostMapping("/auth/driver/signup")
     public ResponseEntity<Driver>signup(@RequestBody DriverDto driverDto) {
+        //Validations
+        driverValidation.validateDriver(driverDto);
+
         Driver savedDriver = authenticationService.signup(driverDto);
         return ResponseEntity.ok(savedDriver);
     }
@@ -36,6 +44,9 @@ public class AuthenticationController {
     @Operation(summary = "Customer Signup", description = "Returns the Customer Details")
     @PostMapping("/auth/customer/signup")
     public ResponseEntity<Customer>signup(@RequestBody CustomerDto customerDto) {
+        //Validations
+        customerValidation.validateCustomer(customerDto);
+
         Customer savedCustomer = authenticationService.signup(customerDto);
         return ResponseEntity.ok(savedCustomer);
     }

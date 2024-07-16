@@ -1,6 +1,7 @@
 package com.TransportationService.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
@@ -30,6 +31,7 @@ public class User implements UserDetails {
     @Column(name = "last_name",nullable = false)
     private String lastName;
 
+    @Email
     @Column(name = "email",unique = true, length = 100, nullable = false)
     private String email;
 
