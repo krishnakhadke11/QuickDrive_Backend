@@ -4,6 +4,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.stereotype.Component;
@@ -16,7 +17,7 @@ public class CustomAccessDeniedException implements AccessDeniedHandler {
     private HandlerExceptionResolver handlerExceptionResolver;
 
     @Autowired
-    public CustomAccessDeniedException(HandlerExceptionResolver handlerExceptionResolver) {
+    public CustomAccessDeniedException(@Lazy HandlerExceptionResolver handlerExceptionResolver) {
         this.handlerExceptionResolver = handlerExceptionResolver;
     }
 

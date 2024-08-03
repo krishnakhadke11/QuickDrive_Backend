@@ -26,9 +26,10 @@ public class AuthenticationController {
     private CustomerValidation customerValidation;
 
     @Autowired
-    public AuthenticationController(AuthenticationService authenticationService, DriverValidation driverValidation) {
+    public AuthenticationController(AuthenticationService authenticationService, DriverValidation driverValidation, CustomerValidation customerValidation) {
         this.authenticationService = authenticationService;
         this.driverValidation = driverValidation;
+        this.customerValidation = customerValidation;
     }
 
     @Operation(summary = "Driver Signup", description = "Returns the Driver Details")

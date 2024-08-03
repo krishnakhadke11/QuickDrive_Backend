@@ -78,5 +78,10 @@ public class AdminServiceImpl implements AdminService {
         return driverRepository.findAll();
     }
 
+    @Override
+    public boolean adminExists() {
+        return adminRepository.count() > 0;
+    }
+
 
 }

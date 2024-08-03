@@ -17,4 +17,6 @@ public interface AdminService {
     List<Ride> findAllRides();
 
     List<Driver> findAllDrivers();
+
+    boolean adminExists();
 }
