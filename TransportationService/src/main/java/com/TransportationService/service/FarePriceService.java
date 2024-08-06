@@ -7,5 +7,5 @@ import java.io.IOException;
 
 public interface FarePriceService {
 
-    FarePriceResponseDto checkFarePrice(String pickupLocation, String dropLocation, int seatingCapacity) throws IOException, InterruptedException, ApiException;
+    FarePriceResponseDto checkFarePrice(String pickupLocation, String dropLocation) throws IOException, InterruptedException, ApiException;
 }

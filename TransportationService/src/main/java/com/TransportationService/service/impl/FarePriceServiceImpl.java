@@ -39,10 +39,12 @@ public class FarePriceServiceImpl implements FarePriceService {
     }
 
     @Override
-    public FarePriceResponseDto checkFarePrice(String pickupLocation, String dropLocation, int seatingCapacity) throws IOException, InterruptedException, ApiException {
-        String[] src = {pickupLocation}; // Example: New York
+    public FarePriceResponseDto checkFarePrice(String pickupLocation, String dropLocation) throws IOException, InterruptedException, ApiException {
+        String[] src = {pickupLocation}; // Example: New York ,  latitude/longitude
         String[] dest = {dropLocation}; // Example: Los Angeles
-
+        System.out.println("Pickup Location"+src[0]);
+        System.out.println("Drop Location"+dest[0]);
+/*
         String[] elements;
         if(src[0].isEmpty() || dest[0].isEmpty()){
             throw new UnexpectedException("Either Pickup or Drop location is empty");
@@ -51,21 +53,37 @@ public class FarePriceServiceImpl implements FarePriceService {
         }
         elements[0] = elements[0].replaceAll("[^\\d.]","");
         double distance = Double.parseDouble(elements[0]);
-        double fare = 0;
-        if(seatingCapacity == 5){
-            fare += (distance * FarePrice.FIVE_SEATER.getRatePerKm());
-        }else if(seatingCapacity == 7){
-            fare += (distance * FarePrice.SEVEN_SEATER.getRatePerKm());
-        }
+//        double fare = 0;
+//        if(seatingCapacity == 5){
+//            fare += (distance * FarePrice.FIVE_SEATER.getRatePerKm());
+//        }else if(seatingCapacity == 7){
+//            fare += (distance * FarePrice.SEVEN_SEATER.getRatePerKm());
+//        }
+        double sevenSeaterFare = distance * FarePrice.SEVEN_SEATER.getRatePerKm();
+        double fiveSeaterFare =  distance * FarePrice.FIVE_SEATER.getRatePerKm();
+
 
         FarePriceResponseDto farePriceResponseDto = new FarePriceResponseDto();
         farePriceResponseDto.setPickupLocation(src[0]);
         farePriceResponseDto.setDropLocation(dest[0]);
-        farePriceResponseDto.setSeatingCapacity(seatingCapacity);
         farePriceResponseDto.setDistance(elements[0]+" Km");
         farePriceResponseDto.setDuration(elements[1]);
-        farePriceResponseDto.setFare((int)fare);
+        farePriceResponseDto.setSevenSeaterFare((int)sevenSeaterFare);
+        farePriceResponseDto.setFiveSeaterFare((int)fiveSeaterFare);
 
         return farePriceResponseDto;
+        */
+
+        FarePriceResponseDto farePriceResponseDto = new FarePriceResponseDto();
+        farePriceResponseDto.setPickupLocation("19.075784,72.9952364");
+        farePriceResponseDto.setDropLocation("19.025773,73.0591845");
+        farePriceResponseDto.setDistance("100 km");
+        farePriceResponseDto.setDuration("2hr 10 min");
+        farePriceResponseDto.setSevenSeaterFare(156);
+        farePriceResponseDto.setFiveSeaterFare(140);
+
+        return farePriceResponseDto;
+
+
     }
 }

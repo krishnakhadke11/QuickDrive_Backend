@@ -9,6 +9,4 @@ public class FarePriceDto {
 
     private String dropLocation;
 
-    private int seatingCapacity;
-
 }

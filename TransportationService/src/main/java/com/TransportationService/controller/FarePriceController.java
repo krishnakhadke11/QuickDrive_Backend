@@ -26,11 +26,10 @@ public class FarePriceController {
     @GetMapping("/fare")
     public ResponseEntity<FarePriceResponseDto> getFare(
             @RequestParam(value = "pickupLocation") String pickupLocation,
-            @RequestParam(value = "dropLocation") String dropLocation,
-            @RequestParam(value = "seatingCapacity") int seatingCapacity
+            @RequestParam(value = "dropLocation") String dropLocation
+//            @RequestParam(value = "seatingCapacity") int seatingCapacity
     ) throws IOException, InterruptedException, ApiException {
-        FarePriceResponseDto farePriceResponseDto = farePriceService.checkFarePrice(pickupLocation,dropLocation,seatingCapacity);
+        FarePriceResponseDto farePriceResponseDto = farePriceService.checkFarePrice(pickupLocation,dropLocation);
         return ResponseEntity.ok(farePriceResponseDto);
     }
-
 }

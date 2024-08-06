@@ -8,12 +8,13 @@ public class FarePriceResponseDto {
 
     private String dropLocation;
 
-    private int seatingCapacity;
-
     private String distance;
 
     private String duration;
 
-    private int fare;
+    private int fiveSeaterFare;
+
+    private int sevenSeaterFare;
+
 
 }
