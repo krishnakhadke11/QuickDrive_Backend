@@ -1,5 +1,6 @@
 package com.TransportationService.dto.request;
 
+import com.TransportationService.entity.PaymentType;
 import lombok.Data;
 
 @Data
@@ -15,6 +16,8 @@ public class RideUpdateDto {
     private String distance;
 
     private String duration;
+
+    private PaymentType paymentType;
 
     private CustomerIdDto customer;
 

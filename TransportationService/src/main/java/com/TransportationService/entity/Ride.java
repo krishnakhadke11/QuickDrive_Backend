@@ -32,10 +32,10 @@ public class Ride {
     @Column(name = "duration")
     private String duration;
 
-    @Column(name = "booking_status")
-    private boolean booking_status=false; //true: Ride is booked, false: Ride is not booked
+    @Column(name = "payment_type")
+    private PaymentType paymentType;
 
-    @OneToOne(cascade = {
+    @ManyToOne(cascade = {
             CascadeType.PERSIST,
             CascadeType.MERGE,
             CascadeType.DETACH,
@@ -44,7 +44,7 @@ public class Ride {
     @JoinColumn(name = "customer_id")
     private Customer customer;
 
-    @OneToOne(cascade = {
+    @ManyToOne(cascade = {
             CascadeType.PERSIST,
             CascadeType.MERGE,
             CascadeType.DETACH,
@@ -53,7 +53,7 @@ public class Ride {
     @JoinColumn(name = "cab_id",nullable = true)
     private Cab cab;
 
-    @OneToOne(cascade = {
+    @ManyToOne(cascade = {
             CascadeType.PERSIST,
             CascadeType.MERGE,
             CascadeType.DETACH,

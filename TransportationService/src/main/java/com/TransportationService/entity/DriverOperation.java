@@ -22,6 +22,9 @@ public class DriverOperation {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm:ss.SSS")
     private LocalTime endTime;
 
+    @Column(name = "cab_status")
+    private CabStatus status = CabStatus.AVAILABLE; // True: Available, False: Not Available
+
     @OneToOne(cascade = {
             CascadeType.DETACH,
             CascadeType.REFRESH,

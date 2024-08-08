@@ -40,7 +40,7 @@ public class FarePriceServiceImpl implements FarePriceService {
 
     @Override
     public FarePriceResponseDto checkFarePrice(String pickupLocation, String dropLocation) throws IOException, InterruptedException, ApiException {
-        String[] src = {pickupLocation}; // Example: New York ,  latitude/longitude
+        String[] src = {pickupLocation}; // Example: New York ,  latitude,longitude
         String[] dest = {dropLocation}; // Example: Los Angeles
         System.out.println("Pickup Location"+src[0]);
         System.out.println("Drop Location"+dest[0]);
@@ -75,8 +75,8 @@ public class FarePriceServiceImpl implements FarePriceService {
         */
 
         FarePriceResponseDto farePriceResponseDto = new FarePriceResponseDto();
-        farePriceResponseDto.setPickupLocation("19.075784,72.9952364");
-        farePriceResponseDto.setDropLocation("19.025773,73.0591845");
+        farePriceResponseDto.setPickupLocation(src[0]);
+        farePriceResponseDto.setDropLocation(dest[0]);
         farePriceResponseDto.setDistance("100 km");
         farePriceResponseDto.setDuration("2hr 10 min");
         farePriceResponseDto.setSevenSeaterFare(156);

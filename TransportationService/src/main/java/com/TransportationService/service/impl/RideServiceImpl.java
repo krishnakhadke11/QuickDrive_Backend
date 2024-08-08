@@ -50,6 +50,7 @@ public class RideServiceImpl implements RideService {
         ride.setFare(rideDto.getFare());
         ride.setDistance(rideDto.getDistance());
         ride.setDuration(rideDto.getDuration());
+        ride.setPaymentType(rideDto.getPaymentType());
         ride.setCustomer(customer);
         ride.setCab(cab);
         ride.setDriver(driver);
@@ -98,6 +99,7 @@ public class RideServiceImpl implements RideService {
         updatedRide.setFare(rideUpdateDto.getFare());
         updatedRide.setDistance(rideUpdateDto.getDistance());
         updatedRide.setDuration(rideUpdateDto.getDuration());
+        updatedRide.setPaymentType(rideUpdateDto.getPaymentType());
         updatedRide.setCustomer(customer);
         updatedRide.setCab(cab);
         updatedRide.setDriver(driver);

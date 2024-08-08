@@ -1,5 +1,6 @@
 package com.TransportationService.dto.request;
 
+import com.TransportationService.entity.PaymentType;
 import jakarta.validation.constraints.Pattern;
 import lombok.Data;
 
@@ -16,6 +17,8 @@ public class RideDto {
     private String distance;
 
     private String duration;
+
+    private PaymentType paymentType;
 
     private CustomerIdDto customer;
 

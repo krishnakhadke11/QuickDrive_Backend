@@ -53,6 +53,7 @@ public class SecurityConfig {
                         .requestMatchers("/fare/**").hasAnyAuthority(Role.CUSTOMER.name(),Role.ADMIN.name())
                         .requestMatchers("/cab/**").hasAnyAuthority(Role.DRIVER.name(),Role.ADMIN.name())
                         .requestMatchers("/ride/**").hasAnyAuthority(Role.CUSTOMER.name(),Role.ADMIN.name())
+                        .requestMatchers("/riderequest/accept/**").hasAnyAuthority(Role.DRIVER.name(),Role.ADMIN.name())
                         .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html","/api-docs").permitAll()
                         .anyRequest()
                         .authenticated()

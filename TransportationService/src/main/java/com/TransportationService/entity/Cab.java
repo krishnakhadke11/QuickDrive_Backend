@@ -1,12 +1,7 @@
 package com.TransportationService.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Pattern;
 import lombok.Data;
-import lombok.Value;
-
-import java.util.List;
 
 @Data
 @Entity
@@ -21,16 +16,13 @@ public class Cab {
     private String registerNo;
 
     @Column(name = "seating_capacity", nullable = false)
-    private int seatingCapacity;
+    private SeatingCapacity seatingCapacity;
 
     @Column(name = "color")
     private String color;
 
     @Column(name = "model", nullable = false)
     private String model;
-
-    @Column(name = "status", nullable = false)
-    private boolean status=true; // True: Available, False: Not Available
 
     @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE,
                             CascadeType.REFRESH,CascadeType.PERSIST})
