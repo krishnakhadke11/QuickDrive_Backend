@@ -143,7 +143,7 @@ public class RideRequestServiceImpl implements RideRequestService {
         newRideReq.setFare(rideRequest.getFare());
         newRideReq.setPaymentType(rideRequest.getPaymentType());
         newRideReq.setSeatingCapacity(rideRequest.getSeatingCapacity());
-        newRideReq.setBookingStatus(BookingStatus.PENDING);
+        newRideReq.setBookingStatus(rideRequest.getBookingStatus());
         newRideReq.setRequestTime(LocalDateTime.now());
         newRideReq.setRide(rideRequest.getRide());
 

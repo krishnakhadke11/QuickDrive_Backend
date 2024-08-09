@@ -3,6 +3,8 @@ package com.TransportationService.entity;
 import jakarta.persistence.*;
 import lombok.Data;
 import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -39,5 +41,6 @@ public class RideRequest {
 
     @ManyToOne(cascade = {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.DETACH,CascadeType.REFRESH})
     @JoinColumn(name = "ride_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Ride ride = null;
 }
