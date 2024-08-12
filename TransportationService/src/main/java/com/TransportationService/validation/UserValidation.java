@@ -38,8 +38,9 @@ public class UserValidation {
         if(lastName == null || lastName.length() <3 ||lastName.length() >50){
             throw new IllegalArgumentException("lastName should be between 3 and 50 characters");
         }
-
-        validatePassword(password);
+        if(password != null){
+            validatePassword(password);
+        }
 
         if(phoneNumber == null || phoneNumber.length() != 10){
             throw new IllegalArgumentException("Phone Number is not valid");

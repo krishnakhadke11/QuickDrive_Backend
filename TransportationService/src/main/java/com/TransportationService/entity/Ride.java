@@ -17,8 +17,14 @@ public class Ride {
     @Column(name = "pickup_location", nullable = false)
     private String pickupLocation;
 
+    @Column(name = "pickup_name", nullable = false)
+    private String pickupName;
+
     @Column(name = "drop_location", nullable = false)
     private String dropLocation;
+
+    @Column(name = "drop_name", nullable = false)
+    private String dropName;
 
     @Column(name = "rating")
     private int rating=0;

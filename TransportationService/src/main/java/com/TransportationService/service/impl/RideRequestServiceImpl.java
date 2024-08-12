@@ -24,14 +24,16 @@ public class RideRequestServiceImpl implements RideRequestService {
     private DriverRepository driverRepository;
     private DriverOperationRepository driverOperationRepository;
     private RideRepository rideRepository;
+    private PaymentRepository paymentRepository;
 
     @Autowired
-    public RideRequestServiceImpl(RideRequestRepository rideRequestRepository, CustomerRepository customerRepository, DriverRepository driverRepository, DriverOperationRepository driverOperationRepository, RideRepository rideRepository) {
+    public RideRequestServiceImpl(RideRequestRepository rideRequestRepository, CustomerRepository customerRepository, DriverRepository driverRepository, DriverOperationRepository driverOperationRepository, RideRepository rideRepository, PaymentRepository paymentRepository) {
         this.rideRequestRepository = rideRequestRepository;
         this.customerRepository = customerRepository;
         this.driverRepository = driverRepository;
         this.driverOperationRepository = driverOperationRepository;
         this.rideRepository = rideRepository;
+        this.paymentRepository = paymentRepository;
     }
 
 //    @Scheduled(fixedRate = 600000) // Check every minute
@@ -52,7 +54,9 @@ public class RideRequestServiceImpl implements RideRequestService {
 
         RideRequest newRideReq = new RideRequest();
         newRideReq.setPickupLocation(rideRequest.getPickupLocation());
+        newRideReq.setPickupName(rideRequest.getPickupName());
         newRideReq.setDropLocation(rideRequest.getDropLocation());
+        newRideReq.setDropName(rideRequest.getDropName());
         newRideReq.setDistance(rideRequest.getDistance());
         newRideReq.setDuration(rideRequest.getDuration());
         newRideReq.setFare(rideRequest.getFare());
@@ -80,7 +84,9 @@ public class RideRequestServiceImpl implements RideRequestService {
 
         newRideReq.setId(rideRequest.getId());
         newRideReq.setPickupLocation(rideRequest.getPickupLocation());
+        newRideReq.setPickupName(rideRequest.getPickupName());
         newRideReq.setDropLocation(rideRequest.getDropLocation());
+        newRideReq.setDropName(rideRequest.getDropName());
         newRideReq.setDistance(rideRequest.getDistance());
         newRideReq.setDuration(rideRequest.getDuration());
         newRideReq.setFare(rideRequest.getFare());
@@ -125,6 +131,13 @@ public class RideRequestServiceImpl implements RideRequestService {
         System.out.println(rideRequest);
         rideRequestRepository.save(rideRequest);
 
+        Payment payment = new Payment();
+        payment.setPaymentType(rideRequest.getPaymentType());
+        payment.setPaymentStatus(PaymentStatus.PENDING);
+        payment.setRide(savedRide);
+
+        paymentRepository.save(payment);
+
         return savedRide;
     }
 
@@ -137,7 +150,9 @@ public class RideRequestServiceImpl implements RideRequestService {
 
         newRideReq.setId(rideRequest.getId());
         newRideReq.setPickupLocation(rideRequest.getPickupLocation());
+        newRideReq.setPickupName(rideRequest.getPickupName());
         newRideReq.setDropLocation(rideRequest.getDropLocation());
+        newRideReq.setDropName(rideRequest.getDropName());
         newRideReq.setDistance(rideRequest.getDistance());
         newRideReq.setDuration(rideRequest.getDuration());
         newRideReq.setFare(rideRequest.getFare());
@@ -160,7 +175,9 @@ public class RideRequestServiceImpl implements RideRequestService {
 
         Ride ride = new Ride();
         ride.setPickupLocation(rideRequest.getPickupLocation());
+        ride.setPickupName(rideRequest.getPickupName());
         ride.setDropLocation(rideRequest.getDropLocation());
+        ride.setDropName(rideRequest.getDropName());
         ride.setFare(rideRequest.getFare());
         ride.setDistance(rideRequest.getDistance());
         ride.setDuration(rideRequest.getDuration());

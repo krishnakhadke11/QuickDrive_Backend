@@ -2,6 +2,7 @@ package com.TransportationService.service;
 
 import com.TransportationService.dto.request.CustomerDto;
 import com.TransportationService.dto.request.CustomerUpdateDto;
+import com.TransportationService.dto.response.CustomerResponseDto;
 import com.TransportationService.entity.Customer;
 
 import java.util.List;
@@ -11,7 +12,7 @@ public interface CustomerService {
 
     List<Customer> getAllCustomers();
 
-    Customer getCustomerById(int id);
+    CustomerResponseDto getCustomerById(int id);
 
     Customer updateCustomer(CustomerUpdateDto customerUpdateDto);
 

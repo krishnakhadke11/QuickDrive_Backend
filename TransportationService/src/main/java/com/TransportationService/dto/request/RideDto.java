@@ -9,7 +9,11 @@ public class RideDto {
 
     private String pickupLocation;
 
+    private String pickupName;
+
     private String dropLocation;
+
+    private String dropName;
 
     private int fare;
 

@@ -46,7 +46,9 @@ public class RideServiceImpl implements RideService {
 
         Ride ride = new Ride();
         ride.setPickupLocation(rideDto.getPickupLocation());
+        ride.setDropName(rideDto.getPickupName());
         ride.setDropLocation(rideDto.getDropLocation());
+        ride.setDropName(rideDto.getDropName());
         ride.setFare(rideDto.getFare());
         ride.setDistance(rideDto.getDistance());
         ride.setDuration(rideDto.getDuration());
@@ -95,7 +97,9 @@ public class RideServiceImpl implements RideService {
         Ride updatedRide = new Ride();
         updatedRide.setId(rideUpdateDto.getId());
         updatedRide.setPickupLocation(rideUpdateDto.getPickupLocation());
+        updatedRide.setPickupName(rideUpdateDto.getPickupName());
         updatedRide.setDropLocation(rideUpdateDto.getDropLocation());
+        updatedRide.setDropName(rideUpdateDto.getDropName());
         updatedRide.setFare(rideUpdateDto.getFare());
         updatedRide.setDistance(rideUpdateDto.getDistance());
         updatedRide.setDuration(rideUpdateDto.getDuration());

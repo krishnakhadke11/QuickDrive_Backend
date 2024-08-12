@@ -58,6 +58,14 @@ public class DriverController {
         return ResponseEntity.ok().body(driver);
     }
 
+    @Operation(summary = "Get a driver by id which is extracted from token", description = "Returns the driver as per the id")
+    @GetMapping("/driver/details")
+    public ResponseEntity<Driver> getDriverById(HttpServletRequest req) {
+        Integer id = (Integer) req.getAttribute("id");
+        Driver driver = driverService.getDriverById(id);
+        return ResponseEntity.ok().body(driver);
+    }
+
     @Operation(summary = "Get the drivers operations", description = "Returns driveroperation")
     @GetMapping("/driver/driveroperations")
     public ResponseEntity<?> getDriverOperationById(HttpServletRequest req){

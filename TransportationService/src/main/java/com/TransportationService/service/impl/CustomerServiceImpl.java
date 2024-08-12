@@ -2,12 +2,14 @@ package com.TransportationService.service.impl;
 
 import com.TransportationService.dto.request.CustomerDto;
 import com.TransportationService.dto.request.CustomerUpdateDto;
+import com.TransportationService.dto.response.CustomerResponseDto;
 import com.TransportationService.entity.Customer;
 import com.TransportationService.entity.Role;
 import com.TransportationService.entity.User;
 import com.TransportationService.repository.CustomerRepository;
 import com.TransportationService.repository.RideRepository;
 import com.TransportationService.service.CustomerService;
+import com.TransportationService.util.UserUtil;
 import com.TransportationService.validation.CustomerValidation;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,10 +58,13 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public Customer getCustomerById(int id) {
+    public CustomerResponseDto getCustomerById(int id) {
         Customer customer = customerRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Customer not found!"));
-        return customer;
+        CustomerResponseDto customerRes = new CustomerResponseDto();
+        customerRes.setId(customer.getId());
+        customerRes.setUser(UserUtil.setterUser(customer.getUser()));
+        return customerRes;
     }
 
     @Override
@@ -81,9 +86,12 @@ public class CustomerServiceImpl implements CustomerService {
         user.setEmail(customerUpdateDto.getUser().getEmail());
         user.setPhoneNumber(customerUpdateDto.getUser().getPhoneNumber());
         user.setAddress(customerUpdateDto.getUser().getAddress());
+        user.setCreatedAt(customer.getUser().getCreatedAt());
         user.setRole(Role.CUSTOMER);
-        if(!passwordEncoder.matches(customerUpdateDto.getUser().getPassword(), customer.getUser().getPassword())){
+        if(customerUpdateDto.getUser().getPassword() != null &&  !passwordEncoder.matches(customerUpdateDto.getUser().getPassword(), customer.getUser().getPassword())){
             user.setPassword(passwordEncoder.encode(customerUpdateDto.getUser().getPassword()));
+        }else{
+            user.setPassword(customer.getUser().getPassword());
         }
 
         updateCustomer.setUser(user);

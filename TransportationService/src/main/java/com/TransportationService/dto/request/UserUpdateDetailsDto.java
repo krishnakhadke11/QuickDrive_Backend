@@ -15,7 +15,7 @@ public class UserUpdateDetailsDto {
     @Pattern(regexp = "^[A-za-z]+$")
     private String lastName;
 
-    @Email
+//    @Email
     private String email;
 
     private String password;

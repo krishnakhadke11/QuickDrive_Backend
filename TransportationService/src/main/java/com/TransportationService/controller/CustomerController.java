@@ -2,6 +2,7 @@ package com.TransportationService.controller;
 
 import com.TransportationService.dto.request.CustomerDto;
 import com.TransportationService.dto.request.CustomerUpdateDto;
+import com.TransportationService.dto.response.CustomerResponseDto;
 import com.TransportationService.entity.Customer;
 import com.TransportationService.entity.Ride;
 import com.TransportationService.service.CustomerService;
@@ -48,8 +49,17 @@ public class CustomerController {
 
     @Operation(summary = "Get a customer by id", description = "Returns the customer as per the id")
     @GetMapping("/customer/{id}")
-    public ResponseEntity<Customer> getCustomer(@PathVariable int id) {
-        Customer customer = customerService.getCustomerById(id);
+    public ResponseEntity<CustomerResponseDto> getCustomer(@PathVariable int id) {
+        CustomerResponseDto customer = customerService.getCustomerById(id);
+        return ResponseEntity.ok(customer);
+    }
+
+
+    @Operation(summary = "Get a customer by id which is extracted from token", description = "Returns the customer as per the id")
+    @GetMapping("/customer/details")
+    public ResponseEntity<CustomerResponseDto> getCustomer(HttpServletRequest req) {
+        Integer id = (Integer) req.getAttribute("id");
+        CustomerResponseDto customer = customerService.getCustomerById(id);
         return ResponseEntity.ok(customer);
     }
 

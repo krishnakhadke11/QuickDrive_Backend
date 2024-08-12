@@ -19,7 +19,11 @@ public class RideRequest {
 
     private String pickupLocation;
 
+    private String pickupName;
+
     private String dropLocation;
+
+    private String dropName;
 
     private String distance;
 
