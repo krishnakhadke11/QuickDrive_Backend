@@ -5,6 +5,7 @@ import com.TransportationService.dto.request.DriverOperationUpdateDto;
 import com.TransportationService.entity.DriverOperation;
 import com.TransportationService.service.DriverOperationService;
 import io.swagger.v3.oas.annotations.Operation;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -23,8 +24,9 @@ public class DriverOperationController {
 
     @Operation(summary = "Create the operation", description = "Returns the created driveroperation")
     @PostMapping("/driveroperation")
-    public ResponseEntity<DriverOperation> addDriverOperation(@Valid @RequestBody DriverOperationDto driverOperationDto){
-        DriverOperation savedDriverOperation =  driverOperationService.addDriverOperation(driverOperationDto);
+    public ResponseEntity<DriverOperation> addDriverOperation(@Valid @RequestBody DriverOperationDto driverOperationDto, HttpServletRequest req){
+        Integer driverId = (Integer) req.getAttribute("id");
+        DriverOperation savedDriverOperation =  driverOperationService.addDriverOperation(driverOperationDto,driverId);
         return ResponseEntity.ok().body(savedDriverOperation);
     }
 
@@ -40,6 +42,14 @@ public class DriverOperationController {
     public ResponseEntity<DriverOperation> getDriverOperationById(@PathVariable int id){
         DriverOperation driverOperation =  driverOperationService.getDriverOperationById(id);
         return ResponseEntity.ok().body(driverOperation);
+    }
+
+    @Operation(summary = "Check if driver is Operational", description = "Returns Boolean Value")
+    @GetMapping("/driveroperation/check")
+    public ResponseEntity<DriverOperation> checkIfOperational(HttpServletRequest req){
+        Integer id = (Integer)req.getAttribute("id");
+        DriverOperation driverOps =  driverOperationService.getDriverOperationByDriverId(id);
+        return ResponseEntity.ok().body(driverOps);
     }
 
     @Operation(summary = "Update the driveroperation", description = "Returns the updated driveroperation")

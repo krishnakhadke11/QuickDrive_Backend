@@ -32,7 +32,7 @@ public class RideRequestController {
     }
     // /accept request and create ride
     @Operation(summary = "Accept Ride Request", description = "Accepting the Ride Request")
-    @GetMapping("/riderequest/accept/{id}")
+    @GetMapping("/riderequest/driver/accept/{id}")
     public Object acceptRideRequest(@PathVariable int id, HttpServletRequest req) {
         //Only Driver can accept the ride :
         Integer driverId = (Integer)req.getAttribute("id");
@@ -57,6 +57,15 @@ public class RideRequestController {
         List<RideRequest> rideRequest = rideRequestService.getAllRideRequest();
         return  ResponseEntity.ok(rideRequest);
     }
+
+    @Operation(summary = "Get All Ride Request As per the Drivers Operational Details", description = "Getting All Ride Request")
+    @GetMapping("/riderequest/driver")
+    public ResponseEntity<List<RideRequest>> getAllRideRequestByDriverOps(HttpServletRequest req){
+        Integer driverId = (Integer)req.getAttribute("id");
+        List<RideRequest> rideRequest = rideRequestService.getAllRideReqAsPerDriverOps(driverId);
+        return  ResponseEntity.ok(rideRequest);
+    }
+
 
     @Operation(summary = "Get All Ride Request", description = "Getting All Ride Request")
     @GetMapping("/riderequest/{id}/ride")

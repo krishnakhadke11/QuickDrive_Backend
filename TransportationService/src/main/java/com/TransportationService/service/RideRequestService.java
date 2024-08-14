@@ -23,4 +23,6 @@ public interface RideRequestService {
     Ride acceptRideRequest(int rideReqId,int driverId);
 
     RideRequestWithRideDto findByIdWithRide(int rideReqId);
+
+    List<RideRequest> getAllRideReqAsPerDriverOps(int driverId);
 }

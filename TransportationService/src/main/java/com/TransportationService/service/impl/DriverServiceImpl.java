@@ -56,8 +56,8 @@ public class DriverServiceImpl implements DriverService {
         Driver updateDriver = new Driver();
         updateDriver.setId(driverUpdateDto.getId());
         updateDriver.setDriversLicense(driverUpdateDto.getDriversLicense());
-        updateDriver.setStartTime(driverUpdateDto.getStartTime());
-        updateDriver.setEndTime(driverUpdateDto.getEndTime());
+//        updateDriver.setStartTime(driverUpdateDto.getStartTime());
+//        updateDriver.setEndTime(driverUpdateDto.getEndTime());
 
         User user = new User();
         user.setId(driverUpdateDto.getUser().getId());
@@ -102,8 +102,8 @@ public class DriverServiceImpl implements DriverService {
         String password = driverDto.getUser().getPassword();
         Driver driver = new Driver();
         driver.setDriversLicense(driverDto.getDriversLicense());
-        driver.setStartTime(driverDto.getStartTime());
-        driver.setEndTime(driverDto.getEndTime());
+//        driver.setStartTime(driverDto.getStartTime());
+//        driver.setEndTime(driverDto.getEndTime());
 
         User user = new User();
         user.setFirstName(driverDto.getUser().getFirstName());

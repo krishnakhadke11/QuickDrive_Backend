@@ -24,15 +24,15 @@ public class Driver {
     @Column(name = "drivers_license", unique = true, nullable = false)
     private String driversLicense;
 
-    @Column(name = "start_time", nullable = false)
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm:ss.SSS")
-    @Schema(description = "String in format HH:mm:ss.SSS",example = "08:00:00.000")
-    private LocalTime startTime;
-
-    @Column(name = "end_time")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm:ss.SSS")
-    @Schema(description = "String in format HH:mm:ss.SSS",example = "08:00:00.000")
-    private LocalTime endTime;
+//    @Column(name = "start_time", nullable = false)
+//    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm:ss.SSS")
+//    @Schema(description = "String in format HH:mm:ss.SSS",example = "08:00:00.000")
+//    private LocalTime startTime;
+//
+//    @Column(name = "end_time")
+//    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm:ss.SSS")
+//    @Schema(description = "String in format HH:mm:ss.SSS",example = "08:00:00.000")
+//    private LocalTime endTime;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")

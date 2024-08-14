@@ -15,11 +15,11 @@ public class DriverUpdateDto {
     @Pattern(regexp = "^([A-Z]{2}[0-9]{2} )((19|20)[0-9]{2})[0-9]{7}$",message = "Please Enter Valid Driving License")
     private String driversLicense;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm:ss.SSS")
-    private LocalTime startTime;
-
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm:ss.SSS")
-    private LocalTime endTime;
+//    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm:ss.SSS")
+//    private LocalTime startTime;
+//
+//    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm:ss.SSS")
+//    private LocalTime endTime;
 
     private UserUpdateDetailsDto user;
 }

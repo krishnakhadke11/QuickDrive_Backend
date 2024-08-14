@@ -1,6 +1,7 @@
 package com.TransportationService.repository;
 
 import com.TransportationService.entity.RideRequest;
+import com.TransportationService.entity.SeatingCapacity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -14,4 +15,6 @@ public interface RideRequestRepository extends JpaRepository<RideRequest,Integer
     List<RideRequest> findAllRideRequestByCustomerId(int customerId);
 
     List<RideRequest> findByRequestTimeBefore(LocalDateTime time);
+
+    List<RideRequest> findAllRideRequestBySeatingCapacity(SeatingCapacity seatingCapacity);
 }

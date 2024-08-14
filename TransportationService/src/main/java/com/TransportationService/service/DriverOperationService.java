@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface DriverOperationService {
 
-    DriverOperation addDriverOperation(DriverOperationDto driverOperationDto);
+    DriverOperation addDriverOperation(DriverOperationDto driverOperationDto,int driverId);
 
     List<DriverOperation> getAllDriverOperation();
 

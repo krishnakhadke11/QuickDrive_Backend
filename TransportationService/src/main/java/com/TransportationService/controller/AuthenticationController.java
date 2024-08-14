@@ -35,6 +35,7 @@ public class AuthenticationController {
     @Operation(summary = "Driver Signup", description = "Returns the Driver Details")
     @PostMapping("/auth/driver/signup")
     public ResponseEntity<Driver>signup(@RequestBody DriverDto driverDto) {
+        System.out.println(driverDto);
         //Validations
         driverValidation.validateDriver(driverDto);
 

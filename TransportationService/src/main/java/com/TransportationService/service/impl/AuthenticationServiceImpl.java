@@ -49,8 +49,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
         Driver driver = new Driver();
         driver.setDriversLicense(driverDto.getDriversLicense());
-        driver.setStartTime(driverDto.getStartTime());
-        driver.setEndTime(driverDto.getEndTime());
+//        driver.setStartTime(driverDto.getStartTime());
+//        driver.setEndTime(driverDto.getEndTime());
 
         User user = new User();
         user.setFirstName(driverDto.getUser().getFirstName());

@@ -32,10 +32,10 @@ public class DriverOperationServiceImpl implements DriverOperationService {
 
     @Override
     @Transactional
-    public DriverOperation addDriverOperation(DriverOperationDto driverOperationDto) {
+    public DriverOperation addDriverOperation(DriverOperationDto driverOperationDto,int driverId) {
 //        System.out.println("In add DriverOperation"+driverOperation);
 
-        Driver driver = driverRepository.findById(driverOperationDto.getDriver().getId())
+        Driver driver = driverRepository.findById(driverId)
                 .orElseThrow(() -> new EntityNotFoundException("Driver not found"));
         Cab cab = cabRepository.findById(driverOperationDto.getCab().getId())
                 .orElseThrow(() -> new EntityNotFoundException("Cab not found"));

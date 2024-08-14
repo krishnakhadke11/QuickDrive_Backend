@@ -165,6 +165,17 @@ public class RideRequestServiceImpl implements RideRequestService {
         return  newRideReq;
     }
 
+    @Override
+    public List<RideRequest> getAllRideReqAsPerDriverOps(int driverId) {
+        DriverOperation driverOperation = driverOperationRepository.findDriverOperationByDriverId(driverId);
+
+        if(driverOperation == null){
+            throw new EntityNotFoundException("Driver is not operational");
+        }
+
+        return rideRequestRepository.findAllRideRequestBySeatingCapacity(driverOperation.getCab().getSeatingCapacity());
+    }
+
     private static @NotNull Ride getRide(DriverOperation driverOperation, RideRequest rideRequest) {
         Cab cab;
         if(driverOperation != null){

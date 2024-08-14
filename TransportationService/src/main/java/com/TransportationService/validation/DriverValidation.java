@@ -17,21 +17,12 @@ public class DriverValidation {
     private UserValidation userValidation;
 
     public void validateDriver(DriverDto driverDto) {
-        LocalTime startTime = driverDto.getStartTime();
-        LocalTime endTime  = driverDto.getEndTime();
-
-        validateTimeInterval(startTime,endTime);
-
         validateDriverLicence(driverDto.getDriversLicense());
 
         userValidation.validateUser(driverDto.getUser());
 
     }
     public void validateDriver(DriverUpdateDto driverUpdateDto) {
-        LocalTime startTime = driverUpdateDto.getStartTime();
-        LocalTime endTime  = driverUpdateDto.getEndTime();
-
-        validateTimeInterval(startTime,endTime);
 
         validateDriverLicence(driverUpdateDto.getDriversLicense());
 
@@ -39,6 +30,7 @@ public class DriverValidation {
     }
     public void validateDriverLicence(String license) {
         Pattern pattern = Pattern.compile("^([A-Z]{2}[0-9]{2} )((19|20)[0-9]{2})[0-9]{7}$");
+//        System.out.println(license);
         if(!pattern.matcher(license).matches()) {
             throw new IllegalArgumentException("Driver licence is Invalid");
         }
