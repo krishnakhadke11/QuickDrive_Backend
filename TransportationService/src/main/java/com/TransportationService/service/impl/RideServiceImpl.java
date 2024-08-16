@@ -117,4 +117,6 @@ public class RideServiceImpl implements RideService {
         }
         rideRepository.deleteById(rideId);
     }
+
+
 }

@@ -4,6 +4,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import lombok.Data;
+import org.hibernate.annotations.CreationTimestamp;
+
+import java.util.Date;
 
 @Data
 @Entity
@@ -40,6 +43,10 @@ public class Ride {
 
     @Column(name = "payment_type")
     private PaymentType paymentType;
+
+    @CreationTimestamp
+    @Column(name = "created_at",updatable = false)
+    private Date createdAt;
 
     @ManyToOne(cascade = {
             CascadeType.PERSIST,

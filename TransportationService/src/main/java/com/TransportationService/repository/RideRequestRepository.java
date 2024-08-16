@@ -1,5 +1,6 @@
 package com.TransportationService.repository;
 
+import com.TransportationService.entity.BookingStatus;
 import com.TransportationService.entity.RideRequest;
 import com.TransportationService.entity.SeatingCapacity;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -14,7 +15,7 @@ import java.util.List;
 public interface RideRequestRepository extends JpaRepository<RideRequest,Integer> {
     List<RideRequest> findAllRideRequestByCustomerId(int customerId);
 
-    List<RideRequest> findByRequestTimeBefore(LocalDateTime time);
+    List<RideRequest> findByCreatedAtBefore(LocalDateTime time);
 
-    List<RideRequest> findAllRideRequestBySeatingCapacity(SeatingCapacity seatingCapacity);
+    List<RideRequest> findBySeatingCapacityAndBookingStatus(SeatingCapacity seatingCapacity, BookingStatus bookingStatus);
 }

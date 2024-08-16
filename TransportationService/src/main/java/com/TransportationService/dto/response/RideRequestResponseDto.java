@@ -8,6 +8,7 @@ import jakarta.persistence.ManyToOne;
 import lombok.Data;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 
 @Data
 public class RideRequestResponseDto {
@@ -33,7 +34,7 @@ public class RideRequestResponseDto {
 
     private BookingStatus bookingStatus;
 
-    private LocalDateTime requestTime;
+    private Date createdAt;
 
     private Customer customer;
 }

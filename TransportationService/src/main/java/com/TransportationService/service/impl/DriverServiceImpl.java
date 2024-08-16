@@ -2,12 +2,8 @@ package com.TransportationService.service.impl;
 
 import com.TransportationService.dto.request.DriverDto;
 import com.TransportationService.dto.request.DriverUpdateDto;
-import com.TransportationService.entity.Cab;
-import com.TransportationService.entity.Driver;
-import com.TransportationService.entity.Role;
-import com.TransportationService.entity.User;
-import com.TransportationService.repository.CabRepository;
-import com.TransportationService.repository.DriverRepository;
+import com.TransportationService.entity.*;
+import com.TransportationService.repository.*;
 import com.TransportationService.service.DriverService;
 import com.TransportationService.validation.DriverValidation;
 import jakarta.persistence.EntityNotFoundException;
@@ -22,14 +18,20 @@ import java.util.List;
 public class DriverServiceImpl implements DriverService {
 
     private DriverRepository driverRepository;
+    private RideRepository rideRepository;
     private CabRepository cabRepository;
     private PasswordEncoder passwordEncoder;
+    private PaymentRepository paymentRepository;
+    private DriverOperationRepository driverOperationRepository;
 
     @Autowired
-    public DriverServiceImpl(DriverRepository driverRepository, CabRepository cabRepository, PasswordEncoder passwordEncoder, DriverValidation driverValidation) {
+    public DriverServiceImpl(DriverRepository driverRepository, CabRepository cabRepository, PasswordEncoder passwordEncoder, DriverValidation driverValidation, RideRepository rideRepository, PaymentRepository paymentRepository, DriverOperationRepository driverOperationRepository) {
         this.driverRepository = driverRepository;
         this.cabRepository = cabRepository;
         this.passwordEncoder = passwordEncoder;
+        this.rideRepository = rideRepository;
+        this.paymentRepository = paymentRepository;
+        this.driverOperationRepository = driverOperationRepository;
     }
 
     @Override
@@ -116,5 +118,26 @@ public class DriverServiceImpl implements DriverService {
 
         driver.setUser(user);
         return driverRepository.save(driver);
+    }
+    @Override
+    public Ride getLatestRideOfDriver(int driverId) {
+        return rideRepository.findTopByDriverIdOrderByCreatedAtDesc(driverId);
+    }
+
+    @Override
+    @Transactional
+    public String endRide(int rideId,int driverId) {
+        Payment payment = paymentRepository.findByRideId(rideId);
+        if(payment == null){
+            return "Ride Payment Not initiated";
+        }
+        payment.setPaymentStatus(PaymentStatus.PAID);
+        paymentRepository.save(payment);
+
+        DriverOperation driverOperation = driverOperationRepository.findDriverOperationByDriverId(driverId);
+        driverOperation.setStatus(CabStatus.AVAILABLE);
+        driverOperationRepository.save(driverOperation);
+
+        return "Ride Ended Successfully";
     }
 }

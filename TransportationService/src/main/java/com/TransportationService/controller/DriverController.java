@@ -6,13 +6,16 @@ import com.TransportationService.dto.request.DriverUpdateDto;
 import com.TransportationService.entity.Cab;
 import com.TransportationService.entity.Driver;
 import com.TransportationService.entity.DriverOperation;
+import com.TransportationService.entity.Ride;
 import com.TransportationService.service.DriverOperationService;
 import com.TransportationService.service.DriverService;
+import com.TransportationService.service.RideService;
 import com.TransportationService.service.UserService;
 import com.TransportationService.validation.DriverValidation;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -73,6 +76,22 @@ public class DriverController {
         DriverOperation driverOperation = driverOperationService.getDriverOperationByDriverId(driverId);
         System.out.println("DriverOperation Controller : " + driverOperation);
         return ResponseEntity.ok().body(driverOperation==null ? "null":driverOperation);
+    }
+
+    @Operation(summary = "Get the Latest Ride of a driver", description = "Returns the latest Ride of a driver")
+    @GetMapping("/driver/ride/latest")
+    public ResponseEntity<Ride> getLatestRideOfDriver(@NotNull HttpServletRequest req) {
+        Integer driverId = (Integer) req.getAttribute("id");
+        Ride ride = driverService.getLatestRideOfDriver(driverId);
+        return ResponseEntity.ok(ride);
+    }
+
+    @Operation(summary = "End the ride and update paymentStatus and Cabstatus", description = "Returns the confirmation string")
+    @GetMapping("/driver/end/ride/{id}")
+    public ResponseEntity<String> endRide(@PathVariable int id,@NotNull HttpServletRequest req) {
+        Integer driverId = (Integer) req.getAttribute("id");
+        String msg = driverService.endRide(id,driverId);
+        return ResponseEntity.ok(msg);
     }
 
     @Operation(summary = "Update a driver", description = "Returns the updated driver")

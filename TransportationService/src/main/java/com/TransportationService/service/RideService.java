@@ -18,4 +18,6 @@ public interface RideService {
     Ride updateRide(RideUpdateDto rideUpdateDto);
 
     void deleteRide(int rideId);
+
+
 }

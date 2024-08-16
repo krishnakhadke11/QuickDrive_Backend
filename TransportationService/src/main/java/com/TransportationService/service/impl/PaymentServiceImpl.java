@@ -2,10 +2,7 @@ package com.TransportationService.service.impl;
 
 import com.TransportationService.dto.request.PaymentDto;
 import com.TransportationService.dto.request.PaymentUpdateDto;
-import com.TransportationService.dto.request.PaymentUpdateStatusDto;
-import com.TransportationService.entity.Customer;
 import com.TransportationService.entity.Payment;
-import com.TransportationService.entity.PaymentStatus;
 import com.TransportationService.entity.Ride;
 import com.TransportationService.repository.CustomerRepository;
 import com.TransportationService.repository.PaymentRepository;
@@ -57,7 +54,7 @@ public class PaymentServiceImpl implements PaymentService {
         if(!customerRepository.existsById(customerId)){
             throw new EntityNotFoundException("Customer not found");
         }
-        return paymentRepository.findPaymentsByRideCustomerId(customerId);
+        return paymentRepository.findByRideCustomerId(customerId);
     }
 
     @Override

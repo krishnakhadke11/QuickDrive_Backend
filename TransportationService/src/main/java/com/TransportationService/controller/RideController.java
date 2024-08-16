@@ -5,7 +5,9 @@ import com.TransportationService.dto.request.RideUpdateDto;
 import com.TransportationService.entity.Ride;
 import com.TransportationService.service.RideService;
 import io.swagger.v3.oas.annotations.Operation;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

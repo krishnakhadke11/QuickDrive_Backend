@@ -63,7 +63,6 @@ public class RideRequestServiceImpl implements RideRequestService {
         newRideReq.setPaymentType(rideRequest.getPaymentType());
         newRideReq.setSeatingCapacity(rideRequest.getSeatingCapacity());
         newRideReq.setBookingStatus(BookingStatus.PENDING);
-        newRideReq.setRequestTime(LocalDateTime.now());
         newRideReq.setCustomer(customer);
 
         return rideRequestRepository.save(newRideReq);
@@ -93,7 +92,7 @@ public class RideRequestServiceImpl implements RideRequestService {
         newRideReq.setPaymentType(rideRequest.getPaymentType());
         newRideReq.setSeatingCapacity(rideRequest.getSeatingCapacity());
         newRideReq.setBookingStatus(rideRequest.getBookingStatus());
-        newRideReq.setRequestTime(LocalDateTime.now());
+        newRideReq.setCreatedAt(rideRequest.getCreatedAt());
         newRideReq.setCustomer(rideRequest.getCustomer());
 
         return newRideReq;
@@ -105,6 +104,7 @@ public class RideRequestServiceImpl implements RideRequestService {
     }
 
     @Override
+    @Transactional
     public String deleteRideRequest(int rideReqId) {
         if(!rideRequestRepository.existsById(rideReqId)){
             throw new EntityNotFoundException("Ride Request Not Found");
@@ -135,8 +135,10 @@ public class RideRequestServiceImpl implements RideRequestService {
         payment.setPaymentType(rideRequest.getPaymentType());
         payment.setPaymentStatus(PaymentStatus.PENDING);
         payment.setRide(savedRide);
-
         paymentRepository.save(payment);
+
+        driverOperation.setStatus(CabStatus.HIRED);
+        driverOperationRepository.save(driverOperation);
 
         return savedRide;
     }
@@ -159,21 +161,21 @@ public class RideRequestServiceImpl implements RideRequestService {
         newRideReq.setPaymentType(rideRequest.getPaymentType());
         newRideReq.setSeatingCapacity(rideRequest.getSeatingCapacity());
         newRideReq.setBookingStatus(rideRequest.getBookingStatus());
-        newRideReq.setRequestTime(LocalDateTime.now());
+        newRideReq.setCreatedAt(rideRequest.getCreatedAt());
         newRideReq.setRide(rideRequest.getRide());
 
         return  newRideReq;
     }
 
     @Override
-    public List<RideRequest> getAllRideReqAsPerDriverOps(int driverId) {
+    public List<RideRequest>    getAllRideReqAsPerDriverOps(int driverId) {
         DriverOperation driverOperation = driverOperationRepository.findDriverOperationByDriverId(driverId);
 
         if(driverOperation == null){
             throw new EntityNotFoundException("Driver is not operational");
         }
 
-        return rideRequestRepository.findAllRideRequestBySeatingCapacity(driverOperation.getCab().getSeatingCapacity());
+        return rideRequestRepository.findBySeatingCapacityAndBookingStatus(driverOperation.getCab().getSeatingCapacity(),BookingStatus.PENDING);
     }
 
     private static @NotNull Ride getRide(DriverOperation driverOperation, RideRequest rideRequest) {

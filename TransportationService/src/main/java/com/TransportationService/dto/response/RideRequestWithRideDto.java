@@ -4,6 +4,7 @@ import com.TransportationService.entity.*;
 import lombok.Data;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 
 @Data
 public class RideRequestWithRideDto {
@@ -29,7 +30,7 @@ public class RideRequestWithRideDto {
 
     private BookingStatus bookingStatus;
 
-    private LocalDateTime requestTime;
+    private Date createdAt;
 
     private Ride ride;
 }

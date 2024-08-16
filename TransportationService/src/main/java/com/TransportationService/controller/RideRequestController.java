@@ -8,6 +8,7 @@ import com.TransportationService.entity.RideRequest;
 import com.TransportationService.service.RideRequestService;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.servlet.http.HttpServletRequest;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -60,7 +61,7 @@ public class RideRequestController {
 
     @Operation(summary = "Get All Ride Request As per the Drivers Operational Details", description = "Getting All Ride Request")
     @GetMapping("/riderequest/driver")
-    public ResponseEntity<List<RideRequest>> getAllRideRequestByDriverOps(HttpServletRequest req){
+    public ResponseEntity<List<RideRequest>> getAllRideRequestByDriverOps(@NotNull HttpServletRequest req){
         Integer driverId = (Integer)req.getAttribute("id");
         List<RideRequest> rideRequest = rideRequestService.getAllRideReqAsPerDriverOps(driverId);
         return  ResponseEntity.ok(rideRequest);
@@ -72,5 +73,12 @@ public class RideRequestController {
     public ResponseEntity<RideRequestWithRideDto> getRideFromRideReqId(@PathVariable int id){
         RideRequestWithRideDto rideRequest = rideRequestService.findByIdWithRide(id);
         return  ResponseEntity.ok(rideRequest);
+    }
+
+    @Operation(summary = "Delete Ride Request By ID", description = "Returns Confirmation String")
+    @DeleteMapping("/riderequest/{id}")
+    public ResponseEntity<String> deleteRideRequest(@PathVariable int id){
+        String msg = rideRequestService.deleteRideRequest(id);
+        return  ResponseEntity.ok(msg);
     }
 }
