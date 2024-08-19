@@ -26,12 +26,14 @@ import java.util.List;
 public class DriverController {
 
     private DriverService driverService;
+    private RideService rideService;
     private DriverOperationService driverOperationService;
     private DriverValidation driverValidation;
 
     @Autowired
-    public DriverController(DriverService driverService, DriverOperationService driverOperationService, DriverValidation driverValidation) {
+    public DriverController(DriverService driverService, RideService rideService, DriverOperationService driverOperationService, DriverValidation driverValidation) {
         this.driverService = driverService;
+        this.rideService = rideService;
         this.driverOperationService = driverOperationService;
         this.driverValidation = driverValidation;
     }
@@ -82,8 +84,16 @@ public class DriverController {
     @GetMapping("/driver/ride/latest")
     public ResponseEntity<Ride> getLatestRideOfDriver(@NotNull HttpServletRequest req) {
         Integer driverId = (Integer) req.getAttribute("id");
-        Ride ride = driverService.getLatestRideOfDriver(driverId);
+        Ride ride = rideService.getLatestRideOfDriver(driverId);
         return ResponseEntity.ok(ride);
+    }
+
+    @Operation(summary = "Get All the Drivers Ride", description = "Returns the driver Ride")
+    @GetMapping("/driver/ride")
+    public ResponseEntity<List<Ride>> getAllDriverRide(@NotNull HttpServletRequest req) {
+        Integer driverId = (Integer) req.getAttribute("id");
+        List<Ride> rides = rideService.findAllRideByDriverId(driverId);
+        return ResponseEntity.ok(rides);
     }
 
     @Operation(summary = "End the ride and update paymentStatus and Cabstatus", description = "Returns the confirmation string")

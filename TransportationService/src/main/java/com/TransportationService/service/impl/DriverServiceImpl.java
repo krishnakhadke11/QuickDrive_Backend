@@ -58,8 +58,6 @@ public class DriverServiceImpl implements DriverService {
         Driver updateDriver = new Driver();
         updateDriver.setId(driverUpdateDto.getId());
         updateDriver.setDriversLicense(driverUpdateDto.getDriversLicense());
-//        updateDriver.setStartTime(driverUpdateDto.getStartTime());
-//        updateDriver.setEndTime(driverUpdateDto.getEndTime());
 
         User user = new User();
         user.setId(driverUpdateDto.getUser().getId());
@@ -68,9 +66,12 @@ public class DriverServiceImpl implements DriverService {
         user.setEmail(driverUpdateDto.getUser().getEmail());
         user.setPhoneNumber(driverUpdateDto.getUser().getPhoneNumber());
         user.setAddress(driverUpdateDto.getUser().getAddress());
+        user.setCreatedAt(driver.getUser().getCreatedAt());
         user.setRole(Role.DRIVER);
-        if(!passwordEncoder.matches(driverUpdateDto.getUser().getPassword(),driver.getUser().getPassword())){
+        if(driverUpdateDto.getUser().getPassword() != null && !passwordEncoder.matches(driverUpdateDto.getUser().getPassword(),driver.getUser().getPassword())){
             user.setPassword(passwordEncoder.encode(driverUpdateDto.getUser().getPassword()));
+        }else{
+            user.setPassword(driver.getUser().getPassword());
         }
 
         updateDriver.setUser(user);
@@ -104,8 +105,6 @@ public class DriverServiceImpl implements DriverService {
         String password = driverDto.getUser().getPassword();
         Driver driver = new Driver();
         driver.setDriversLicense(driverDto.getDriversLicense());
-//        driver.setStartTime(driverDto.getStartTime());
-//        driver.setEndTime(driverDto.getEndTime());
 
         User user = new User();
         user.setFirstName(driverDto.getUser().getFirstName());
@@ -119,10 +118,7 @@ public class DriverServiceImpl implements DriverService {
         driver.setUser(user);
         return driverRepository.save(driver);
     }
-    @Override
-    public Ride getLatestRideOfDriver(int driverId) {
-        return rideRepository.findTopByDriverIdOrderByCreatedAtDesc(driverId);
-    }
+
 
     @Override
     @Transactional

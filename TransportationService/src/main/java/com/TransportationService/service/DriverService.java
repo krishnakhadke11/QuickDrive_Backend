@@ -22,8 +22,6 @@ public interface DriverService {
 
     List<Cab> driverOwnedCabs(int driverId);
 
-    Ride getLatestRideOfDriver(int driverId);
-
     String endRide(int rideId,int driverId);
 
 }

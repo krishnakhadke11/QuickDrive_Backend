@@ -43,12 +43,11 @@ public class RideRequest {
     @Column(name = "created_at",updatable = false)
     private Date createdAt;
 
-    @ManyToOne(cascade = {CascadeType.DETACH,CascadeType.REFRESH})
+    @ManyToOne(cascade = {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.DETACH,CascadeType.REFRESH})
     @JoinColumn(name = "customer_id")
     private Customer customer;
 
     @ManyToOne(cascade = {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.DETACH,CascadeType.REFRESH})
     @JoinColumn(name = "ride_id")
-    @OnDelete(action = OnDeleteAction.CASCADE)
     private Ride ride = null;
 }

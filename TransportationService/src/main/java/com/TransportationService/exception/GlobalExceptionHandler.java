@@ -25,8 +25,8 @@ public class GlobalExceptionHandler{
         exception.printStackTrace();
 
         if(exception instanceof EntityNotFoundException){
+            System.out.println(exception.getMessage());
             errorDetail = ProblemDetail.forStatusAndDetail(HttpStatus.NOT_FOUND, exception.getMessage());
-            errorDetail.setProperty("description", "The username or password is incorrect");
         }
         if (exception instanceof BadCredentialsException) {
             errorDetail = ProblemDetail.forStatusAndDetail(HttpStatusCode.valueOf(401), exception.getMessage());
@@ -63,10 +63,6 @@ public class GlobalExceptionHandler{
             errorDetail = ProblemDetail.forStatusAndDetail(HttpStatusCode.valueOf(400), exception.getMessage());
             errorDetail.setProperty("description", "Illegal Argument Entered");
         }
-//        if(exception instanceof MethodArgumentNotValidException){
-//            errorDetail = ProblemDetail.forStatusAndDetail(HttpStatusCode.valueOf(400), exception.getMessage());
-//            errorDetail.setProperty("description", "Please Enter Valid Input");
-//        }
 
         return errorDetail;
     }

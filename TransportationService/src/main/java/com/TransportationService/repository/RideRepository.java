@@ -8,7 +8,9 @@ import java.util.List;
 
 @Repository
 public interface RideRepository extends JpaRepository<Ride, Integer> {
-    List<Ride> findRideByCustomerId(int customerId);
+    List<Ride> findByCustomerId(int customerId);
+
+    List<Ride> findByDriverId(int driverId);
 
     Ride findTopByDriverIdOrderByCreatedAtDesc(int driverId);
 }

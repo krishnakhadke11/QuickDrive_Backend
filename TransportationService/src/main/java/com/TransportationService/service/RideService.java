@@ -13,6 +13,10 @@ public interface RideService {
 
     List<Ride> findAllRideByCustomerId(int customerId);
 
+    List<Ride> findAllRideByDriverId(int driverId);
+
+    Ride getLatestRideOfDriver(int driverId);
+
     List<Ride> findAllRides();
 
     Ride updateRide(RideUpdateDto rideUpdateDto);

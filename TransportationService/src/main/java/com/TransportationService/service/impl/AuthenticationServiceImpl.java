@@ -12,6 +12,7 @@ import com.TransportationService.service.JwtService;
 import com.TransportationService.validation.DriverValidation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -107,7 +108,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(signInRequest.getEmail(), signInRequest.getPassword()));
 
         var user = userRepository.findByEmail(signInRequest.getEmail()).orElseThrow(() ->
-                new IllegalArgumentException("Invalid email or password"));
+                new BadCredentialsException("Invalid email or password"));
         Integer id = getRoleId(user);
 
         var jwt = jwtService.generateToken(user,id);

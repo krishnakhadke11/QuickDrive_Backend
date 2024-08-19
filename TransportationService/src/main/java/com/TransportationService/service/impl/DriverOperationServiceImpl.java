@@ -56,7 +56,7 @@ public class DriverOperationServiceImpl implements DriverOperationService {
     @Override
     public DriverOperation getDriverOperationByDriverId(int driverId) {
         if(!driverRepository.existsById(driverId)){
-            throw new EntityNotFoundException("Driver Not Found");
+            throw new EntityNotFoundException("Driver Is Not Operational");
         }
         DriverOperation driverOperation = driverOperationRepository.findDriverOperationByDriverId(driverId);
         return driverOperation;

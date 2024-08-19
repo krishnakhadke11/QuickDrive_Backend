@@ -71,8 +71,22 @@ public class RideServiceImpl implements RideService {
         if(!customerRepository.existsById(customerId)){
             throw new EntityNotFoundException("Customer not found");
         }
-        List<Ride> rides = rideRepository.findRideByCustomerId(customerId);
+        List<Ride> rides = rideRepository.findByCustomerId(customerId);
         return rides;
+    }
+
+    @Override
+    public List<Ride> findAllRideByDriverId(int driverId) {
+        if(!driverRepository.existsById(driverId)){
+            throw new EntityNotFoundException("Driver not found");
+        }
+        List<Ride> rides = rideRepository.findByDriverId(driverId);
+        return rides;
+    }
+
+    @Override
+    public Ride getLatestRideOfDriver(int driverId) {
+        return rideRepository.findTopByDriverIdOrderByCreatedAtDesc(driverId);
     }
 
     @Override

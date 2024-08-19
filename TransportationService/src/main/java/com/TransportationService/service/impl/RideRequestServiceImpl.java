@@ -168,7 +168,7 @@ public class RideRequestServiceImpl implements RideRequestService {
     }
 
     @Override
-    public List<RideRequest>    getAllRideReqAsPerDriverOps(int driverId) {
+    public List<RideRequest>  getAllRideReqAsPerDriverOps(int driverId) {
         DriverOperation driverOperation = driverOperationRepository.findDriverOperationByDriverId(driverId);
 
         if(driverOperation == null){
