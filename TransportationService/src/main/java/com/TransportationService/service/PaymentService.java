@@ -3,6 +3,7 @@ package com.TransportationService.service;
 import com.TransportationService.dto.request.PaymentDto;
 import com.TransportationService.dto.request.PaymentUpdateDto;
 import com.TransportationService.dto.request.PaymentUpdateStatusDto;
+import com.TransportationService.dto.response.EarningResponse;
 import com.TransportationService.entity.Payment;
 
 import java.util.List;
@@ -15,4 +16,6 @@ public interface PaymentService {
     List<Payment> findPaymentsByCustomerId(int customerId);
 
     Payment updatePayment(PaymentUpdateDto paymentUpdateDto);
+
+    EarningResponse getMonthlyEarnings(int driverId);
 }

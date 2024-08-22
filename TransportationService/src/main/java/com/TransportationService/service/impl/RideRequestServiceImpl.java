@@ -109,7 +109,7 @@ public class RideRequestServiceImpl implements RideRequestService {
         if(!rideRequestRepository.existsById(rideReqId)){
             throw new EntityNotFoundException("Ride Request Not Found");
         }
-        rideRepository.deleteById(rideReqId);
+        rideRequestRepository.deleteById(rideReqId);
         return "Ride Request Deleted Successfully";
     }
 

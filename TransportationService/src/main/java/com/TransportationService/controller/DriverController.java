@@ -3,14 +3,9 @@ package com.TransportationService.controller;
 
 import com.TransportationService.dto.request.DriverDto;
 import com.TransportationService.dto.request.DriverUpdateDto;
-import com.TransportationService.entity.Cab;
-import com.TransportationService.entity.Driver;
-import com.TransportationService.entity.DriverOperation;
-import com.TransportationService.entity.Ride;
-import com.TransportationService.service.DriverOperationService;
-import com.TransportationService.service.DriverService;
-import com.TransportationService.service.RideService;
-import com.TransportationService.service.UserService;
+import com.TransportationService.dto.response.EarningResponse;
+import com.TransportationService.entity.*;
+import com.TransportationService.service.*;
 import com.TransportationService.validation.DriverValidation;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.servlet.http.HttpServletRequest;
@@ -28,13 +23,15 @@ public class DriverController {
     private DriverService driverService;
     private RideService rideService;
     private DriverOperationService driverOperationService;
+    private PaymentService paymentService;
     private DriverValidation driverValidation;
 
     @Autowired
-    public DriverController(DriverService driverService, RideService rideService, DriverOperationService driverOperationService, DriverValidation driverValidation) {
+    public DriverController(DriverService driverService, RideService rideService, DriverOperationService driverOperationService, PaymentService paymentService, DriverValidation driverValidation) {
         this.driverService = driverService;
         this.rideService = rideService;
         this.driverOperationService = driverOperationService;
+        this.paymentService = paymentService;
         this.driverValidation = driverValidation;
     }
 
@@ -127,5 +124,13 @@ public class DriverController {
         Integer driverId = (Integer) req.getAttribute("id");
         List<Cab> cabs = driverService.driverOwnedCabs(driverId);
         return ResponseEntity.ok().body(cabs);
+    }
+
+    @Operation(summary = "Get the monthly earnings of a driver", description = "Returns monthly earnings of a driver")
+    @GetMapping("/driver/payment/earnings")
+    public ResponseEntity<EarningResponse> getMonthlyEarnings(HttpServletRequest req) {
+        Integer driverId = (Integer) req.getAttribute("id");
+        EarningResponse earningResponse = paymentService.getMonthlyEarnings(driverId);
+        return ResponseEntity.ok(earningResponse);
     }
 }

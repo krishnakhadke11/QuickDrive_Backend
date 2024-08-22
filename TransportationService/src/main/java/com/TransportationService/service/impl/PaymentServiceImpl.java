@@ -2,7 +2,10 @@ package com.TransportationService.service.impl;
 
 import com.TransportationService.dto.request.PaymentDto;
 import com.TransportationService.dto.request.PaymentUpdateDto;
+import com.TransportationService.dto.response.EarningResponse;
 import com.TransportationService.entity.Payment;
+import com.TransportationService.entity.PaymentStatus;
+import com.TransportationService.entity.PaymentType;
 import com.TransportationService.entity.Ride;
 import com.TransportationService.repository.CustomerRepository;
 import com.TransportationService.repository.PaymentRepository;
@@ -13,6 +16,8 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -64,15 +69,45 @@ public class PaymentServiceImpl implements PaymentService {
             throw new EntityNotFoundException("Payment Not Found");
         }
 
+        Payment payment = paymentRepository.findById(paymentUpdateDto.getId())
+                .orElseThrow(() -> new EntityNotFoundException("Payment not found"));
+
         Ride ride = rideRepository.findById(paymentUpdateDto.getRide().getId())
                 .orElseThrow(() -> new EntityNotFoundException("Ride not found"));
 
-        Payment payment = new Payment();
-        payment.setId(paymentUpdateDto.getId());
-        payment.setPaymentType(paymentUpdateDto.getPaymentType());
-        payment.setPaymentStatus(paymentUpdateDto.getPaymentStatus());
-        payment.setRide(ride);
+        Payment updatePayment = new Payment();
+        updatePayment.setId(paymentUpdateDto.getId());
+        updatePayment.setPaymentType(paymentUpdateDto.getPaymentType());
+        updatePayment.setPaymentStatus(paymentUpdateDto.getPaymentStatus());
+        updatePayment.setCreatedAt(payment.getCreatedAt());
+        updatePayment.setRide(ride);
 
-        return paymentRepository.save(payment);
+        return paymentRepository.save(updatePayment);
     }
+
+    @Override
+    public EarningResponse getMonthlyEarnings(int driverId) {
+        PaymentStatus status = PaymentStatus.PAID;
+        PaymentType typeCash = PaymentType.CASH;
+        PaymentType typeOnline = PaymentType.ONLINE;
+        LocalDate now = LocalDate.now();
+        int currentMonth = now.getMonthValue();
+        int currentYear = now.getYear();
+
+        Double total = paymentRepository.findTotalEarningsByPaymentStatusAndCurrentMonthByDriverId(status,currentMonth,currentYear,driverId);
+        Double cash = paymentRepository.findTotalEarningsByPaymentStatusAndPaymentTypeAndCurrentMonthAndDriverId(status,typeCash,currentMonth,currentYear,driverId);
+        Double online = total - cash;
+
+        Double cashPercentage = (cash/total)*100;
+        Double onlinePercentage = 100 - cashPercentage;
+
+        EarningResponse earningResponse = new EarningResponse();
+        earningResponse.setTotal(total);
+        earningResponse.setCash(cash);
+        earningResponse.setOnline(online);
+        earningResponse.setCashPercentage(cashPercentage);
+        earningResponse.setOnlinePercentage(onlinePercentage);
+        return earningResponse;
+    }
+
 }

@@ -2,6 +2,9 @@ package com.TransportationService.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import org.hibernate.annotations.CreationTimestamp;
+
+import java.util.Date;
 
 @Data
 @Entity
@@ -17,6 +20,10 @@ public class Payment {
 
     @Column(name = "payment_status",nullable = false)
     private PaymentStatus paymentStatus;
+
+    @CreationTimestamp
+    @Column(name = "created_at",updatable = false)
+    private Date createdAt;
 
     @OneToOne(cascade = {
             CascadeType.PERSIST,
