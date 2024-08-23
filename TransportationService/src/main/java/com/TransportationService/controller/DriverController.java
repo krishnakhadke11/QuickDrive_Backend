@@ -69,12 +69,11 @@ public class DriverController {
     }
 
     @Operation(summary = "Get the drivers operations", description = "Returns driveroperation")
-    @GetMapping("/driver/driveroperations")
-    public ResponseEntity<?> getDriverOperationById(HttpServletRequest req){
+    @GetMapping("/driver/driveroperation")
+    public ResponseEntity<DriverOperation> getDriverOperationById(HttpServletRequest req){
         Integer driverId = (Integer)req.getAttribute("id");
         DriverOperation driverOperation = driverOperationService.getDriverOperationByDriverId(driverId);
-        System.out.println("DriverOperation Controller : " + driverOperation);
-        return ResponseEntity.ok().body(driverOperation==null ? "null":driverOperation);
+        return ResponseEntity.ok().body(driverOperation);
     }
 
     @Operation(summary = "Get the Latest Ride of a driver", description = "Returns the latest Ride of a driver")

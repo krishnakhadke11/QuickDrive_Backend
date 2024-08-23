@@ -8,6 +8,7 @@ import com.google.maps.GeoApiContext;
 import com.google.maps.errors.ApiException;
 import com.google.maps.model.DistanceMatrix;
 import com.google.maps.model.TravelMode;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -44,7 +45,7 @@ public class FarePriceServiceImpl implements FarePriceService {
         String[] dest = {dropLocation}; // Example: Los Angeles
         System.out.println("Pickup Location"+src[0]);
         System.out.println("Drop Location"+dest[0]);
-/*
+
         String[] elements;
         if(src[0].isEmpty() || dest[0].isEmpty()){
             throw new UnexpectedException("Either Pickup or Drop location is empty");
@@ -52,13 +53,24 @@ public class FarePriceServiceImpl implements FarePriceService {
             elements = getDistance(src, dest);
         }
         elements[0] = elements[0].replaceAll("[^\\d.]","");
+        FarePriceResponseDto farePriceResponseDto = getFarePriceResponseDto(elements, src, dest);
+//        FarePriceResponseDto farePriceResponseDto = new FarePriceResponseDto();
+//        farePriceResponseDto.setPickupLocation(src[0]);
+//        farePriceResponseDto.setDropLocation(dest[0]);
+//        farePriceResponseDto.setDistance("100 km");
+//        farePriceResponseDto.setDuration("2hr 10 min");
+//        farePriceResponseDto.setSevenSeaterFare(156);
+//        farePriceResponseDto.setFiveSeaterFare(140);
+
+
+        return farePriceResponseDto;
+
+
+    }
+
+    private static @NotNull FarePriceResponseDto getFarePriceResponseDto(String[] elements, String[] src, String[] dest) {
         double distance = Double.parseDouble(elements[0]);
-//        double fare = 0;
-//        if(seatingCapacity == 5){
-//            fare += (distance * FarePrice.FIVE_SEATER.getRatePerKm());
-//        }else if(seatingCapacity == 7){
-//            fare += (distance * FarePrice.SEVEN_SEATER.getRatePerKm());
-//        }
+
         double sevenSeaterFare = distance * FarePrice.SEVEN_SEATER.getRatePerKm();
         double fiveSeaterFare =  distance * FarePrice.FIVE_SEATER.getRatePerKm();
 
@@ -70,20 +82,6 @@ public class FarePriceServiceImpl implements FarePriceService {
         farePriceResponseDto.setDuration(elements[1]);
         farePriceResponseDto.setSevenSeaterFare((int)sevenSeaterFare);
         farePriceResponseDto.setFiveSeaterFare((int)fiveSeaterFare);
-
         return farePriceResponseDto;
-        */
-
-        FarePriceResponseDto farePriceResponseDto = new FarePriceResponseDto();
-        farePriceResponseDto.setPickupLocation(src[0]);
-        farePriceResponseDto.setDropLocation(dest[0]);
-        farePriceResponseDto.setDistance("100 km");
-        farePriceResponseDto.setDuration("2hr 10 min");
-        farePriceResponseDto.setSevenSeaterFare(156);
-        farePriceResponseDto.setFiveSeaterFare(140);
-
-        return farePriceResponseDto;
-
-
     }
 }

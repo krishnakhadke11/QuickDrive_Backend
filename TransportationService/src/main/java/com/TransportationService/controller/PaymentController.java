@@ -37,14 +37,6 @@ public class PaymentController {
         return ResponseEntity.ok(payment);
     }
 
-    @Operation(summary = "Get all the payments of a customer", description = "Returns the list of payments of a customer")
-    @GetMapping("/payment/customer")
-    public ResponseEntity<List<Payment>> getAllPaymentsByCustomerId(HttpServletRequest req) {
-        Integer id = (Integer) req.getAttribute("id");
-        List<Payment> payments = paymentService.findPaymentsByCustomerId(id);
-        return ResponseEntity.ok(payments);
-    }
-
     @Operation(summary = "Update the payment", description = "Returns the updated payment")
     @PutMapping("/payment")
     public ResponseEntity<Payment> updatePayment(@RequestBody PaymentUpdateDto paymentUpdateDto) {

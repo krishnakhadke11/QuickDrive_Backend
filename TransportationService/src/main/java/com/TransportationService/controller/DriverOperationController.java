@@ -44,13 +44,13 @@ public class DriverOperationController {
         return ResponseEntity.ok().body(driverOperation);
     }
 
-    @Operation(summary = "Check if driver is Operational", description = "Returns Boolean Value")
-    @GetMapping("/driveroperation/check")
-    public ResponseEntity<DriverOperation> checkIfOperational(HttpServletRequest req){
-        Integer id = (Integer)req.getAttribute("id");
-        DriverOperation driverOps =  driverOperationService.getDriverOperationByDriverId(id);
-        return ResponseEntity.ok().body(driverOps);
-    }
+//    @Operation(summary = "Check if driver is Operational", description = "Returns Boolean Value")
+//    @GetMapping("/driveroperation/check")
+//    public ResponseEntity<DriverOperation> checkIfOperational(HttpServletRequest req){
+//        Integer id = (Integer)req.getAttribute("id");
+//        DriverOperation driverOps =  driverOperationService.getDriverOperationByDriverId(id);
+//        return ResponseEntity.ok().body(driverOps);
+//    }
 
     @Operation(summary = "Update the driveroperation", description = "Returns the updated driveroperation")
     @PutMapping("/driveroperation")

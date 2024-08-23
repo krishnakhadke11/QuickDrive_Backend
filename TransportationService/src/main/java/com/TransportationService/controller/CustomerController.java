@@ -4,8 +4,10 @@ import com.TransportationService.dto.request.CustomerDto;
 import com.TransportationService.dto.request.CustomerUpdateDto;
 import com.TransportationService.dto.response.CustomerResponseDto;
 import com.TransportationService.entity.Customer;
+import com.TransportationService.entity.Payment;
 import com.TransportationService.entity.Ride;
 import com.TransportationService.service.CustomerService;
+import com.TransportationService.service.PaymentService;
 import com.TransportationService.service.RideService;
 import com.TransportationService.validation.CustomerValidation;
 import io.swagger.v3.oas.annotations.Operation;
@@ -22,12 +24,14 @@ public class CustomerController {
     private CustomerService customerService;
     private RideService rideService;
     private CustomerValidation customerValidation;
+    private PaymentService paymentService;
 
     @Autowired
-    public CustomerController(CustomerService customerService, RideService rideService, CustomerValidation customerValidation) {
+    public CustomerController(CustomerService customerService, RideService rideService, CustomerValidation customerValidation, PaymentService paymentService) {
         this.customerService = customerService;
         this.rideService = rideService;
         this.customerValidation = customerValidation;
+        this.paymentService = paymentService;
     }
 
     @Operation(summary = "Create a customer", description = "Returns the newly added customer")
@@ -86,5 +90,13 @@ public class CustomerController {
     public ResponseEntity<String> deleteCustomer(@PathVariable int id) {
         customerService.deleteCustomerById(id);
         return ResponseEntity.ok("Customer deleted successfully");
+    }
+
+    @Operation(summary = "Get all the payments of a customer", description = "Returns the list of payments of a customer")
+    @GetMapping("/customer/payments")
+    public ResponseEntity<List<Payment>> getAllPaymentsByCustomerId(HttpServletRequest req) {
+        Integer id = (Integer) req.getAttribute("id");
+        List<Payment> payments = paymentService.findPaymentsByCustomerId(id);
+        return ResponseEntity.ok(payments);
     }
 }

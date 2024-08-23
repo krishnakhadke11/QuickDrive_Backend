@@ -94,12 +94,19 @@ public class PaymentServiceImpl implements PaymentService {
         int currentMonth = now.getMonthValue();
         int currentYear = now.getYear();
 
+        if(!paymentRepository.existsByDriverId(driverId)){
+            throw new EntityNotFoundException("No Payments Currently");
+        }
         Double total = paymentRepository.findTotalEarningsByPaymentStatusAndCurrentMonthByDriverId(status,currentMonth,currentYear,driverId);
         Double cash = paymentRepository.findTotalEarningsByPaymentStatusAndPaymentTypeAndCurrentMonthAndDriverId(status,typeCash,currentMonth,currentYear,driverId);
-        Double online = total - cash;
-
-        Double cashPercentage = (cash/total)*100;
-        Double onlinePercentage = 100 - cashPercentage;
+        Double online = null;
+        Double cashPercentage = null;
+        Double onlinePercentage = null;
+        if(total != null && cash != null) {
+            online = total - cash;
+            cashPercentage = (cash / total) * 100;
+            onlinePercentage = 100 - cashPercentage;
+        }
 
         EarningResponse earningResponse = new EarningResponse();
         earningResponse.setTotal(total);

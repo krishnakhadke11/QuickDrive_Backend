@@ -68,7 +68,7 @@ public class RideRequestController {
     }
 
 
-    @Operation(summary = "Get All Ride Request", description = "Getting All Ride Request")
+    @Operation(summary = "Get  RideRequest with Ride", description = "Getting Ride Request with ride details")
     @GetMapping("/riderequest/{id}/ride")
     public ResponseEntity<RideRequestWithRideDto> getRideFromRideReqId(@PathVariable int id){
         RideRequestWithRideDto rideRequest = rideRequestService.findByIdWithRide(id);

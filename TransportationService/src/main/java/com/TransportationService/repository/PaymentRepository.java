@@ -12,6 +12,10 @@ import java.util.List;
 
 @Repository
 public interface PaymentRepository extends JpaRepository<Payment, Integer> {
+
+    @Query("SELECT CASE WHEN COUNT(p) > 0 THEN TRUE ELSE FALSE END FROM Payment p JOIN p.ride r JOIN r.driver d " +
+            "WHERE  d.id = :driverId")
+    boolean existsByDriverId(@Param("driverId") int driverId);
     List<Payment> findByRideCustomerId(int customerId);
 
     Payment findByRideId(int rideId);
