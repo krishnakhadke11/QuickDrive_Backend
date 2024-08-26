@@ -33,8 +33,6 @@ public class FarePriceServiceImpl implements FarePriceService {
         String distance = distanceMatrix.rows[0].elements[0].distance.humanReadable;
         String duration = distanceMatrix.rows[0].elements[0].duration.humanReadable;
 
-        System.out.println("Distance: " + distanceMatrix.rows[0].elements[0].distance.humanReadable);
-        System.out.println("Duration: " + distanceMatrix.rows[0].elements[0].duration.humanReadable);
 
         return new String[]{distance, duration};
     }
@@ -43,8 +41,6 @@ public class FarePriceServiceImpl implements FarePriceService {
     public FarePriceResponseDto checkFarePrice(String pickupLocation, String dropLocation) throws IOException, InterruptedException, ApiException {
         String[] src = {pickupLocation}; // Example: New York ,  latitude,longitude
         String[] dest = {dropLocation}; // Example: Los Angeles
-        System.out.println("Pickup Location"+src[0]);
-        System.out.println("Drop Location"+dest[0]);
 
         String[] elements;
         if(src[0].isEmpty() || dest[0].isEmpty()){

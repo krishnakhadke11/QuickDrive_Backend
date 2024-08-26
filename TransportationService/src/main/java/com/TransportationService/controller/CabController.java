@@ -69,10 +69,10 @@ public class CabController {
         return ResponseEntity.ok().body("Cab has been deleted");
     }
 
-    @Operation(summary = "Get the owner of the cab by cab id", description = "Returns the Owner of a cab")
-    @GetMapping("/cab/{id}/owner")
-    public ResponseEntity<User> getCabOwner(@PathVariable int id) {
-        User user = cabService.findCabsOwner(id);
-        return ResponseEntity.ok().body(user);
-    }
+//    @Operation(summary = "Get the owner of the cab by cab id", description = "Returns the Owner of a cab")
+//    @GetMapping("/cab/{id}/owner")
+//    public ResponseEntity<User> getCabOwner(@PathVariable int id) {
+//        User user = cabService.findCabsOwner(id);
+//        return ResponseEntity.ok().body(user);
+//    }
 }
