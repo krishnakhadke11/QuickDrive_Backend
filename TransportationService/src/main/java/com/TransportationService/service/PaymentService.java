@@ -17,5 +17,7 @@ public interface PaymentService {
 
     Payment updatePayment(PaymentUpdateDto paymentUpdateDto);
 
+    Payment updatePaymentStatus(int paymentId,PaymentUpdateStatusDto paymentUpdateStatusDto);
+
     EarningResponse getMonthlyEarnings(int driverId);
 }

@@ -1,6 +1,5 @@
 package com.TransportationService.controller;
 
-
 import com.TransportationService.dto.request.DriverDto;
 import com.TransportationService.dto.request.DriverUpdateDto;
 import com.TransportationService.dto.response.EarningResponse;
@@ -15,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
 import java.util.List;
 
 @RestController
@@ -36,7 +36,7 @@ public class DriverController {
     }
 
     @Operation(summary = "Create a driver", description = "Returns the newly created driver")
-    @PostMapping("/driver")
+    @PostMapping("/drivers")
     public ResponseEntity<Driver> createDriver(@Valid @RequestBody DriverDto driverDto) {
         //Validations
         driverValidation.validateDriver(driverDto);
@@ -47,21 +47,21 @@ public class DriverController {
     }
 
     @Operation(summary = "Get all drivers", description = "Returns the list of drivers")
-    @GetMapping("/driver")
+    @GetMapping("/drivers")
     public ResponseEntity<List<Driver>> getAllDrivers() {
         List<Driver> drivers = driverService.getAllDrivers();
         return ResponseEntity.ok().body(drivers);
     }
 
     @Operation(summary = "Get a driver by id", description = "Returns the driver as per the id")
-    @GetMapping("/driver/{id}")
-    public ResponseEntity<Driver> getDriverById(@PathVariable int id) {
-        Driver driver = driverService.getDriverById(id);
+    @GetMapping("/drivers/{driver-id}")
+    public ResponseEntity<Driver> getDriverById(@PathVariable("driver-id") int driverId) {
+        Driver driver = driverService.getDriverById(driverId);
         return ResponseEntity.ok().body(driver);
     }
 
     @Operation(summary = "Get a driver by id which is extracted from token", description = "Returns the driver as per the id")
-    @GetMapping("/driver/details")
+    @GetMapping("/drivers/details")
     public ResponseEntity<Driver> getDriverById(HttpServletRequest req) {
         Integer id = (Integer) req.getAttribute("id");
         Driver driver = driverService.getDriverById(id);
@@ -69,39 +69,43 @@ public class DriverController {
     }
 
     @Operation(summary = "Get the drivers operations", description = "Returns driveroperation")
-    @GetMapping("/driver/driveroperation")
+    @GetMapping("/drivers/driveroperations")
     public ResponseEntity<DriverOperation> getDriverOperationById(HttpServletRequest req){
         Integer driverId = (Integer)req.getAttribute("id");
         DriverOperation driverOperation = driverOperationService.getDriverOperationByDriverId(driverId);
         return ResponseEntity.ok().body(driverOperation);
     }
 
-    @Operation(summary = "Get the Latest Ride of a driver", description = "Returns the latest Ride of a driver")
-    @GetMapping("/driver/ride/latest")
-    public ResponseEntity<Ride> getLatestRideOfDriver(@NotNull HttpServletRequest req) {
-        Integer driverId = (Integer) req.getAttribute("id");
-        Ride ride = rideService.getLatestRideOfDriver(driverId);
-        return ResponseEntity.ok(ride);
-    }
 
     @Operation(summary = "Get All the Drivers Ride", description = "Returns the driver Ride")
-    @GetMapping("/driver/ride")
-    public ResponseEntity<List<Ride>> getAllDriverRide(@NotNull HttpServletRequest req) {
+    @GetMapping("/drivers/rides")
+    public ResponseEntity<List<Ride>> getAllDriverRide(
+            @RequestParam(value = "sort", required = false) String sortField,
+            @RequestParam(value = "order", required = false) String order,
+            @RequestParam(value = "limit", required = false) Integer limit,
+            @NotNull HttpServletRequest req) {
         Integer driverId = (Integer) req.getAttribute("id");
-        List<Ride> rides = rideService.findAllRideByDriverId(driverId);
-        return ResponseEntity.ok(rides);
+
+        if (sortField != null && limit != null && order != null && sortField.equals("createdAt")
+                && order.equals("desc") && limit == 1) {
+            Ride ride = rideService.getLatestRideOfDriver(driverId);
+            return ResponseEntity.ok(Collections.singletonList(ride));
+        } else {
+            List<Ride> rides = rideService.findAllRideByDriverId(driverId);
+            return ResponseEntity.ok(rides);
+        }
     }
 
-    @Operation(summary = "End the ride and update paymentStatus and Cabstatus", description = "Returns the confirmation string")
-    @GetMapping("/driver/end/ride/{id}")
-    public ResponseEntity<String> endRide(@PathVariable int id,@NotNull HttpServletRequest req) {
-        Integer driverId = (Integer) req.getAttribute("id");
-        String msg = driverService.endRide(id,driverId);
-        return ResponseEntity.ok(msg);
-    }
+//    @Operation(summary = "End the ride and update paymentStatus and Cabstatus", description = "Returns the confirmation string")
+//    @GetMapping("/driver/end/ride/{id}")
+//    public ResponseEntity<String> endRide(@PathVariable int id,@NotNull HttpServletRequest req) {
+//        Integer driverId = (Integer) req.getAttribute("id");
+//        String msg = driverService.endRide(id,driverId);
+//        return ResponseEntity.ok(msg);
+//    }
 
     @Operation(summary = "Update a driver", description = "Returns the updated driver")
-    @PutMapping("/driver")
+    @PutMapping("/drivers")
     public ResponseEntity<Driver> updateDriver(@Valid @RequestBody DriverUpdateDto driverUpdateDto) {
         //Validations
         driverValidation.validateDriver(driverUpdateDto);
@@ -111,14 +115,14 @@ public class DriverController {
     }
 
     @Operation(summary = "Delete a driver by id", description = "Returns the confirmation string")
-    @DeleteMapping("/driver/{id}")
-    public ResponseEntity<String> deleteDriver(@PathVariable int id) {
-        driverService.deleteDriver(id);
+    @DeleteMapping("/drivers/{driver-id}")
+    public ResponseEntity<String> deleteDriver(@PathVariable("driver-id") int driverId) {
+        driverService.deleteDriver(driverId);
         return ResponseEntity.ok().body("Driver has been deleted");
     }
 
     @Operation(summary = "Get all the driver owned cabs", description = "Returns the list of driver owned cabs")
-    @GetMapping("driver/cabs")
+    @GetMapping("drivers/cabs")
     public ResponseEntity<List<Cab>> getCabs(HttpServletRequest req) {
         Integer driverId = (Integer) req.getAttribute("id");
         List<Cab> cabs = driverService.driverOwnedCabs(driverId);
@@ -126,10 +130,18 @@ public class DriverController {
     }
 
     @Operation(summary = "Get the monthly earnings of a driver", description = "Returns monthly earnings of a driver")
-    @GetMapping("/driver/payment/earnings")
+    @GetMapping("/drivers/monthly-earnings")
     public ResponseEntity<EarningResponse> getMonthlyEarnings(HttpServletRequest req) {
         Integer driverId = (Integer) req.getAttribute("id");
         EarningResponse earningResponse = paymentService.getMonthlyEarnings(driverId);
         return ResponseEntity.ok(earningResponse);
+    }
+
+    @Operation(summary = "Get All Ride Request As per the Drivers Operational Details", description = "Getting All Ride Request")
+    @GetMapping("/drivers/riderequests")
+    public ResponseEntity<List<RideRequest>> getAllRideRequestByDriverOps(@org.jetbrains.annotations.NotNull HttpServletRequest req){
+        Integer driverId = (Integer)req.getAttribute("id");
+        List<RideRequest> rideRequest = driverService.getAllRideReqAsPerDriverOps(driverId);
+        return  ResponseEntity.ok(rideRequest);
     }
 }

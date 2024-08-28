@@ -1,5 +1,6 @@
 package com.TransportationService.dto.request;
 
+import com.TransportationService.entity.CabStatus;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
@@ -14,6 +15,8 @@ public class DriverOperationUpdateDto {
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm:ss.SSS")
     private LocalTime endTime;
+
+    private CabStatus status = CabStatus.AVAILABLE;
 
     private DriverIdDto driver;
 

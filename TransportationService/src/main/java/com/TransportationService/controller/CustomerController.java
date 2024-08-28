@@ -35,7 +35,7 @@ public class CustomerController {
     }
 
     @Operation(summary = "Create a customer", description = "Returns the newly added customer")
-    @PostMapping("/customer")
+    @PostMapping("/customers")
     public ResponseEntity<Customer> addCustomer(@Valid @RequestBody CustomerDto customerDto) {
         //Validations
         customerValidation.validateCustomer(customerDto);
@@ -45,22 +45,22 @@ public class CustomerController {
     }
 
     @Operation(summary = "Get All Customers", description = "Returns the list of all the customers  ")
-    @GetMapping("/customer")
+    @GetMapping("/customers")
     public ResponseEntity<List<Customer>> getAllCustomers() {
         List<Customer> customers = customerService.getAllCustomers();
         return ResponseEntity.ok(customers);
     }
 
     @Operation(summary = "Get a customer by id", description = "Returns the customer as per the id")
-    @GetMapping("/customer/{id}")
-    public ResponseEntity<CustomerResponseDto> getCustomer(@PathVariable int id) {
-        CustomerResponseDto customer = customerService.getCustomerById(id);
+    @GetMapping("/customers/{customer-id}")
+    public ResponseEntity<CustomerResponseDto> getCustomer(@PathVariable("customer-id") int customerId) {
+        CustomerResponseDto customer = customerService.getCustomerById(customerId);
         return ResponseEntity.ok(customer);
     }
 
 
     @Operation(summary = "Get a customer by id which is extracted from token", description = "Returns the customer as per the id")
-    @GetMapping("/customer/details")
+    @GetMapping("/customers/details")
     public ResponseEntity<CustomerResponseDto> getCustomer(HttpServletRequest req) {
         Integer id = (Integer) req.getAttribute("id");
         CustomerResponseDto customer = customerService.getCustomerById(id);
@@ -68,7 +68,7 @@ public class CustomerController {
     }
 
     @Operation(summary = "Get all the rides of a customer", description = "Returns all the rides of a customer")
-    @GetMapping("/customer/rides")
+    @GetMapping("/customers/rides")
     public ResponseEntity<List<Ride>> getRideByCustomerId(HttpServletRequest req) {
         Integer customerId = (Integer)req.getAttribute("id");
         List<Ride> rides = rideService.findAllRideByCustomerId(customerId);
@@ -76,7 +76,7 @@ public class CustomerController {
     }
 
     @Operation(summary = "Update a customer", description = "Returns the updated customer")
-    @PutMapping("/customer")
+    @PutMapping("/customers")
     public ResponseEntity<Customer> updateCustomer(@Valid @RequestBody CustomerUpdateDto customerUpdateDto) {
         //Validations
         customerValidation.validateCustomer(customerUpdateDto);
@@ -86,14 +86,14 @@ public class CustomerController {
     }
 
     @Operation(summary = "Delete a customer by id", description = "Returns the confirmation String")
-    @DeleteMapping("/customer/{id}")
-    public ResponseEntity<String> deleteCustomer(@PathVariable int id) {
-        customerService.deleteCustomerById(id);
+    @DeleteMapping("/customers/{customer-id}")
+    public ResponseEntity<String> deleteCustomer(@PathVariable("customer-id") int customerId) {
+        customerService.deleteCustomerById(customerId);
         return ResponseEntity.ok("Customer deleted successfully");
     }
 
     @Operation(summary = "Get all the payments of a customer", description = "Returns the list of payments of a customer")
-    @GetMapping("/customer/payments")
+    @GetMapping("/customers/payments")
     public ResponseEntity<List<Payment>> getAllPaymentsByCustomerId(HttpServletRequest req) {
         Integer id = (Integer) req.getAttribute("id");
         List<Payment> payments = paymentService.findPaymentsByCustomerId(id);

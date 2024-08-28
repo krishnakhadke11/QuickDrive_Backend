@@ -1,6 +1,9 @@
 package com.TransportationService.service.impl;
 
+import com.TransportationService.dto.request.BookingStatusUpdateRequest;
+import com.TransportationService.dto.request.RideIdDto;
 import com.TransportationService.dto.request.RideRequestDto;
+import com.TransportationService.dto.request.RideRequestUpdateDto;
 import com.TransportationService.dto.response.RideRequestResponseDto;
 import com.TransportationService.dto.response.RideRequestWithRideDto;
 import com.TransportationService.entity.*;
@@ -168,15 +171,52 @@ public class RideRequestServiceImpl implements RideRequestService {
     }
 
     @Override
-    public List<RideRequest>  getAllRideReqAsPerDriverOps(int driverId) {
-        DriverOperation driverOperation = driverOperationRepository.findDriverOperationByDriverId(driverId);
+    public RideRequest updateRideRequest(RideRequestUpdateDto rideRequestUpdateDto) {
+        RideRequest rideRequest = rideRequestRepository.findById(rideRequestUpdateDto.getId())
+                .orElseThrow(() -> new EntityNotFoundException("Ride Request Not Found"));
 
-        if(driverOperation == null){
-            throw new EntityNotFoundException("Driver is not operational");
-        }
+        Ride ride = rideRepository.findById(rideRequestUpdateDto.getRide().getId())
+                .orElseThrow(() -> new EntityNotFoundException("Ride Not Found"));
 
-        return rideRequestRepository.findBySeatingCapacityAndBookingStatus(driverOperation.getCab().getSeatingCapacity(),BookingStatus.PENDING);
+        rideRequest.setPickupLocation(rideRequestUpdateDto.getPickupLocation());
+        rideRequest.setPickupName(rideRequestUpdateDto.getPickupName());
+        rideRequest.setDropLocation(rideRequestUpdateDto.getDropLocation());
+        rideRequest.setDropName(rideRequestUpdateDto.getDropName());
+        rideRequest.setDistance(rideRequestUpdateDto.getDistance());
+        rideRequest.setDuration(rideRequestUpdateDto.getDuration());
+        rideRequest.setFare(rideRequestUpdateDto.getFare());
+        rideRequest.setPaymentType(rideRequestUpdateDto.getPaymentType());
+        rideRequest.setSeatingCapacity(rideRequestUpdateDto.getSeatingCapacity());
+        rideRequest.setBookingStatus(rideRequestUpdateDto.getBookingStatus());
+        rideRequest.setRide(ride);
+
+        return rideRequestRepository.save(rideRequest);
     }
+
+    @Override
+    @Transactional
+    public RideRequest patchRideOfRideRequest(int rideReqId,RideIdDto rideIdDto) {
+        RideRequest rideRequest = rideRequestRepository.findById(rideReqId)
+                .orElseThrow(() -> new EntityNotFoundException("Ride Request Not Found"));
+
+        Ride ride = rideRepository.findById(rideIdDto.getId())
+                .orElseThrow(() -> new EntityNotFoundException("Ride Not Found"));
+
+        rideRequest.setRide(ride);
+
+        return rideRequestRepository.save(rideRequest);
+    }
+
+    @Override
+    @Transactional
+    public RideRequest patchBookingStatusOfRideRequest(int rideRequestId, BookingStatusUpdateRequest bookingStatusUpdateRequest) {
+        RideRequest rideRequest = rideRequestRepository.findById(rideRequestId)
+                .orElseThrow(() -> new EntityNotFoundException("Ride Request Not Found"));
+
+        rideRequest.setBookingStatus(bookingStatusUpdateRequest.getBookingStatus());
+        return rideRequestRepository.save(rideRequest);
+    }
+
 
     private static @NotNull Ride getRide(DriverOperation driverOperation, RideRequest rideRequest) {
         Cab cab;

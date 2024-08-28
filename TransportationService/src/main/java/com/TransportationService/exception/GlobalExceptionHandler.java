@@ -3,6 +3,7 @@ package com.TransportationService.exception;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.security.SignatureException;
 import jakarta.persistence.EntityNotFoundException;
+import org.apache.coyote.BadRequestException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ProblemDetail;
@@ -25,7 +26,6 @@ public class GlobalExceptionHandler{
         exception.printStackTrace();
 
         if(exception instanceof EntityNotFoundException){
-            System.out.println(exception.getMessage());
             errorDetail = ProblemDetail.forStatusAndDetail(HttpStatus.NOT_FOUND, exception.getMessage());
         }
         if (exception instanceof BadCredentialsException) {
@@ -62,6 +62,10 @@ public class GlobalExceptionHandler{
         if(exception instanceof IllegalArgumentException){
             errorDetail = ProblemDetail.forStatusAndDetail(HttpStatusCode.valueOf(400), exception.getMessage());
             errorDetail.setProperty("description", "Illegal Argument Entered");
+        }
+
+        if(exception instanceof BadRequestException){
+            errorDetail = ProblemDetail.forStatusAndDetail(HttpStatusCode.valueOf(400), exception.getMessage());
         }
 
         return errorDetail;

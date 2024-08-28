@@ -1,13 +1,14 @@
 package com.TransportationService.dto.request;
 
-import com.TransportationService.entity.*;
-import jakarta.persistence.*;
+import com.TransportationService.entity.BookingStatus;
+import com.TransportationService.entity.PaymentType;
+import com.TransportationService.entity.SeatingCapacity;
 import lombok.Data;
 
-import java.time.LocalDateTime;
+import java.util.Date;
 
 @Data
-public class RideRequestDto {
+public class RideRequestUpdateDto {
 
     private int id;
 
@@ -28,4 +29,8 @@ public class RideRequestDto {
     private PaymentType paymentType;
 
     private SeatingCapacity seatingCapacity;
+
+    private BookingStatus bookingStatus;
+
+    private RideIdDto ride;
 }

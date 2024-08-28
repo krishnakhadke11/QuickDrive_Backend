@@ -43,20 +43,20 @@ public class FarePriceServiceImpl implements FarePriceService {
         String[] dest = {dropLocation}; // Example: Los Angeles
 
         String[] elements;
-        if(src[0].isEmpty() || dest[0].isEmpty()){
-            throw new UnexpectedException("Either Pickup or Drop location is empty");
-        }else{
-            elements = getDistance(src, dest);
-        }
-        elements[0] = elements[0].replaceAll("[^\\d.]","");
-        FarePriceResponseDto farePriceResponseDto = getFarePriceResponseDto(elements, src, dest);
-//        FarePriceResponseDto farePriceResponseDto = new FarePriceResponseDto();
-//        farePriceResponseDto.setPickupLocation(src[0]);
-//        farePriceResponseDto.setDropLocation(dest[0]);
-//        farePriceResponseDto.setDistance("100 km");
-//        farePriceResponseDto.setDuration("2hr 10 min");
-//        farePriceResponseDto.setSevenSeaterFare(156);
-//        farePriceResponseDto.setFiveSeaterFare(140);
+//        if(src[0].isEmpty() || dest[0].isEmpty()){
+//            throw new UnexpectedException("Either Pickup or Drop location is empty");
+//        }else{
+//            elements = getDistance(src, dest);
+//        }
+//        elements[0] = elements[0].replaceAll("[^\\d.]","");
+//        FarePriceResponseDto farePriceResponseDto = getFarePriceResponseDto(elements, src, dest);
+        FarePriceResponseDto farePriceResponseDto = new FarePriceResponseDto();
+        farePriceResponseDto.setPickupLocation(src[0]);
+        farePriceResponseDto.setDropLocation(dest[0]);
+        farePriceResponseDto.setDistance("100 km");
+        farePriceResponseDto.setDuration("2hr 10 min");
+        farePriceResponseDto.setSevenSeaterFare(156);
+        farePriceResponseDto.setFiveSeaterFare(140);
 
 
         return farePriceResponseDto;

@@ -2,6 +2,7 @@ package com.TransportationService.service.impl;
 
 import com.TransportationService.dto.request.PaymentDto;
 import com.TransportationService.dto.request.PaymentUpdateDto;
+import com.TransportationService.dto.request.PaymentUpdateStatusDto;
 import com.TransportationService.dto.response.EarningResponse;
 import com.TransportationService.entity.Payment;
 import com.TransportationService.entity.PaymentStatus;
@@ -13,6 +14,7 @@ import com.TransportationService.repository.RideRepository;
 import com.TransportationService.service.PaymentService;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -86,10 +88,19 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
+    @Transactional
+    public Payment updatePaymentStatus(int paymentId,PaymentUpdateStatusDto paymentUpdateStatusDto) {
+        Payment payment = paymentRepository.findById(paymentId)
+                .orElseThrow(() -> new EntityNotFoundException("Payment not found"));
+
+        payment.setPaymentStatus(paymentUpdateStatusDto.getPaymentStatus());
+        return paymentRepository.save(payment);
+    }
+
+    @Override
     public EarningResponse getMonthlyEarnings(int driverId) {
         PaymentStatus status = PaymentStatus.PAID;
         PaymentType typeCash = PaymentType.CASH;
-        PaymentType typeOnline = PaymentType.ONLINE;
         LocalDate now = LocalDate.now();
         int currentMonth = now.getMonthValue();
         int currentYear = now.getYear();
@@ -99,10 +110,20 @@ public class PaymentServiceImpl implements PaymentService {
         }
         Double total = paymentRepository.findTotalEarningsByPaymentStatusAndCurrentMonthByDriverId(status,currentMonth,currentYear,driverId);
         Double cash = paymentRepository.findTotalEarningsByPaymentStatusAndPaymentTypeAndCurrentMonthAndDriverId(status,typeCash,currentMonth,currentYear,driverId);
-        Double online = null;
-        Double cashPercentage = null;
-        Double onlinePercentage = null;
-        if(total != null && cash != null) {
+
+        EarningResponse earningResponse = getEarningResponse(total, cash);
+        return earningResponse;
+    }
+
+    private static @NotNull EarningResponse getEarningResponse(Double total, Double cash) {
+        if(total != null && cash == null){
+            cash = 0.0;
+        }
+
+        double online = 0.0;
+        double cashPercentage = 0.0;
+        double onlinePercentage = 0.0;
+        if(total != null) {
             online = total - cash;
             cashPercentage = (cash / total) * 100;
             onlinePercentage = 100 - cashPercentage;

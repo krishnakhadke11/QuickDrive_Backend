@@ -30,7 +30,7 @@ public class Ride {
     private String dropName;
 
     @Column(name = "rating")
-    private int rating=0;
+    private Integer rating = null;
 
     @Column(name = "fare")
     private int fare=0;

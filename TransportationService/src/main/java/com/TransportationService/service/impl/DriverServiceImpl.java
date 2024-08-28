@@ -18,18 +18,18 @@ import java.util.List;
 public class DriverServiceImpl implements DriverService {
 
     private DriverRepository driverRepository;
-    private RideRepository rideRepository;
+    private RideRequestRepository rideRequestRepository;
     private CabRepository cabRepository;
     private PasswordEncoder passwordEncoder;
     private PaymentRepository paymentRepository;
     private DriverOperationRepository driverOperationRepository;
 
     @Autowired
-    public DriverServiceImpl(DriverRepository driverRepository, CabRepository cabRepository, PasswordEncoder passwordEncoder, DriverValidation driverValidation, RideRepository rideRepository, PaymentRepository paymentRepository, DriverOperationRepository driverOperationRepository) {
+    public DriverServiceImpl(DriverRepository driverRepository, CabRepository cabRepository, PasswordEncoder passwordEncoder, DriverValidation driverValidation, RideRequestRepository rideRequestRepository, PaymentRepository paymentRepository, DriverOperationRepository driverOperationRepository) {
         this.driverRepository = driverRepository;
         this.cabRepository = cabRepository;
         this.passwordEncoder = passwordEncoder;
-        this.rideRepository = rideRepository;
+        this.rideRequestRepository = rideRequestRepository;
         this.paymentRepository = paymentRepository;
         this.driverOperationRepository = driverOperationRepository;
     }
@@ -135,5 +135,16 @@ public class DriverServiceImpl implements DriverService {
         driverOperationRepository.save(driverOperation);
 
         return "Ride Ended Successfully";
+    }
+
+    @Override
+    public List<RideRequest>  getAllRideReqAsPerDriverOps(int driverId) {
+        DriverOperation driverOperation = driverOperationRepository.findDriverOperationByDriverId(driverId);
+
+        if(driverOperation == null){
+            throw new EntityNotFoundException("Driver is not operational");
+        }
+
+        return rideRequestRepository.findBySeatingCapacityAndBookingStatus(driverOperation.getCab().getSeatingCapacity(),BookingStatus.PENDING);
     }
 }

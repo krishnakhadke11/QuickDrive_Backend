@@ -33,7 +33,7 @@ public class AuthenticationController {
     }
 
     @Operation(summary = "Driver Signup", description = "Returns the Driver Details")
-    @PostMapping("/auth/driver/signup")
+    @PostMapping("/auth/drivers/signup")
     public ResponseEntity<Driver>signup(@RequestBody DriverDto driverDto) {
         System.out.println(driverDto);
         //Validations
@@ -44,7 +44,7 @@ public class AuthenticationController {
     }
 
     @Operation(summary = "Customer Signup", description = "Returns the Customer Details")
-    @PostMapping("/auth/customer/signup")
+    @PostMapping("/auth/customers/signup")
     public ResponseEntity<Customer>signup(@RequestBody CustomerDto customerDto) {
         //Validations
         customerValidation.validateCustomer(customerDto);
@@ -54,7 +54,7 @@ public class AuthenticationController {
     }
 
     @Operation(summary = "Admin Signup", description = "Returns the Admin Details")
-    @PostMapping("/auth/admin/signup")
+    @PostMapping("/auth/admins/signup")
     public ResponseEntity<Admin>signup(@RequestBody AdminDto adminDto) {
         Admin savedAdmin = authenticationService.signup(adminDto);
         return ResponseEntity.ok(savedAdmin);

@@ -1,5 +1,6 @@
 package com.TransportationService.service;
 
+import com.TransportationService.dto.request.CabStatusUpdateRequest;
 import com.TransportationService.dto.request.DriverOperationDto;
 import com.TransportationService.dto.request.DriverOperationUpdateDto;
 import com.TransportationService.entity.DriverOperation;
@@ -19,4 +20,6 @@ public interface DriverOperationService {
     void deleteDriverOperation(int id);
 
     DriverOperation updateDriverOperation(DriverOperationUpdateDto driverOperationUpdateDto);
+
+    DriverOperation updateStatus(int driverOpsId,CabStatusUpdateRequest cabStatusUpdateRequest);
 }

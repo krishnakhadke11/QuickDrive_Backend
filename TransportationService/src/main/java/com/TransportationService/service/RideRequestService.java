@@ -1,6 +1,9 @@
 package com.TransportationService.service;
 
+import com.TransportationService.dto.request.BookingStatusUpdateRequest;
+import com.TransportationService.dto.request.RideIdDto;
 import com.TransportationService.dto.request.RideRequestDto;
+import com.TransportationService.dto.request.RideRequestUpdateDto;
 import com.TransportationService.dto.response.RideRequestResponseDto;
 import com.TransportationService.dto.response.RideRequestWithRideDto;
 import com.TransportationService.entity.Ride;
@@ -24,5 +27,9 @@ public interface RideRequestService {
 
     RideRequestWithRideDto findByIdWithRide(int rideReqId);
 
-    List<RideRequest> getAllRideReqAsPerDriverOps(int driverId);
+    RideRequest updateRideRequest(RideRequestUpdateDto rideRequestUpdateDto);
+
+    RideRequest patchRideOfRideRequest(int rideRequestId,RideIdDto rideIdDto);
+
+    RideRequest patchBookingStatusOfRideRequest(int rideRequestId, BookingStatusUpdateRequest bookingStatusUpdateRequest);
 }

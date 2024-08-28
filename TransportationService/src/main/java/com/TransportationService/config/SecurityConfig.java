@@ -48,12 +48,14 @@ public class SecurityConfig {
                 .authorizeHttpRequests(request -> request.requestMatchers("/auth/**")
                         .permitAll()
                         .requestMatchers("/admin/**").hasAnyAuthority(Role.ADMIN.name())
-                        .requestMatchers("/driver/**").hasAnyAuthority(Role.DRIVER.name(),Role.ADMIN.name())
-                        .requestMatchers("/customer/**").hasAnyAuthority(Role.CUSTOMER.name(),Role.ADMIN.name())
+                        .requestMatchers("/drivers/**").hasAnyAuthority(Role.DRIVER.name(),Role.ADMIN.name())
+                        .requestMatchers("/customers/**").hasAnyAuthority(Role.CUSTOMER.name(),Role.ADMIN.name())
                         .requestMatchers("/fare/**").hasAnyAuthority(Role.CUSTOMER.name(),Role.ADMIN.name())
-                        .requestMatchers("/cab/**").hasAnyAuthority(Role.DRIVER.name(),Role.ADMIN.name())
-                        .requestMatchers("/ride/**").hasAnyAuthority(Role.CUSTOMER.name(),Role.ADMIN.name())
-                        .requestMatchers("/riderequest/accept/**").hasAnyAuthority(Role.DRIVER.name(),Role.ADMIN.name())
+                        .requestMatchers("/cabs/**").hasAnyAuthority(Role.DRIVER.name(),Role.ADMIN.name())
+                        .requestMatchers("/rides/**").hasAnyAuthority(Role.DRIVER.name(),Role.ADMIN.name())
+                        .requestMatchers("/payments/**").hasAnyAuthority(Role.DRIVER.name(),Role.ADMIN.name())
+                        .requestMatchers("/driveroperations/**").hasAnyAuthority(Role.DRIVER.name(),Role.ADMIN.name())
+                        .requestMatchers("/riderequests/**").hasAnyAuthority(Role.CUSTOMER.name(),Role.DRIVER.name(),Role.ADMIN.name())
                         .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html","/api-docs").permitAll()
                         .anyRequest()
                         .authenticated()
@@ -102,7 +104,7 @@ public class SecurityConfig {
             @Override
             public void addCorsMappings (CorsRegistry registry) {
                 registry.addMapping("/**").allowedOrigins ("http://localhost:4200")
-                        .allowedMethods("GET","POST","PUT","DELETE");
+                        .allowedMethods("GET","POST","PUT","DELETE","PATCH");
             }
         };
     }

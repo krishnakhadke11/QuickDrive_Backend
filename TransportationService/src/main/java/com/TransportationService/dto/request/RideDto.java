@@ -17,7 +17,6 @@ public class RideDto {
 
     private int fare;
 
-    @Pattern(regexp = "^\\d+(\\.\\d+)?\\s*Km$")
     private String distance;
 
     private String duration;

@@ -1,12 +1,14 @@
 package com.TransportationService.service.impl;
 
 import com.TransportationService.dto.request.RideDto;
+import com.TransportationService.dto.request.RideRatingUpdateDto;
 import com.TransportationService.dto.request.RideUpdateDto;
 import com.TransportationService.entity.*;
 import com.TransportationService.repository.*;
 import com.TransportationService.service.RideService;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
+import org.apache.coyote.BadRequestException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -46,7 +48,8 @@ public class RideServiceImpl implements RideService {
 
         Ride ride = new Ride();
         ride.setPickupLocation(rideDto.getPickupLocation());
-        ride.setDropName(rideDto.getPickupName());
+        ride.setPickupName(rideDto.getPickupName());
+
         ride.setDropLocation(rideDto.getDropLocation());
         ride.setDropName(rideDto.getDropName());
         ride.setFare(rideDto.getFare());
@@ -82,6 +85,11 @@ public class RideServiceImpl implements RideService {
         }
         List<Ride> rides = rideRepository.findByDriverId(driverId);
         return rides;
+    }
+
+    @Override
+    public Payment findPaymentByRideId(int rideId) {
+        return paymentRepository.findByRideId(rideId);
     }
 
     @Override
@@ -122,6 +130,19 @@ public class RideServiceImpl implements RideService {
         updatedRide.setCab(cab);
         updatedRide.setDriver(driver);
         return rideRepository.save(updatedRide);
+    }
+
+    @Override
+    public Ride updateRideRating(int rideId, RideRatingUpdateDto rideRatingUpdateDto) throws BadRequestException {
+        Ride ride = rideRepository.findById(rideId)
+                .orElseThrow(() -> new RuntimeException("Ride not found"));
+
+        if(ride.getRating() != null){
+            throw new BadRequestException("Rating has already been provided");
+        }else{
+            ride.setRating(rideRatingUpdateDto.getRating());
+            return rideRepository.save(ride);
+        }
     }
 
     @Override

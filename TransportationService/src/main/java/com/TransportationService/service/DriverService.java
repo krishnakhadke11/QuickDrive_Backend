@@ -5,6 +5,7 @@ import com.TransportationService.dto.request.DriverUpdateDto;
 import com.TransportationService.entity.Cab;
 import com.TransportationService.entity.Driver;
 import com.TransportationService.entity.Ride;
+import com.TransportationService.entity.RideRequest;
 
 import java.util.List;
 
@@ -24,4 +25,5 @@ public interface DriverService {
 
     String endRide(int rideId,int driverId);
 
+    List<RideRequest> getAllRideReqAsPerDriverOps(int driverId);
 }

@@ -29,7 +29,7 @@ public class CabController {
     }
 
     @Operation(summary = "Add a cab", description = "Returns newly added cab")
-    @PostMapping("/cab")
+    @PostMapping("/cabs")
     public ResponseEntity<Cab> addCab(@Valid @RequestBody CabDto cabDto) {
         //Validation
         cabValidation.validateCab(cabDto);
@@ -39,21 +39,21 @@ public class CabController {
     }
 
     @Operation(summary = "Get all the cabs", description = "Returns all the cabs")
-    @GetMapping("/cab")
+    @GetMapping("/cabs")
     public ResponseEntity<List<Cab>> getAllCabs() {
         List<Cab> cabs = cabService.findAllCabs();
         return ResponseEntity.ok().body(cabs);
     }
 
     @Operation(summary = "Get a cab by id", description = "Returns the cab as per the id")
-    @GetMapping("/cab/{id}")
-    public ResponseEntity<Cab> getCabById(@PathVariable int id) {
-        Cab cab = cabService.findCabById(id);
+    @GetMapping("/cabs/{cab-id}")
+    public ResponseEntity<Cab> getCabById(@PathVariable("cab-id") int cabId) {
+        Cab cab = cabService.findCabById(cabId);
         return ResponseEntity.ok().body(cab);
     }
 
     @Operation(summary = "Update a cab", description = "Returns the updated cab ")
-    @PutMapping("/cab")
+    @PutMapping("/cabs")
     public ResponseEntity<Cab> updateCab(@Valid @RequestBody CabUpdateDto cabUpdateDto) {
         //Validation
         cabValidation.validateCab(cabUpdateDto);
@@ -63,16 +63,16 @@ public class CabController {
     }
 
     @Operation(summary = "Delete a cab by id", description = "Confirmation String")
-    @DeleteMapping("/cab/{id}")
-    public ResponseEntity<String> deleteCab(@PathVariable int id) {
-        cabService.deleteCab(id);
+    @DeleteMapping("/cabs/{cab-id}")
+    public ResponseEntity<String> deleteCab(@PathVariable("cab-id") int cabId) {
+        cabService.deleteCab(cabId);
         return ResponseEntity.ok().body("Cab has been deleted");
     }
 
-//    @Operation(summary = "Get the owner of the cab by cab id", description = "Returns the Owner of a cab")
-//    @GetMapping("/cab/{id}/owner")
-//    public ResponseEntity<User> getCabOwner(@PathVariable int id) {
-//        User user = cabService.findCabsOwner(id);
-//        return ResponseEntity.ok().body(user);
-//    }
+    @Operation(summary = "Get the owner of the cab by cab id", description = "Returns the Owner of a cab")
+    @GetMapping("/cab/{cab-id}/owner")
+    public ResponseEntity<User> getCabOwner(@PathVariable("cab-id") int cabId) {
+        User user = cabService.findCabsOwner(cabId);
+        return ResponseEntity.ok().body(user);
+    }
 }

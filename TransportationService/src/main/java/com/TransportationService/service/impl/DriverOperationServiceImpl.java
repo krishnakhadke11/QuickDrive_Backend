@@ -1,5 +1,6 @@
 package com.TransportationService.service.impl;
 
+import com.TransportationService.dto.request.CabStatusUpdateRequest;
 import com.TransportationService.dto.request.DriverOperationDto;
 import com.TransportationService.dto.request.DriverOperationUpdateDto;
 import com.TransportationService.entity.Cab;
@@ -93,9 +94,22 @@ public class DriverOperationServiceImpl implements DriverOperationService {
         DriverOperation driverOperation = new DriverOperation();
         driverOperation.setStartTime(driverOperationUpdateDto.getStartTime());
         driverOperation.setEndTime(driverOperationUpdateDto.getEndTime());
+        driverOperation.setStatus(driverOperationUpdateDto.getStatus());
         driverOperation.setDriver(driver);
         driverOperation.setCab(cab);
 
         return driverOperationRepository.save(driverOperation);
     }
+
+    @Override
+    public DriverOperation updateStatus(int driverOpsId, CabStatusUpdateRequest cabStatusUpdateRequest) {
+        DriverOperation driverOperation = driverOperationRepository.findById(driverOpsId)
+                .orElseThrow(() -> new EntityNotFoundException("DriverOperation not found"));
+        System.out.println("Before"+cabStatusUpdateRequest);
+        driverOperation.setStatus(cabStatusUpdateRequest.getStatus());
+        System.out.println("After"+driverOperation);
+        return driverOperationRepository.save(driverOperation);
+    }
+
+
 }

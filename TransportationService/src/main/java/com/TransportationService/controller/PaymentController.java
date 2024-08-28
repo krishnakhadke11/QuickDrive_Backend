@@ -24,23 +24,30 @@ public class PaymentController {
     }
 
     @Operation(summary = "Add a Payment", description = "Returns the newly added payment")
-    @PostMapping("/payment")
+    @PostMapping("/payments")
     public ResponseEntity<Payment> addPayment(@RequestBody PaymentDto paymentDto) {
         Payment savedPayment = paymentService.addPayment(paymentDto);
         return ResponseEntity.ok(savedPayment);
     }
 
     @Operation(summary = "Get a payment by id", description = "Returns the payment as per the id")
-    @GetMapping("/payment/{id}")
-    public ResponseEntity<Payment> getPayment(@PathVariable int id) {
-        Payment payment = paymentService.findPaymentById(id);
+    @GetMapping("/payments/{payment-id}")
+    public ResponseEntity<Payment> getPayment(@PathVariable("payment-id") int paymentId) {
+        Payment payment = paymentService.findPaymentById(paymentId);
         return ResponseEntity.ok(payment);
     }
 
     @Operation(summary = "Update the payment", description = "Returns the updated payment")
-    @PutMapping("/payment")
+    @PutMapping("/payments")
     public ResponseEntity<Payment> updatePayment(@RequestBody PaymentUpdateDto paymentUpdateDto) {
         Payment updatedPayment = paymentService.updatePayment(paymentUpdateDto);
+        return ResponseEntity.ok(updatedPayment);
+    }
+
+    @Operation(summary = "Update the Payment Status of the Payment", description = "Returns the updated payment")
+    @PatchMapping("/payments/{payment-id}/payment-status")
+    public ResponseEntity<Payment> updatePaymentStatus(@PathVariable("payment-id") int paymentId,@RequestBody PaymentUpdateStatusDto paymentUpdateStatusDto) {
+        Payment updatedPayment = paymentService.updatePaymentStatus(paymentId,paymentUpdateStatusDto);
         return ResponseEntity.ok(updatedPayment);
     }
 }
