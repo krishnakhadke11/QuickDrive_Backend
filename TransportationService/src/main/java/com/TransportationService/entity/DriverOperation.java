@@ -23,7 +23,7 @@ public class DriverOperation {
     private LocalTime endTime;
 
     @Column(name = "cab_status")
-    private CabStatus status = CabStatus.AVAILABLE;
+    private CabStatus cabStatus = CabStatus.AVAILABLE;
 
     @OneToOne(cascade = {
             CascadeType.DETACH,

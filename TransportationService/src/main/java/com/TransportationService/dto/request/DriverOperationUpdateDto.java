@@ -16,7 +16,7 @@ public class DriverOperationUpdateDto {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm:ss.SSS")
     private LocalTime endTime;
 
-    private CabStatus status = CabStatus.AVAILABLE;
+    private CabStatus cabStatus;
 
     private DriverIdDto driver;
 

@@ -34,7 +34,6 @@ public class DriverOperationServiceImpl implements DriverOperationService {
     @Override
     @Transactional
     public DriverOperation addDriverOperation(DriverOperationDto driverOperationDto,int driverId) {
-//        System.out.println("In add DriverOperation"+driverOperation);
 
         Driver driver = driverRepository.findById(driverId)
                 .orElseThrow(() -> new EntityNotFoundException("Driver not found"));
@@ -46,6 +45,7 @@ public class DriverOperationServiceImpl implements DriverOperationService {
         driverOperation.setEndTime(driverOperationDto.getEndTime());
         driverOperation.setDriver(driver);
         driverOperation.setCab(cab);
+
         return driverOperationRepository.save(driverOperation);
     }
 
@@ -60,6 +60,7 @@ public class DriverOperationServiceImpl implements DriverOperationService {
             throw new EntityNotFoundException("Driver Is Not Operational");
         }
         DriverOperation driverOperation = driverOperationRepository.findDriverOperationByDriverId(driverId);
+        System.out.println(driverOperation);
         return driverOperation;
     }
 
@@ -94,7 +95,7 @@ public class DriverOperationServiceImpl implements DriverOperationService {
         DriverOperation driverOperation = new DriverOperation();
         driverOperation.setStartTime(driverOperationUpdateDto.getStartTime());
         driverOperation.setEndTime(driverOperationUpdateDto.getEndTime());
-        driverOperation.setStatus(driverOperationUpdateDto.getStatus());
+        driverOperation.setCabStatus(driverOperationUpdateDto.getCabStatus());
         driverOperation.setDriver(driver);
         driverOperation.setCab(cab);
 
@@ -105,9 +106,8 @@ public class DriverOperationServiceImpl implements DriverOperationService {
     public DriverOperation updateStatus(int driverOpsId, CabStatusUpdateRequest cabStatusUpdateRequest) {
         DriverOperation driverOperation = driverOperationRepository.findById(driverOpsId)
                 .orElseThrow(() -> new EntityNotFoundException("DriverOperation not found"));
-        System.out.println("Before"+cabStatusUpdateRequest);
-        driverOperation.setStatus(cabStatusUpdateRequest.getStatus());
-        System.out.println("After"+driverOperation);
+
+        driverOperation.setCabStatus(cabStatusUpdateRequest.getCabStatus());
         return driverOperationRepository.save(driverOperation);
     }
 

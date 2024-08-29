@@ -120,22 +120,22 @@ public class DriverServiceImpl implements DriverService {
     }
 
 
-    @Override
-    @Transactional
-    public String endRide(int rideId,int driverId) {
-        Payment payment = paymentRepository.findByRideId(rideId);
-        if(payment == null){
-            return "Ride Payment Not initiated";
-        }
-        payment.setPaymentStatus(PaymentStatus.PAID);
-        paymentRepository.save(payment);
-
-        DriverOperation driverOperation = driverOperationRepository.findDriverOperationByDriverId(driverId);
-        driverOperation.setStatus(CabStatus.AVAILABLE);
-        driverOperationRepository.save(driverOperation);
-
-        return "Ride Ended Successfully";
-    }
+//    @Override
+//    @Transactional
+//    public String endRide(int rideId,int driverId) {
+//        Payment payment = paymentRepository.findByRideId(rideId);
+//        if(payment == null){
+//            return "Ride Payment Not initiated";
+//        }
+//        payment.setPaymentStatus(PaymentStatus.PAID);
+//        paymentRepository.save(payment);
+//
+//        DriverOperation driverOperation = driverOperationRepository.findDriverOperationByDriverId(driverId);
+//        driverOperation.setCabStatus(CabStatus.AVAILABLE);
+//        driverOperationRepository.save(driverOperation);
+//
+//        return "Ride Ended Successfully";
+//    }
 
     @Override
     public List<RideRequest>  getAllRideReqAsPerDriverOps(int driverId) {

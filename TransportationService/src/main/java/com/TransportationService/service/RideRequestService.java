@@ -23,7 +23,7 @@ public interface RideRequestService {
 
     String deleteRideRequest(int rideReqId);
 
-    Ride acceptRideRequest(int rideReqId,int driverId);
+//    Ride acceptRideRequest(int rideReqId,int driverId);
 
     RideRequestWithRideDto findByIdWithRide(int rideReqId);
 

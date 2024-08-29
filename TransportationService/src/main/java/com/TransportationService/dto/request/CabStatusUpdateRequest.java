@@ -7,5 +7,5 @@ import lombok.Data;
 @Data
 public class CabStatusUpdateRequest {
 
-    private CabStatus status;
+    private CabStatus cabStatus;
 }

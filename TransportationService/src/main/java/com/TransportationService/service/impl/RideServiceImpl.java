@@ -3,6 +3,7 @@ package com.TransportationService.service.impl;
 import com.TransportationService.dto.request.RideDto;
 import com.TransportationService.dto.request.RideRatingUpdateDto;
 import com.TransportationService.dto.request.RideUpdateDto;
+import com.TransportationService.dto.response.DriverRatingResponseDto;
 import com.TransportationService.entity.*;
 import com.TransportationService.repository.*;
 import com.TransportationService.service.RideService;
@@ -151,6 +152,17 @@ public class RideServiceImpl implements RideService {
             throw new EntityNotFoundException("Ride Not Found");
         }
         rideRepository.deleteById(rideId);
+    }
+
+    @Override
+    public DriverRatingResponseDto getAverageRatingByDriverId(int driverId) {
+        Double rating = rideRepository.getAverageRatingByDriverId(driverId);
+
+        DriverRatingResponseDto driverRatingResponseDto = new DriverRatingResponseDto();
+        driverRatingResponseDto.setRating(rating);
+        System.out.println(rating);
+
+        return driverRatingResponseDto;
     }
 
 

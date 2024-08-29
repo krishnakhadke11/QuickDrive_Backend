@@ -2,6 +2,7 @@ package com.TransportationService.controller;
 
 import com.TransportationService.dto.request.DriverDto;
 import com.TransportationService.dto.request.DriverUpdateDto;
+import com.TransportationService.dto.response.DriverRatingResponseDto;
 import com.TransportationService.dto.response.EarningResponse;
 import com.TransportationService.entity.*;
 import com.TransportationService.service.*;
@@ -135,6 +136,16 @@ public class DriverController {
         Integer driverId = (Integer) req.getAttribute("id");
         EarningResponse earningResponse = paymentService.getMonthlyEarnings(driverId);
         return ResponseEntity.ok(earningResponse);
+    }
+
+    @Operation(summary = "Get the Average Rating of a driver" , description = "Returns the average rating of the driver")
+    @GetMapping("/drivers/average-rating")
+    public  ResponseEntity<DriverRatingResponseDto> getAverageRatingByDriverId(@NotNull HttpServletRequest req){
+        Integer driverId = (Integer) req.getAttribute("id");
+
+        DriverRatingResponseDto ratingRes = rideService.getAverageRatingByDriverId(driverId);
+
+        return ResponseEntity.ok(ratingRes);
     }
 
     @Operation(summary = "Get All Ride Request As per the Drivers Operational Details", description = "Getting All Ride Request")

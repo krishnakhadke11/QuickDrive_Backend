@@ -23,7 +23,7 @@ public interface DriverService {
 
     List<Cab> driverOwnedCabs(int driverId);
 
-    String endRide(int rideId,int driverId);
+//    String endRide(int rideId,int driverId);
 
     List<RideRequest> getAllRideReqAsPerDriverOps(int driverId);
 }

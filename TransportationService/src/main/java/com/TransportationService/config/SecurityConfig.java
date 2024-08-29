@@ -4,6 +4,7 @@ import com.TransportationService.entity.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -52,6 +53,7 @@ public class SecurityConfig {
                         .requestMatchers("/customers/**").hasAnyAuthority(Role.CUSTOMER.name(),Role.ADMIN.name())
                         .requestMatchers("/fare/**").hasAnyAuthority(Role.CUSTOMER.name(),Role.ADMIN.name())
                         .requestMatchers("/cabs/**").hasAnyAuthority(Role.DRIVER.name(),Role.ADMIN.name())
+                        .requestMatchers(HttpMethod.PATCH,"/rides/*/rating").hasAnyAuthority(Role.CUSTOMER.name(),Role.ADMIN.name())
                         .requestMatchers("/rides/**").hasAnyAuthority(Role.DRIVER.name(),Role.ADMIN.name())
                         .requestMatchers("/payments/**").hasAnyAuthority(Role.DRIVER.name(),Role.ADMIN.name())
                         .requestMatchers("/driveroperations/**").hasAnyAuthority(Role.DRIVER.name(),Role.ADMIN.name())

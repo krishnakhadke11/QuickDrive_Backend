@@ -116,35 +116,35 @@ public class RideRequestServiceImpl implements RideRequestService {
         return "Ride Request Deleted Successfully";
     }
 
-    @Override
-    @Transactional
-    public Ride acceptRideRequest(int rideReqId,int driverId) {
-
-        RideRequest rideRequest = rideRequestRepository.findById(rideReqId)
-                .orElseThrow(() -> new EntityNotFoundException("Ride Request Not Found"));
-
-        DriverOperation driverOperation = driverOperationRepository.findByDriverIdAndCabSeatingCapacity(driverId,rideRequest.getSeatingCapacity());
-
-        Ride ride = getRide(driverOperation, rideRequest);
-
-        Ride savedRide = rideRepository.save(ride);
-
-        rideRequest.setRide(savedRide);
-        rideRequest.setBookingStatus(BookingStatus.ACCEPTED);
-        System.out.println(rideRequest);
-        rideRequestRepository.save(rideRequest);
-
-        Payment payment = new Payment();
-        payment.setPaymentType(rideRequest.getPaymentType());
-        payment.setPaymentStatus(PaymentStatus.PENDING);
-        payment.setRide(savedRide);
-        paymentRepository.save(payment);
-
-        driverOperation.setStatus(CabStatus.HIRED);
-        driverOperationRepository.save(driverOperation);
-
-        return savedRide;
-    }
+//    @Override
+//    @Transactional
+//    public Ride acceptRideRequest(int rideReqId,int driverId) {
+//
+//        RideRequest rideRequest = rideRequestRepository.findById(rideReqId)
+//                .orElseThrow(() -> new EntityNotFoundException("Ride Request Not Found"));
+//
+//        DriverOperation driverOperation = driverOperationRepository.findByDriverIdAndCabSeatingCapacity(driverId,rideRequest.getSeatingCapacity());
+//
+//        Ride ride = getRide(driverOperation, rideRequest);
+//
+//        Ride savedRide = rideRepository.save(ride);
+//
+//        rideRequest.setRide(savedRide);
+//        rideRequest.setBookingStatus(BookingStatus.ACCEPTED);
+//        System.out.println(rideRequest);
+//        rideRequestRepository.save(rideRequest);
+//
+//        Payment payment = new Payment();
+//        payment.setPaymentType(rideRequest.getPaymentType());
+//        payment.setPaymentStatus(PaymentStatus.PENDING);
+//        payment.setRide(savedRide);
+//        paymentRepository.save(payment);
+//
+//        driverOperation.setCabStatus(CabStatus.HIRED);
+//        driverOperationRepository.save(driverOperation);
+//
+//        return savedRide;
+//    }
 
     @Override
     public RideRequestWithRideDto findByIdWithRide(int rideReqId) {
