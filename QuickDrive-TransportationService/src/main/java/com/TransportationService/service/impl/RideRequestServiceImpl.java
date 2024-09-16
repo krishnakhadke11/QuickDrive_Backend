@@ -72,7 +72,6 @@ public class RideRequestServiceImpl implements RideRequestService {
     }
 
     @Override
-    @Transactional
     public List<RideRequest> getAllRideRequest() {
         return rideRequestRepository.findAll();
     }
@@ -171,6 +170,7 @@ public class RideRequestServiceImpl implements RideRequestService {
     }
 
     @Override
+    @Transactional
     public RideRequest updateRideRequest(RideRequestUpdateDto rideRequestUpdateDto) {
         RideRequest rideRequest = rideRequestRepository.findById(rideRequestUpdateDto.getId())
                 .orElseThrow(() -> new EntityNotFoundException("Ride Request Not Found"));

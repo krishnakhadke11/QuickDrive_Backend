@@ -1,9 +1,6 @@
 package com.TransportationService.controller;
 
-import com.TransportationService.dto.request.AdminDto;
-import com.TransportationService.dto.request.CustomerDto;
-import com.TransportationService.dto.request.DriverDto;
-import com.TransportationService.dto.request.SignInRequest;
+import com.TransportationService.dto.request.*;
 import com.TransportationService.dto.response.JwtAuthenticationResponse;
 import com.TransportationService.entity.Admin;
 import com.TransportationService.entity.Customer;
@@ -66,4 +63,13 @@ public class AuthenticationController {
         JwtAuthenticationResponse jwtAuthenticationResponse = authenticationService.signin(signInRequest);
         return ResponseEntity.ok(jwtAuthenticationResponse);
     }
+
+    @Operation(summary = "Refresh Token", description = "Returns the updated token")
+    @PostMapping("/auth/refresh-token")
+    public ResponseEntity<JwtAuthenticationResponse> refreshToken(@RequestBody RefreshTokenRequest refreshTokenRequest){
+        JwtAuthenticationResponse jwtAuthenticationResponse = authenticationService.refreshToken(refreshTokenRequest);
+        return ResponseEntity.ok(jwtAuthenticationResponse);
+    }
+
+
 }

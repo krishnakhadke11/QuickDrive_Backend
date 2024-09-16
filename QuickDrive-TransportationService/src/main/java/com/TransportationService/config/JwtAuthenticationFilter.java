@@ -64,7 +64,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             if (userEmail != null && authentication == null) {
                 //To extract the userDetails From the username
                 UserDetails userDetails = this.userDetailsService.loadUserByUsername(userEmail);
-                System.out.println("In JwtAuthenticationFilter.doFilterInternal : userDetails :"+userDetails);
 
                 /*
                     In this context, null is used for the credentials because:

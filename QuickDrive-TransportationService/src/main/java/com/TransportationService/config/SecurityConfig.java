@@ -31,7 +31,7 @@ public class SecurityConfig {
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
     /* Here Lazy is used to break the circular dependency of AccessDeniedHandler,JwtAuthenticationFilter,
-        handlerExceptionResolver,customAccessDenied*/
+        handlerExceptionResolver,customAccessDenied */
 
     @Autowired
     public SecurityConfig(

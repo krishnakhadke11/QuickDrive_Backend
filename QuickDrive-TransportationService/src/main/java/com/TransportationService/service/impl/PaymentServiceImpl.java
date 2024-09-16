@@ -111,23 +111,23 @@ public class PaymentServiceImpl implements PaymentService {
         Double total = paymentRepository.findTotalEarningsByPaymentStatusAndCurrentMonthByDriverId(status,currentMonth,currentYear,driverId);
         Double cash = paymentRepository.findTotalEarningsByPaymentStatusAndPaymentTypeAndCurrentMonthAndDriverId(status,typeCash,currentMonth,currentYear,driverId);
 
+        System.out.println("Total : " + total + " cash : " + cash);
+
         EarningResponse earningResponse = getEarningResponse(total, cash);
         return earningResponse;
     }
 
-    private static @NotNull EarningResponse getEarningResponse(Double total, Double cash) {
-        if(total != null && cash == null){
+    private static @NotNull EarningResponse getEarningResponse( @NotNull Double total, Double cash) {
+        if(cash == null){
             cash = 0.0;
         }
 
         double online = 0.0;
         double cashPercentage = 0.0;
         double onlinePercentage = 0.0;
-        if(total != null) {
-            online = total - cash;
-            cashPercentage = (cash / total) * 100;
-            onlinePercentage = 100 - cashPercentage;
-        }
+        online = total - cash;
+        cashPercentage = (cash / total) * 100;
+        onlinePercentage = 100 - cashPercentage;
 
         EarningResponse earningResponse = new EarningResponse();
         earningResponse.setTotal(total);
