@@ -56,7 +56,7 @@ public class UserValidation {
 
     private void validatePassword(String password){
         // ?= checks the presence of pattern in a string
-        Pattern pattern = Pattern.compile("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&-+=()])(?=\\S+$).{8,20}$");
+        Pattern pattern = Pattern.compile("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&-+=()!])(?=\\S+$).{8,20}$");
         if(!pattern.matcher(password).matches()){
             throw new IllegalArgumentException("Password must contain atleast one lower and uppercase character, " +
                     "one digit, one special character and 8 characters");
